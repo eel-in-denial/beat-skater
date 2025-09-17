@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://deopnh0suycc6"]
+
+[ext_resource type="Script" uid="uid://dpc55u23uowm7" path="res://test/player.gd" id="1_s3mhm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5x4q3"]
+size = Vector2(64, 128)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_s3mhm")
+speed = 500.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5x4q3")

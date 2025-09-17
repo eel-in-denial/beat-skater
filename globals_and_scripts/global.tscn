@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://n1qhw0ew8b5h"]
+
+[ext_resource type="Script" uid="uid://cysdcwgcetmj0" path="res://globals_and_scripts/global.gd" id="1_6q3x5"]
+[ext_resource type="AudioStream" uid="uid://c1xaun4yo3xns" path="res://music/roulette round 2 slow.ogg" id="2_6apqd"]
+
+[node name="Global" type="Node2D"]
+script = ExtResource("1_6q3x5")
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_6apqd")
