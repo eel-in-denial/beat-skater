@@ -8,3 +8,5 @@ script = ExtResource("1_6q3x5")
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_6apqd")
+
+[connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]

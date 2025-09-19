@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bjbuxtd0m20xn"]
+[gd_scene load_steps=3 format=3 uid="uid://bjbuxtd0m20xn"]
+
+[ext_resource type="Texture2D" uid="uid://binuhy6esxq8p" path="res://test/Untitled_Artwork-2.png" id="1_eq4kb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8rkqs"]
 size = Vector2(2340, 848)
@@ -8,3 +10,7 @@ size = Vector2(2340, 848)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1069, 1219)
 shape = SubResource("RectangleShape2D_8rkqs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_eq4kb")
+centered = false

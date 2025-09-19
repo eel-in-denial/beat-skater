@@ -1,15 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://deopnh0suycc6"]
+[gd_scene load_steps=6 format=3 uid="uid://deopnh0suycc6"]
 
 [ext_resource type="Script" uid="uid://dpc55u23uowm7" path="res://test/player.gd" id="1_s3mhm"]
+[ext_resource type="Texture2D" uid="uid://cfpk7xmxbn3i1" path="res://test/PlayerDraft.png" id="2_qqgw4"]
+[ext_resource type="Script" uid="uid://behywoejt27us" path="res://test/node_2d.gd" id="3_wvbbu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5x4q3"]
-size = Vector2(64, 128)
+size = Vector2(80, 78)
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wvbbu"]
+size = Vector2(29, 78)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_s3mhm")
-speed = 500.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_qqgw4")
+offset = Vector2(640, -150)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(120, -20)
 shape = SubResource("RectangleShape2D_5x4q3")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -76.0
+offset_top = -150.0
+offset_right = -20.0
+offset_bottom = -127.0
+text = "perfect"
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(120, -20)
+script = ExtResource("3_wvbbu")
+
+[node name="Hold Area" type="Area2D" parent="." groups=["hold_area"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hold Area"]
+position = Vector2(65.5, -20)
+shape = SubResource("RectangleShape2D_wvbbu")
