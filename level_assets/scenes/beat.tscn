@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvaun3d7mwxtv"]
+
+[ext_resource type="Script" uid="uid://cndvpa4vmp2kf" path="res://level_assets/scripts/beat.gd" id="1_kxwgy"]
+[ext_resource type="Texture2D" uid="uid://buoltpn4wmqc1" path="res://level_assets/assets/Beat draft.png" id="2_ws4or"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k117l"]
+radius = 59.211487
+
+[node name="Beat" type="Area2D"]
+script = ExtResource("1_kxwgy")
+
+[node name="HoldLine" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0)
+width = 40.0
+default_color = Color(0.25882354, 0.9137255, 1, 1)
+
+[node name="HoldBeat" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_k117l")
+
+[node name="HoldBeat" type="Sprite2D" parent="HoldBeat"]
+position = Vector2(-3, 14)
+texture = ExtResource("2_ws4or")
+offset = Vector2(-480, 0)
+
+[node name="Beat" type="Sprite2D" parent="."]
+position = Vector2(-3, 14)
+texture = ExtResource("2_ws4or")
+offset = Vector2(-480, 0)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

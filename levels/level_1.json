@@ -1,0 +1,15 @@
+{
+	"title": "Level 1",
+	"artist": "Axolotle in a Bottle",
+	"bpm": "100",
+	"player_speed": 700,
+	"song_path": "res://songs/roulette round 2 slow.ogg",
+	"beats": [
+		{"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4}
+	],
+	
+	"objects": [
+		{"type": "rail", "beat_start": 0, "beat_end": 5, "height": 1},
+		{"type": "pit", "beat_start": 0, "beat_end": 5, "height": 0},
+	],
+}

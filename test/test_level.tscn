@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cgl7kyhbwlbsi"]
 
-[ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://test/player.tscn" id="1_8rkqs"]
-[ext_resource type="Script" uid="uid://cnu6pqrxeqr5h" path="res://test/level_generator.gd" id="2_klfgi"]
+[ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://player/player.tscn" id="1_8rkqs"]
+[ext_resource type="Script" uid="uid://cnu6pqrxeqr5h" path="res://levels/level_player.gd" id="2_klfgi"]
 [ext_resource type="PackedScene" uid="uid://bjbuxtd0m20xn" path="res://test/floor.tscn" id="2_ls30l"]
-[ext_resource type="PackedScene" uid="uid://bkj0dh0b2d4v8" path="res://test/background.tscn" id="4_kgsy5"]
+[ext_resource type="PackedScene" uid="uid://bkj0dh0b2d4v8" path="res://level_assets/scenes/background.tscn" id="4_kgsy5"]
 
 [node name="TestLevel" type="Node2D"]
 
@@ -15,7 +15,12 @@ script = ExtResource("2_klfgi")
 [node name="Player" parent="." instance=ExtResource("1_8rkqs")]
 position = Vector2(360, 690)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-offset = Vector2(594, -151)
-
 [node name="Floor" parent="." instance=ExtResource("2_ls30l")]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 176.0
+offset_top = 877.0
+offset_right = 1460.0
+offset_bottom = 953.0
+theme_override_font_sizes/font_size = 55
+text = "Press J for the blue beats and K for the red beats"
