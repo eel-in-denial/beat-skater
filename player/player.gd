@@ -3,7 +3,8 @@ var on_beat: Beat
 @onready var label := $Label
 
 func initialize_level():
-	velocity.x = Global.speed
+	velocity.x = Global.player_speed
+	Global.player_screen_position = position
 	
 func _physics_process(delta: float) -> void:
 	move_and_slide()

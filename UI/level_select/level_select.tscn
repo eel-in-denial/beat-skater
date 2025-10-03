@@ -1,3 +1,81 @@
-[gd_scene format=3 uid="uid://c5q8ie0nc67pc"]
+[gd_scene load_steps=2 format=3 uid="uid://c5q8ie0nc67pc"]
+
+[ext_resource type="Script" uid="uid://c73jg1oj6qayq" path="res://UI/level_select/level_select.gd" id="1_v8ebg"]
 
 [node name="LevelSelect" type="Node2D"]
+script = ExtResource("1_v8ebg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CanvasLayer/Control"]
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 357.0
+size_flags_vertical = 3
+
+[node name="Levels" type="Control" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -178.5
+offset_right = 960.0
+offset_bottom = 178.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(960, 250)
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="CanvasLayer/Control"]
+anchors_preset = 0
+offset_top = 722.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="Prev" type="Button" parent="CanvasLayer/Control/Control2/HBoxContainer"]
+custom_minimum_size = Vector2(300, 160)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 40
+text = "Prev"
+
+[node name="Play" type="Button" parent="CanvasLayer/Control/Control2/HBoxContainer"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 64
+text = "Play"
+
+[node name="Next" type="Button" parent="CanvasLayer/Control/Control2/HBoxContainer"]
+custom_minimum_size = Vector2(300, 160)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 40
+text = "Next"
+
+[connection signal="pressed" from="CanvasLayer/Control/Control2/HBoxContainer/Prev" to="." method="_on_prev_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Control2/HBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Control2/HBoxContainer/Next" to="." method="_on_next_pressed"]

@@ -21,8 +21,7 @@ var enabled := false
 enum hit {Perfect, Good, OK, Miss}
 
 var player_speed := 0.0
-var player_screen_position := Vector2.ZERO
-var level_path := ""
+var player_screen_position := Vector2(480.0, 0)
 
 	
 

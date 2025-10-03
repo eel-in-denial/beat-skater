@@ -2,7 +2,7 @@ extends Area2D
 class_name Beat
 
 var beat_type :=  1
-#var is_long_beat := false
+var press_type := "tap"
 var height := 0
 var time_pos := 0.0
 var hold_time := 0.0
@@ -25,19 +25,20 @@ func _process(delta: float) -> void:
 		
 
 func initialise(
-	beat_type_set := 1,  height_set := 0, time_pos_set := 0.0, 
-	position_set := Vector2.ZERO, hold_time_pos_set := 0.0
+	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4}
 ):
-	beat_type = beat_type_set
-	time_pos = time_pos_set
-	position = position_set
-	#is_long_beat = is_long_beat_set
-	if beat_type == 1 or beat_type == 11:
+	beat_type = data["beat_type"]
+	time_pos = (data["beat"] - 1) * Global.sec_per_beat 
+	height = data["height"]
+	press_type = data["press_type"]
+	
+	position.x = Global.player_screen_position.x
+	if beat_type == 1:
 		modulate = Color(1.0, 1.0, 1.0)
-	elif beat_type == 2 or beat_type == 22:
+	elif beat_type == 2:
 		modulate = Color(1.0, 0.0, 0.0)
-	if beat_type == 11 or beat_type == 22:
-		hold_time = hold_time_pos_set
+	if press_type == "hold":
+		hold_time = data["duration"] * Global.sec_per_beat
 		hold_position = hold_time * Global.speed
 		position.x += hold_position
 		hold_sprite = $HoldBeat

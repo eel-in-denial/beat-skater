@@ -11,7 +11,7 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://test/test_level.tscn")
+	GameManager.change_scene("level_select")
 
 
 func _on_exit_pressed() -> void:
