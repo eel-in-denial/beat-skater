@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5jj8ieuvlitj"]
+
+[ext_resource type="Script" uid="uid://c1rvninqdujah" path="res://UI/example.gd" id="1_wnkak"]
+
+[sub_resource type="Resource" id="Resource_umqcq"]
+metadata/__load_path__ = "res://music_and_effects/roulette round 2 slow.ogg"
+
+[node name="Callibration" type="Node2D"]
+script = ExtResource("1_wnkak")
+music = SubResource("Resource_umqcq")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 669.0
+offset_top = 273.0
+offset_right = 1357.0
+offset_bottom = 328.0
+theme_override_font_sizes/font_size = 40
+text = "Press space on the beat to calibrate"
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(954, 586)
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(126, -3, 64, 79, -101, 54, -23, -183)
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+position = Vector2(952, 550)
+color = Color(1, 0, 1, 1)
+polygon = PackedVector2Array(69, -71, -129, -31, -3, 112, 101, 3)
+
+[node name="offset" type="Label" parent="."]
+offset_left = 774.0
+offset_top = 705.0
+offset_right = 1384.0
+offset_bottom = 760.0
+theme_override_font_sizes/font_size = 40
+text = "Offset:"
+
+[node name="offsetavg" type="Label" parent="."]
+offset_left = 611.0
+offset_top = 786.0
+offset_right = 1221.0
+offset_bottom = 841.0
+theme_override_font_sizes/font_size = 40
+text = "Offset Average:"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 805.0
+offset_top = 900.0
+offset_right = 1075.0
+offset_bottom = 977.0
+theme_override_font_sizes/font_size = 50
+text = "Play"
+
+[node name="Beat Tracker" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+script = null
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

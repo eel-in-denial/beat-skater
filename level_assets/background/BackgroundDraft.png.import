@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://buoltpn4wmqc1"
-path="res://.godot/imported/Beat draft.png-1c2ddc407506fa0984e9bf950a101a67.ctex"
+uid="uid://ejqir7kmsfgi"
+path="res://.godot/imported/BackgroundDraft.png-4f753fbb611c79d8d6cb587fa06eee20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level_assets/assets/Beat draft.png"
-dest_files=["res://.godot/imported/Beat draft.png-1c2ddc407506fa0984e9bf950a101a67.ctex"]
+source_file="res://level_assets/background/BackgroundDraft.png"
+dest_files=["res://.godot/imported/BackgroundDraft.png-4f753fbb611c79d8d6cb587fa06eee20.ctex"]
 
 [params]
 

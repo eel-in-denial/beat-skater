@@ -14,7 +14,7 @@ var is_long_playing = false
 
 func _process(delta: float) -> void:
 	if is_long_playing:
-		hold_position -= Global.speed * delta
+		hold_position -= Global.player_speed * delta
 		if hold_position >= 0:
 			hold_sprite.position.x = -hold_position
 			hold_line.set_point_position(1, Vector2(-hold_position, 0))
@@ -32,14 +32,14 @@ func initialise(
 	height = data["height"]
 	press_type = data["press_type"]
 	
-	position.x = Global.player_screen_position.x
+	position = Vector2(Global.player_screen_position.x + 120.0 + (data["beat"] - 1)*Global.sec_per_beat*Global.player_speed, 670)
 	if beat_type == 1:
 		modulate = Color(1.0, 1.0, 1.0)
 	elif beat_type == 2:
 		modulate = Color(1.0, 0.0, 0.0)
 	if press_type == "hold":
 		hold_time = data["duration"] * Global.sec_per_beat
-		hold_position = hold_time * Global.speed
+		hold_position = hold_time * Global.player_speed
 		position.x += hold_position
 		hold_sprite = $HoldBeat
 		hold_line = $HoldLine

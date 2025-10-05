@@ -1,28 +1,26 @@
 extends Node2D
 
-var background = preload("res://level_assets/scenes/background.tscn")
-var beat = preload("res://level_assets/scenes/beat.tscn")
+var beat = preload("res://level_assets/beat/beat.tscn")
 #var floor = preload("")
 var beat_distance := 0.0
 
 
-@onready var backgrouds: Array[Sprite2D] = [$Background]
+@onready var backgroud: Sprite2D = $Background
+@onready var floor := $Floor
 @onready var player := $Player
+@onready var accuracy_reader := $CanvasLayer/ProgressBar
 var beats: Array[Beat] = []
 var json_path: String
 var level_data: Dictionary
 
 
-#var level_1_beats = [
-#[1, 13, 1], [1, 13, 2.5], [11, 13, 4, 14, 2], [1, 14, 3], [2, 14, 3.5], [11, 14, 4.5, 16, 1],
-#[2, 17, 1], [1, 17, 2.5], [22, 17, 4, 18, 3], [1, 19, 1], [2, 19, 2.5], [11, 19, 4, 20, 3], [2, 21, 1], [1, 21, 2.5], [22, 21, 4, 22, 2], [2, 22, 3], [1, 22, 3.5], [22, 22, 4.5, 24, 4],
-#[1, 25, 1], [2, 25, 2.5], [11, 25, 4, 26, 2], [2, 26, 3], [1, 26, 3.5], [2, 26, 4], [1, 26, 4.5], [2, 27, 1], [1, 27, 2.5], [22, 27, 4, 28, 2], [1, 28, 2.5], [2, 28, 3.5], [1, 28, 4], [2, 28, 4.5]]
 # Called when the node enters the scene tree for the first time.
 func initialize_data(data := {"json_path": ""}):
 	json_path = data["json_path"]
-	print(json_path, "sdkfhb")
 
 func _ready() -> void:
+	Global.hit_accuracy.connect(show_hit_accuracy)
+	Global.song_end.connect(transition_to_score)
 	level_data = load_json_data(json_path)
 	load_level()
 	
@@ -48,27 +46,21 @@ func load_json_data(path: String) -> Dictionary:
 func load_level():
 	Global.song_end.connect(transition_to_score)
 	Global.player_speed = 700
-	print(level_data, json_path)
 	Global.new_level(load(level_data["song_path"]), int(level_data["bpm"]))
 	beat_distance = Global.player_speed * Global.sec_per_beat
 	player.initialize_level()
 	
-	
+	backgroud.region_rect.size.x = Global.player_speed * Global.song_duration + 1920
+	floor.region_rect.size.x = Global.player_speed * Global.song_duration + 1920
 	
 	for b_data in level_data["beats"]:
 		var new_beat: Beat = beat.instantiate()
-		#var time_pos: float = Global.sec_per_beat * (b["beat"] - 1)
-		#if b["press_type"] == "hold":
-			#pass
-		#var hold_time := 0.0
-		#if b["beat_type"] == 11 or b["beat_type"] == 22:
-			#hold_time = Global.sec_per_beat * (((b[3] - 1) * 4 + b[4] - 1) - ((b[1] - 1) * 4 + b[2] - 1))
-		#new_beat.initialise(
-			#b["beat_type"], b["height"], time_pos, 
-			#Vector2(player_position + time_pos*Global.speed, 670), hold_time)
 		new_beat.initialise(b_data)
 		add_child(new_beat)
 		beats.append(new_beat)
 
 func transition_to_score():
-	get_tree().change_scene_to_file("res://test/title_screen.tscn")
+	GameManager.change_scene("level_select")
+
+func show_hit_accuracy(value: float):
+	accuracy_reader.value = 50 + value*500

@@ -11,8 +11,10 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_play_pressed() -> void:
-	GameManager.change_scene("level_select")
-
+	if Global.is_calibrated:
+		GameManager.change_scene("level_select")
+	else:
+		GameManager.change_scene("calibrate")
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()

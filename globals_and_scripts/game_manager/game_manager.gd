@@ -10,7 +10,8 @@ func _ready() -> void:
 	game_scene_files = {
 		"title_screen": load("res://UI/title_screen/title_screen.tscn"),
 		"level_select": load("res://UI/level_select/level_select.tscn"),
-		"level_play": load("res://levels/level_player.tscn")
+		"level_play": load("res://levels/level_player.tscn"),
+		"calibrate": load("res://UI/calibration/callibration.tscn")
 		}
 	change_scene("title_screen")
 
