@@ -1,9 +1,10 @@
 extends Node2D
-
+@export var music: AudioStreamOggVorbis
+@export var bpm := 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	Global.new_level(music, bpm)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

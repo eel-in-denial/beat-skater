@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7s82pd1wehsd"]
+
+[ext_resource type="Script" uid="uid://bdbdmeagwws35" path="res://level_editor/level_create.gd" id="1_r48tk"]
+
+[node name="LevelCreate" type="Node2D"]
+script = ExtResource("1_r48tk")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Button" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 332.0
+offset_right = 182.0
+offset_bottom = 363.0
+text = "copy to clipboard"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

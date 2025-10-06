@@ -73,3 +73,8 @@ func _on_next_pressed() -> void:
 
 func _on_play_pressed() -> void:
 	GameManager.change_scene("level_play", level_info[selected_level_index])
+
+
+func _on_button_pressed() -> void:
+	print("Sdfjyhb")
+	GameManager.change_scene("level_create", level_info[selected_level_index])

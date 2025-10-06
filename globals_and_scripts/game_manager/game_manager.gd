@@ -11,7 +11,8 @@ func _ready() -> void:
 		"title_screen": load("res://UI/title_screen/title_screen.tscn"),
 		"level_select": load("res://UI/level_select/level_select.tscn"),
 		"level_play": load("res://levels/level_player.tscn"),
-		"calibrate": load("res://UI/calibration/callibration.tscn")
+		"calibrate": load("res://UI/calibration/callibration.tscn"),
+		"level_create": load("res://level_editor/level_create.tscn")
 		}
 	change_scene("title_screen")
 

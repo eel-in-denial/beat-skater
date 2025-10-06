@@ -1,6 +1,8 @@
 extends CharacterBody2D
 var on_beat: Beat
 @onready var label := $Label
+var gravity := 9.0
+var jump_velocity := -500
 
 func initialize_level():
 	velocity.x = Global.player_speed
@@ -9,7 +11,12 @@ func initialize_level():
 func _physics_process(delta: float) -> void:
 	move_and_slide()
 
+func jump():
+	pass
+
 func _unhandled_input(event: InputEvent) -> void:
+	#if event.is_action_pressed("beat_1"):
+		#label.text = str(Global.check_is_on_beat_percent())
 	if is_instance_valid(on_beat):
 		if ((event.is_action_pressed("beat_1") and on_beat.beat_type == 1) or (event.is_action_pressed("beat_2") and on_beat.beat_type == 2)) and on_beat.press_type == "tap":
 			match Global.check_is_on_beat(on_beat.time_pos):

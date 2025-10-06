@@ -8,6 +8,8 @@ signal hit_accuracy(value: float)
 var bpm := 120
 var sec_per_beat := 60.0 / 100
 
+var time_begin := 0.0
+
 var song_position := 0.0
 var beat_position := 0.0
 var song_duration := 0.0
@@ -23,6 +25,7 @@ var enabled := false
 enum hit {Perfect, Good, OK, Miss}
 
 var player_speed := 0.0
+var player_jump_height := 500
 var player_screen_position := Vector2(480.0, 0)
 
 var is_calibrated := false
@@ -30,20 +33,18 @@ var is_calibrated := false
 	
 
 func _ready() -> void:
-	audio_offset = AudioServer.get_output_latency()
 	current_song = bg_music.stream
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if enabled:
-		song_position = bg_music.get_playback_position() + AudioServer.get_time_since_last_mix() - audio_offset + input_offset
-		beat_position = song_position / sec_per_beat
-
-			
-	
+		song_position = (Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset
+		beat_position = song_position/sec_per_beat
 
 func new_level(new_song: Resource, new_bpm: int):
+	time_begin = Time.get_ticks_usec()
+	audio_offset = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	bg_music.stream = new_song
 	bpm = new_bpm
 	sec_per_beat = 60.0 / bpm
@@ -67,6 +68,27 @@ func check_is_on_beat(time_pos := 0.0):
 		return hit.OK
 	return hit.Miss
 
-
+func check_is_on_beat_percent():
+	return beat_position
 func _on_bgm_finished() -> void:
 	song_end.emit()
+	
+	
+# json
+func load_json_data(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		print("Error: JSON file not found at path:", path)
+		return {}
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	
+	var content = file.get_as_text()
+	file.close()
+	
+	var parsed_json = JSON.parse_string(content)
+	
+	if parsed_json is Dictionary:
+		return parsed_json
+	else:
+		print("Error parsing JSON: Invalid format or content in", path)
+		return {}

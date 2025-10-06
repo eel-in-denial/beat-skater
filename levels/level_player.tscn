@@ -29,6 +29,16 @@ offset = Vector2(600, -150)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 40
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 40
+
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
 offset_left = 705.0
 offset_top = 956.0

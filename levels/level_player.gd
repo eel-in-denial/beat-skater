@@ -9,6 +9,7 @@ var beat_distance := 0.0
 @onready var floor := $Floor
 @onready var player := $Player
 @onready var accuracy_reader := $CanvasLayer/ProgressBar
+@onready var song_pos := $CanvasLayer/Label2
 var beats: Array[Beat] = []
 var json_path: String
 var level_data: Dictionary
@@ -21,32 +22,15 @@ func initialize_data(data := {"json_path": ""}):
 func _ready() -> void:
 	Global.hit_accuracy.connect(show_hit_accuracy)
 	Global.song_end.connect(transition_to_score)
-	level_data = load_json_data(json_path)
+	level_data = Global.load_json_data(json_path)
 	load_level()
-	
 
-func load_json_data(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path):
-		print("Error: JSON file not found at path:", path)
-		return {}
-	
-	var file = FileAccess.open(path, FileAccess.READ)
-	
-	var content = file.get_as_text()
-	file.close()
-	
-	var parsed_json = JSON.parse_string(content)
-	
-	if parsed_json is Dictionary:
-		return parsed_json
-	else:
-		print("Error parsing JSON: Invalid format or content in", path)
-		return {}
+func _physics_process(delta: float) -> void:
+	song_pos.text = str(Global.beat_position)
 
 func load_level():
-	Global.song_end.connect(transition_to_score)
 	Global.player_speed = 700
-	Global.new_level(load(level_data["song_path"]), int(level_data["bpm"]))
+	Global.new_level(load(level_data["song_path"]), level_data["bpm"])
 	beat_distance = Global.player_speed * Global.sec_per_beat
 	player.initialize_level()
 	
@@ -64,3 +48,4 @@ func transition_to_score():
 
 func show_hit_accuracy(value: float):
 	accuracy_reader.value = 50 + value*500
+	$CanvasLayer/Label.text = str(value)
