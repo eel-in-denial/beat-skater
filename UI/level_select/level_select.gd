@@ -4,8 +4,6 @@ var level_card_file := preload("res://UI/level_select/level_card/level_card.tscn
 
 var level_info = [
 	{"name": "Level 1", "json_path": "res://levels/level_1.json"},
-	{"name": "Level 2"},
-	{"name": "Level 3"}
 ]
 
 var level_cards = []

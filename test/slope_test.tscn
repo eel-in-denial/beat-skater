@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://buasa6kmkw5j2"]
+
+[ext_resource type="Script" uid="uid://dyyerqxs7fdvd" path="res://test_slope_player.gd" id="1_cskr2"]
+[ext_resource type="Texture2D" uid="uid://cfpk7xmxbn3i1" path="res://player/PlayerDraft.png" id="2_benpl"]
+[ext_resource type="Texture2D" uid="uid://ejqir7kmsfgi" path="res://level_assets/background/BackgroundDraft.png" id="3_5mv4y"]
+[ext_resource type="Script" uid="uid://c1mdnw8k2mmrd" path="res://test/test_slopething.gd" id="4_benpl"]
+
+[sub_resource type="Curve2D" id="Curve2D_hyswf"]
+_data = {
+"points": PackedVector2Array(-398.30316, -31.088596, 398.30316, 31.088596, 0.9847036, 269.33438, -500.84732, 12.480194, 500.84732, -12.480194, 1513.4894, 151.83441, -267.2792, 152.10435, 267.2792, -152.10435, 2752.2466, 144.20453, -534.708, -13.170194, 534.708, 13.170194, 3594.1682, 309.0097, -2112.575, -97.56937, 2112.575, 97.56937, 5607.887, 1023.1655, -1030.0024, 504.81543, 1030.0024, -504.81543, 13366.366, 1112.4349, -516.03876, 499.77063, 516.03876, -499.77063, 14687.839, -938.47394, -1121.8234, -438.92432, 1121.8234, 438.92432, 17758.145, -998.74994, 0, 0, 0, 0, 84185.266, -1007.14276)
+}
+point_count = 9
+
+[node name="SlopeTest" type="Node2D"]
+
+[node name="BackgroundDraft" type="Sprite2D" parent="."]
+position = Vector2(1504, 320)
+scale = Vector2(1.8552083, 1)
+texture = ExtResource("3_5mv4y")
+
+[node name="BackgroundDraft3" type="Sprite2D" parent="."]
+position = Vector2(21328, -1139)
+scale = Vector2(1.8552083, 1)
+texture = ExtResource("3_5mv4y")
+
+[node name="BackgroundDraft4" type="Sprite2D" parent="."]
+position = Vector2(56419, -1176)
+scale = Vector2(31.667707, 1)
+texture = ExtResource("3_5mv4y")
+
+[node name="BackgroundDraft2" type="Sprite2D" parent="."]
+position = Vector2(10007, 1605)
+scale = Vector2(1.8552083, 1)
+texture = ExtResource("3_5mv4y")
+
+[node name="test_slope_player" type="Node2D" parent="." node_paths=PackedStringArray("path")]
+script = ExtResource("1_cskr2")
+path = NodePath("../Path2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="test_slope_player"]
+texture = ExtResource("2_benpl")
+offset = Vector2(640, -120)
+
+[node name="Camera2D" type="Camera2D" parent="test_slope_player"]
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_hyswf")
+script = ExtResource("4_benpl")
+
+[node name="Line2D" type="Line2D" parent="Path2D"]

@@ -12,9 +12,10 @@ func _ready() -> void:
 		"level_select": load("res://UI/level_select/level_select.tscn"),
 		"level_play": load("res://levels/level_player.tscn"),
 		"calibrate": load("res://UI/calibration/callibration.tscn"),
-		"level_create": load("res://level_editor/level_create.tscn")
+		"level_create": load("res://level_editor/level_create.tscn"),
+		"test" : load("res://test/slope_test.tscn")
 		}
-	change_scene("title_screen")
+	change_scene("test")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
