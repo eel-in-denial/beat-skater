@@ -1,8 +1,6 @@
 extends Node2D
 var game_scene_files = {}
 
-var game_manager: Node2D
-
 var curr_game_scene: Node2D = null
 
 # Called when the node enters the scene tree for the first time.
@@ -15,7 +13,7 @@ func _ready() -> void:
 		"level_create": load("res://level_editor/level_create.tscn"),
 		"test" : load("res://test/slope_test.tscn")
 		}
-	change_scene("test")
+	curr_game_scene = get_tree().current_scene
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,7 +27,7 @@ func change_scene(new_scene := "", data := {}):
 		curr_game_scene = game_scene_files[new_scene].instantiate()
 		if data:
 			curr_game_scene.initialize_data(data)
-		add_child(curr_game_scene)
+		get_tree().root.add_child(curr_game_scene)
 	else:
 		print("Error, scene not found")
 	

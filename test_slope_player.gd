@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 	
 	distance = clamp(distance, 0.0, total_length)
 	
-	global_position = curve.sample_baked(distance) + Vector2(0, -120)
+	global_position = curve.sample_baked(distance) + Vector2(0, -120) + path.global_position
 	rotation = tangent.angle()
 	#print(p_1, " ", p_2)
 

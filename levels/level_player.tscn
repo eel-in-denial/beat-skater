@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://b32omb74nxg7c"]
+[gd_scene load_steps=8 format=3 uid="uid://b32omb74nxg7c"]
 
 [ext_resource type="Script" uid="uid://cnu6pqrxeqr5h" path="res://levels/level_player.gd" id="1_pihvh"]
-[ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://player/player.tscn" id="2_fi75e"]
 [ext_resource type="Texture2D" uid="uid://binuhy6esxq8p" path="res://level_assets/floor/Untitled_Artwork-2.png" id="3_abvnd"]
 [ext_resource type="Texture2D" uid="uid://ejqir7kmsfgi" path="res://level_assets/background/BackgroundDraft.png" id="3_fi75e"]
 [ext_resource type="Script" uid="uid://c1mdnw8k2mmrd" path="res://test/test_slopething.gd" id="5_7k0b1"]
@@ -26,9 +25,6 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 1920, 1080)
 
-[node name="Player" parent="." instance=ExtResource("2_fi75e")]
-position = Vector2(360, 690)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
@@ -50,7 +46,7 @@ value = 50.0
 
 [node name="test_slope_player" type="Node2D" parent="." node_paths=PackedStringArray("path")]
 script = ExtResource("6_g4c03")
-path = NodePath("../Path2D")
+path = NodePath("../LevelPath")
 
 [node name="Sprite2D" type="Sprite2D" parent="test_slope_player"]
 texture = ExtResource("7_oae5j")
@@ -58,10 +54,10 @@ offset = Vector2(640, -120)
 
 [node name="Camera2D" type="Camera2D" parent="test_slope_player"]
 
-[node name="Path2D" type="Path2D" parent="." node_paths=PackedStringArray("player")]
+[node name="LevelPath" type="Path2D" parent="." node_paths=PackedStringArray("player")]
 position = Vector2(0, 300)
 curve = SubResource("Curve2D_jdiw6")
 script = ExtResource("5_7k0b1")
 player = NodePath("../test_slope_player")
 
-[node name="Line2D" type="Line2D" parent="Path2D"]
+[node name="Line2D" type="Line2D" parent="LevelPath"]

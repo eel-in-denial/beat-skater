@@ -25,27 +25,28 @@ func _process(delta: float) -> void:
 		
 
 func initialise(
-	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4}
+	pos: Vector2,
+	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4},
 ):
 	beat_type = data["beat_type"]
 	time_pos = data["beat"] * Global.sec_per_beat 
 	height = data["height"]
 	press_type = data["press_type"]
 	
-	position = Vector2(Global.player_screen_position.x + 120.0 + time_pos*Global.player_speed, 670)
+	position = pos
 	if beat_type == 1:
 		modulate = Color(1.0, 1.0, 1.0)
 	elif beat_type == 2:
 		modulate = Color(1.0, 0.0, 0.0)
-	if press_type == "hold":
-		hold_time = data["duration"] * Global.sec_per_beat
-		hold_position = hold_time * Global.player_speed
-		position.x += hold_position
-		hold_sprite = $HoldBeat
-		hold_line = $HoldLine
-		hold_line.add_point(Vector2(-hold_position, 0))
-		hold_sprite.position.x = -hold_position
-		hold_sprite.visible = true
+	#if press_type == "hold":
+		#hold_time = data["duration"] * Global.sec_per_beat
+		#hold_position = hold_time * Global.player_speed
+		#position.x += hold_position
+		#hold_sprite = $HoldBeat
+		#hold_line = $HoldLine
+		#hold_line.add_point(Vector2(-hold_position, 0))
+		#hold_sprite.position.x = -hold_position
+		#hold_sprite.visible = true
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):

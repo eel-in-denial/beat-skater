@@ -1,19 +1,22 @@
 extends Node2D
 
 var beat = preload("res://level_assets/beat/beat.tscn")
-#var floor = preload("")
-var beat_distance := 0.0
-
 
 @onready var backgroud: Sprite2D = $Background
 @onready var floor := $Floor
-@onready var player := $Player
+@onready var path := $LevelPath
 @onready var accuracy_reader := $CanvasLayer/ProgressBar
 @onready var song_pos := $CanvasLayer/Label2
-var beats: Array[Beat] = []
+#var beats: Array[Beat] = []
 var json_path: String
 var level_data: Dictionary
 
+var player_initial_speed := 0.0
+var player_jump_height := 500
+var player_screen_position := Vector2(480.0, 0)
+var gravity := Vector2(0, 980)
+
+var on_beat_points := []
 
 # Called when the node enters the scene tree for the first time.
 func initialize_data(data := {"json_path": ""}):
@@ -29,19 +32,50 @@ func _physics_process(delta: float) -> void:
 	song_pos.text = str(Global.beat_position)
 
 func load_level():
-	Global.player_speed = 700
+	player_initial_speed = 700
 	Global.new_level(load(level_data["song_path"]), level_data["bpm"])
-	beat_distance = Global.player_speed * Global.sec_per_beat
-	player.initialize_level()
 	
-	backgroud.region_rect.size.x = Global.player_speed * Global.song_duration + 1920
-	floor.region_rect.size.x = Global.player_speed * Global.song_duration + 1920
-	
-	for b_data in level_data["beats"]:
-		var new_beat: Beat = beat.instantiate()
-		new_beat.initialise(b_data)
-		add_child(new_beat)
-		beats.append(new_beat)
+	generate_slopes()
+	path.generate_graphics()
+	place_beats()
+
+
+func generate_slopes():
+	var noise := FastNoiseLite.new()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	noise.frequency = 0.0004    # controls hill width (smaller = wider hills)
+	noise.fractal_octaves = 2   # adds detail
+	for x in range(0, 200000, 50):  # x step controls resolution
+		var y = 300 + noise.get_noise_1d(float(x)) * 150
+		path.curve.add_point(Vector2(x, y))
+		
+
+func place_beats():
+	var time = 0.0
+	var distance = 0.0
+	var time_interval := 0.1
+	var total_length = path.curve.get_baked_length()
+	var speed = player_initial_speed
+	var i := 0
+	var next_beat: float = level_data["beats"][i]["beat"] * Global.sec_per_beat 
+	var num_of_beats: int = level_data["beats"].size()
+	while time < Global.song_duration:
+		var p_1: Vector2 = path.curve.sample_baked(distance)
+		var p_2: Vector2 = path.curve.sample_baked(distance + 0.1)
+		var tangent = (p_2 - p_1).normalized()
+		var acceleration = gravity.dot(tangent)
+		speed += acceleration * time_interval
+		distance += speed * time_interval
+		
+		distance = clamp(distance, 0.0, total_length)
+		if abs(time - next_beat) < time_interval:
+			if i < num_of_beats:
+				var new_beat: Beat = beat.instantiate()
+				new_beat.initialise(p_1, level_data["beats"][i])
+				add_child(new_beat)
+				i += 1
+				next_beat = level_data["beats"][i]["beat"] * Global.sec_per_beat
+		time += time_interval
 
 func transition_to_score():
 	GameManager.change_scene("level_select")
