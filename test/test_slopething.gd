@@ -11,7 +11,7 @@ func _ready() -> void:
 	curve.bake_interval = 10
 	
 
-	#player.init()
+	
 	#fuckin why this no work
 func generate_graphics():
 	line.points = curve.tessellate_even_length(4)

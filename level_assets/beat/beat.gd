@@ -33,7 +33,7 @@ func initialise(
 	height = data["height"]
 	press_type = data["press_type"]
 	
-	position = pos
+	position = pos + Vector2(0, -100)
 	if beat_type == 1:
 		modulate = Color(1.0, 1.0, 1.0)
 	elif beat_type == 2:

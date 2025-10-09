@@ -5,6 +5,7 @@ var beat = preload("res://level_assets/beat/beat.tscn")
 @onready var backgroud: Sprite2D = $Background
 @onready var floor := $Floor
 @onready var path := $LevelPath
+@onready var player := $test_slope_player
 @onready var accuracy_reader := $CanvasLayer/ProgressBar
 @onready var song_pos := $CanvasLayer/Label2
 #var beats: Array[Beat] = []
@@ -16,7 +17,7 @@ var player_jump_height := 500
 var player_screen_position := Vector2(480.0, 0)
 var gravity := Vector2(0, 980)
 
-var on_beat_points := []
+var baked_points := []
 
 # Called when the node enters the scene tree for the first time.
 func initialize_data(data := {"json_path": ""}):
@@ -37,7 +38,7 @@ func load_level():
 	
 	generate_slopes()
 	path.generate_graphics()
-	place_beats()
+	bake_level()
 
 
 func generate_slopes():
@@ -50,10 +51,10 @@ func generate_slopes():
 		path.curve.add_point(Vector2(x, y))
 		
 
-func place_beats():
+func bake_level():
 	var time = 0.0
 	var distance = 0.0
-	var time_interval := 0.1
+	var time_interval := 0.01
 	var total_length = path.curve.get_baked_length()
 	var speed = player_initial_speed
 	var i := 0
@@ -66,16 +67,23 @@ func place_beats():
 		var acceleration = gravity.dot(tangent)
 		speed += acceleration * time_interval
 		distance += speed * time_interval
-		
 		distance = clamp(distance, 0.0, total_length)
+		
+		baked_points.append({"time": time, "pos": p_1, "speed": speed, "tangent": tangent})
 		if abs(time - next_beat) < time_interval:
 			if i < num_of_beats:
 				var new_beat: Beat = beat.instantiate()
 				new_beat.initialise(p_1, level_data["beats"][i])
 				add_child(new_beat)
+			if i < num_of_beats - 1:
 				i += 1
 				next_beat = level_data["beats"][i]["beat"] * Global.sec_per_beat
 		time += time_interval
+	var dict = {
+		"dt": time_interval,
+		"baked_points": baked_points
+	}
+	player.init(dict)
 
 func transition_to_score():
 	GameManager.change_scene("level_select")

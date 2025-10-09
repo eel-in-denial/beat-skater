@@ -1,35 +1,23 @@
 extends Node2D
 
-@export var gravity := Vector2(0, 980)
-@export var path: Path2D
-var curve: Curve2D
-var distance := 0.0 #distance along the curve
-@export var initial_speed := 1000
-var speed :=  0.0 #speed
-var total_length := 0.0
 @onready var sprite := $Sprite2D
+var baked_points := []
+var dt := 0.0
 
 # Called when the node enters the scene tree for the first time.
 
-func init():
-	curve = path.curve
-	total_length = curve.get_baked_length()
-	distance = 0.0
-	speed = initial_speed
+func init(data: Dictionary):
+	baked_points = data["baked_points"]
+	dt = data["dt"]
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	var p_1 := curve.sample_baked(distance)
-	var p_2 := curve.sample_baked(distance + 0.1)
-	var tangent = (p_2 - p_1).normalized()
-	var acceleration = gravity.dot(tangent)
-	speed += acceleration * delta
-	distance += speed * delta
-	
-	distance = clamp(distance, 0.0, total_length)
-	
-	global_position = curve.sample_baked(distance) + Vector2(0, -120) + path.global_position
+	var i: int = floor(Global.song_position/dt)
+	var alpha: float = fmod(Global.song_position, dt) / dt
+	var a = baked_points[i]
+	var b = baked_points[i + 1]
+	global_position = a["pos"].lerp(b["pos"], alpha) + Vector2(0, -120)
+	var tangent: Vector2 = a["tangent"].lerp(b["tangent"], alpha).normalized()
 	rotation = tangent.angle()
-	#print(p_1, " ", p_2)
 
 func _unhandled_input(event: InputEvent) -> void:   
 	if event.is_action_pressed("jump"):
