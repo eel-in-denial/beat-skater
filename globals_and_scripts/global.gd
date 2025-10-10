@@ -93,3 +93,9 @@ func load_json_data(path: String) -> Dictionary:
 	else:
 		print("Error parsing JSON: Invalid format or content in", path)
 		return {}
+func save_json_data(path: String, data: Dictionary):
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	var data_json_string = JSON.stringify(data, "\t")
+	file.store_string(data_json_string)
+	file.close()
+	print("✅ Saved data to: ", ProjectSettings.globalize_path(path))

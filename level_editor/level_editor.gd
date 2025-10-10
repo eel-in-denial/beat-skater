@@ -1,10 +1,10 @@
 @tool
-extends Node2D
+extends Control
 
 @export_tool_button("bake", "Bake") var bake = _on_bake_pressed
-@export var level_json: JSON:
+@export var level_json_path: String:
 	set(value):
-		level_json = value
+		level_json_path = value
 		init_level()
 
 @export_group("Song Details")
@@ -22,6 +22,10 @@ extends Node2D
 @export_group("Editor Details")
 @export var beat_snapping := 1.0
 
+var beat_time_positions := []
+var beats_array := []
+var curve_points_array := []
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -33,6 +37,17 @@ func init_level():
 func _process(delta: float) -> void:
 	pass
 
+func load_level():
+	pass
+
 
 func _on_bake_pressed() -> void:
-	pass
+	var level_save = {
+		"title": title,
+		"artist": artist,
+		"bpm": bpm,
+		"player_initial_speed": player_initial_speed,
+		"song_path": level_json_path,
+		"beats": beats_array,
+		"curve_points": curve_points_array
+	}

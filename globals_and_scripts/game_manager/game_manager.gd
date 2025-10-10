@@ -1,7 +1,7 @@
-extends Node2D
+extends Control
 var game_scene_files = {}
 
-var curr_game_scene: Node2D = null
+var curr_game_scene: Node = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -11,6 +11,7 @@ func _ready() -> void:
 		"level_play": load("res://levels/level_player.tscn"),
 		"calibrate": load("res://UI/calibration/callibration.tscn"),
 		"level_create": load("res://level_editor/level_create.tscn"),
+		"level_editor": load("res://level_editor/level_editor.tscn"),
 		"test" : load("res://test/slope_test.tscn")
 		}
 	curr_game_scene = get_tree().current_scene

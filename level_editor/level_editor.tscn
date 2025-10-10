@@ -1,20 +1,83 @@
-[gd_scene load_steps=5 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=4 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
-[ext_resource type="JSON" path="res://levels/level_data/level_1.json" id="2_gylj0"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
-[ext_resource type="AudioStream" uid="uid://c1xaun4yo3xns" path="res://songs/roulette round 2 slow.ogg" id="3_shrsc"]
+[ext_resource type="Texture2D" uid="uid://o1rwtl25vhh4" path="res://icon.svg" id="3_shrsc"]
 
-[node name="LevelEditor" type="Node2D"]
+[node name="LevelEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_7e0dv")
-level_json = ExtResource("2_gylj0")
-title = "Level 1"
-artist = "Ava the Raccoon"
-song = ExtResource("3_shrsc")
-beat_snapping = null
 
-[node name="HScrollBar" type="HScrollBar" parent="."]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="UIContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="LevelPath" parent="." instance=ExtResource("3_h1ywe")]
+[node name="TopNav" type="Control" parent="UIContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="UIContainer/TopNav"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HSplitContainer" parent="UIContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SideNav" type="Control" parent="UIContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="UIContainer/HBoxContainer/SideNav"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="UIContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UIContainer/HBoxContainer/VSplitContainer"]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer"]
+size = Vector2i(1920, 1080)
+
+[node name="Level_View" type="Node2D" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer/SubViewport"]
+position = Vector2(512, 154)
+
+[node name="LevelPath" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer/SubViewport/Level_View" instance=ExtResource("3_h1ywe")]
+position = Vector2(-512, -154)
+
+[node name="Sprite2D" type="Sprite2D" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer/SubViewport/Level_View"]
+position = Vector2(276.99997, 370.50006)
+scale = Vector2(21.5625, 13.117188)
+texture = ExtResource("3_shrsc")
+
+[node name="Control" type="Control" parent="UIContainer/HBoxContainer/VSplitContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="UIContainer/HBoxContainer/VSplitContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
