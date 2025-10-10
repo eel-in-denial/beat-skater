@@ -60,6 +60,7 @@ func bake_level():
 	var i := 0
 	var next_beat: float = level_data["beats"][i]["beat"] * Global.sec_per_beat 
 	var num_of_beats: int = level_data["beats"].size()
+	var beats_array = []
 	while time < Global.song_duration:
 		var p_1: Vector2 = path.curve.sample_baked(distance)
 		var p_2: Vector2 = path.curve.sample_baked(distance + 0.1)
@@ -75,10 +76,12 @@ func bake_level():
 				var new_beat: Beat = beat.instantiate()
 				new_beat.initialise(p_1, level_data["beats"][i])
 				add_child(new_beat)
+				beats_array.append(new_beat)
 			if i < num_of_beats - 1:
 				i += 1
 				next_beat = level_data["beats"][i]["beat"] * Global.sec_per_beat
 		time += time_interval
+	$RhythmLogic.beats_array = beats_array
 	var dict = {
 		"dt": time_interval,
 		"baked_points": baked_points

@@ -14,6 +14,11 @@ var song_position := 0.0
 var beat_position := 0.0
 var song_duration := 0.0
 
+var perfect_time_window := 0.05
+var good_time_window := 0.12
+var ok_time_window := 0.2
+var miss_time_window := 0.4
+
 var audio_offset := 0.0
 var visual_offset := 0.0
 var input_offset := 0.0
@@ -56,11 +61,11 @@ func reset():
 func check_is_on_beat(time_pos := 0.0):
 	var diff: float = abs(song_position - time_pos)
 	hit_accuracy.emit(song_position - time_pos)
-	if diff <= 0.03:
+	if diff <= perfect_time_window:
 		return hit.Perfect
-	elif diff <= 0.06:
+	elif diff <= good_time_window:
 		return hit.Good
-	elif diff <= 0.1:
+	elif diff <= ok_time_window:
 		return hit.OK
 	return hit.Miss
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b32omb74nxg7c"]
+[gd_scene load_steps=9 format=3 uid="uid://b32omb74nxg7c"]
 
 [ext_resource type="Script" uid="uid://cnu6pqrxeqr5h" path="res://levels/level_player.gd" id="1_pihvh"]
 [ext_resource type="Texture2D" uid="uid://binuhy6esxq8p" path="res://level_assets/floor/Untitled_Artwork-2.png" id="3_abvnd"]
 [ext_resource type="Texture2D" uid="uid://ejqir7kmsfgi" path="res://level_assets/background/BackgroundDraft.png" id="3_fi75e"]
 [ext_resource type="Script" uid="uid://c1mdnw8k2mmrd" path="res://test/test_slopething.gd" id="5_7k0b1"]
 [ext_resource type="Script" uid="uid://dyyerqxs7fdvd" path="res://test_slope_player.gd" id="6_g4c03"]
+[ext_resource type="Script" uid="uid://bn7kvmt14uwob" path="res://levels/rhythm_logic.gd" id="7_g4c03"]
 [ext_resource type="Texture2D" uid="uid://cfpk7xmxbn3i1" path="res://player/PlayerDraft.png" id="7_oae5j"]
 
 [sub_resource type="Curve2D" id="Curve2D_jdiw6"]
@@ -53,9 +54,16 @@ offset = Vector2(640, -120)
 
 [node name="Camera2D" type="Camera2D" parent="test_slope_player"]
 
-[node name="LevelPath" type="Path2D" parent="." node_paths=PackedStringArray("player")]
+[node name="Label" type="Label" parent="test_slope_player"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="LevelPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_jdiw6")
 script = ExtResource("5_7k0b1")
-player = NodePath("../test_slope_player")
 
 [node name="Line2D" type="Line2D" parent="LevelPath"]
+
+[node name="RhythmLogic" type="Node" parent="." node_paths=PackedStringArray("label")]
+script = ExtResource("7_g4c03")
+label = NodePath("../test_slope_player/Label")

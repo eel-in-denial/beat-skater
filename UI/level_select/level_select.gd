@@ -3,7 +3,7 @@ extends Node2D
 var level_card_file := preload("res://UI/level_select/level_card/level_card.tscn")
 
 var level_info = [
-	{"name": "Level 1", "json_path": "res://levels/level_1.json"},
+	{"name": "Level 1", "json_path": "res://levels/level_data/level_1.json"},
 ]
 
 var level_cards = []

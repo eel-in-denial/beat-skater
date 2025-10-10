@@ -38,12 +38,12 @@ func initialise(
 		modulate = Color(1.0, 1.0, 1.0)
 	elif beat_type == 2:
 		modulate = Color(1.0, 0.0, 0.0)
-	#if press_type == "hold":
+	if press_type == "hold":
 		#hold_time = data["duration"] * Global.sec_per_beat
 		#hold_position = hold_time * Global.player_speed
 		#position.x += hold_position
-		#hold_sprite = $HoldBeat
-		#hold_line = $HoldLine
+		hold_sprite = $HoldBeat
+		hold_line = $HoldLine
 		#hold_line.add_point(Vector2(-hold_position, 0))
 		#hold_sprite.position.x = -hold_position
 		#hold_sprite.visible = true
