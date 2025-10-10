@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://brlj4cym1mwtn"]
+
+[ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
+[ext_resource type="JSON" path="res://levels/level_data/level_1.json" id="2_gylj0"]
+[ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
+[ext_resource type="AudioStream" uid="uid://c1xaun4yo3xns" path="res://songs/roulette round 2 slow.ogg" id="3_shrsc"]
+
+[node name="LevelEditor" type="Node2D"]
+script = ExtResource("1_7e0dv")
+level_json = ExtResource("2_gylj0")
+title = "Level 1"
+artist = "Ava the Raccoon"
+song = ExtResource("3_shrsc")
+beat_snapping = null
+
+[node name="HScrollBar" type="HScrollBar" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="LevelPath" parent="." instance=ExtResource("3_h1ywe")]

@@ -61,6 +61,7 @@ func bake_level():
 	var next_beat: float = level_data["beats"][i]["beat"] * Global.sec_per_beat 
 	var num_of_beats: int = level_data["beats"].size()
 	var beats_array = []
+	var curr_hold_beat: Beat
 	while time < Global.song_duration:
 		var p_1: Vector2 = path.curve.sample_baked(distance)
 		var p_2: Vector2 = path.curve.sample_baked(distance + 0.1)
