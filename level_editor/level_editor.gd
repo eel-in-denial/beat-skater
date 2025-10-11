@@ -1,7 +1,5 @@
-@tool
-extends Control
+extends Node2D
 
-@export_tool_button("bake", "Bake") var bake = _on_bake_pressed
 @export var level_json_path: String:
 	set(value):
 		level_json_path = value
@@ -22,9 +20,20 @@ extends Control
 @export_group("Editor Details")
 @export var beat_snapping := 1.0
 
+@onready var level := $Level
+@onready var path: Path2D = $Level/LevelPath
+
 var beat_time_positions := []
 var beats_array := []
 var curve_points_array := []
+
+var is_panning = false
+var curr_mouse_position := Vector2.ZERO
+var prev_mouse_position := Vector2.ZERO
+
+var editable_node = preload("res://level_editor/editable_node/editable_node.tscn")
+var init_in_vector := Vector2(-100, 0)
+var init_out_vector := Vector2(100, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -34,12 +43,39 @@ func init_level():
 	print("level_loading...")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	prev_mouse_position = curr_mouse_position
+	curr_mouse_position = get_global_mouse_position()
+	if is_panning:
+		level.global_position += curr_mouse_position - prev_mouse_position
+		print(level.global_position)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pan"):
+		is_panning = true
+		print("panning on")
+	elif event.is_action_released("pan"):
+		is_panning = false
+		print("panning off")
+	elif event.is_action_pressed("right_click"):
+		place_curve_point()
+
+func place_curve_point():
+	add_edditable_node(EditableNode.Type.Position, curr_mouse_position, path.curve.point_count)
+	path.curve.add_point(curr_mouse_position - path.global_position, init_in_vector, init_out_vector)
+
+func edit_curve_point():
 	pass
+
+func add_edditable_node(type: EditableNode.Type, position: Vector2, index: int):
+	var new_point: EditableNode = editable_node.instantiate()
+	level.add_child(new_point)
+	new_point.type = type
+	new_point.global_position = position
+	new_point.index = index
 
 func load_level():
 	pass
-
 
 func _on_bake_pressed() -> void:
 	var level_save = {

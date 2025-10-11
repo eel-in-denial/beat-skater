@@ -1,31 +1,41 @@
-[gd_scene load_steps=4 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=7 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
 [ext_resource type="Texture2D" uid="uid://o1rwtl25vhh4" path="res://icon.svg" id="3_shrsc"]
 
-[node name="LevelEditor" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gylj0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1ywe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xo82"]
+
+[node name="LevelEditor" type="Node2D"]
 script = ExtResource("1_7e0dv")
 
-[node name="UIContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
+[node name="Level" type="Node2D" parent="."]
+position = Vector2(931, 401)
+
+[node name="LevelPath" parent="Level" instance=ExtResource("3_h1ywe")]
+
+[node name="Icon" type="Sprite2D" parent="Level"]
+position = Vector2(1022, 337)
+texture = ExtResource("3_shrsc")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UIContainer" type="VBoxContainer" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopNav" type="Control" parent="UIContainer"]
+[node name="TopNav" type="Control" parent="CanvasLayer/UIContainer"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="UIContainer/TopNav"]
+[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/TopNav"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 1
 anchors_preset = 15
@@ -33,51 +43,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gylj0")
 
-[node name="HBoxContainer" type="HSplitContainer" parent="UIContainer"]
+[node name="HBoxContainer" type="HSplitContainer" parent="CanvasLayer/UIContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="SideNav" type="Control" parent="UIContainer/HBoxContainer"]
+[node name="SideNav" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="UIContainer/HBoxContainer/SideNav"]
+[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/SideNav"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_h1ywe")
 
-[node name="VSplitContainer" type="VSplitContainer" parent="UIContainer/HBoxContainer"]
+[node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/UIContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="UIContainer/HBoxContainer/VSplitContainer"]
+[node name="LevelWindow" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
+custom_minimum_size = Vector2(1000, 300)
 layout_mode = 2
+mouse_filter = 1
 
-[node name="SubViewport" type="SubViewport" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer"]
-size = Vector2i(1920, 1080)
-
-[node name="Level_View" type="Node2D" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer/SubViewport"]
-position = Vector2(512, 154)
-
-[node name="LevelPath" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer/SubViewport/Level_View" instance=ExtResource("3_h1ywe")]
-position = Vector2(-512, -154)
-
-[node name="Sprite2D" type="Sprite2D" parent="UIContainer/HBoxContainer/VSplitContainer/SubViewportContainer/SubViewport/Level_View"]
-position = Vector2(276.99997, 370.50006)
-scale = Vector2(21.5625, 13.117188)
-texture = ExtResource("3_shrsc")
-
-[node name="Control" type="Control" parent="UIContainer/HBoxContainer/VSplitContainer"]
+[node name="Control" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="UIContainer/HBoxContainer/VSplitContainer/Control"]
+[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6xo82")

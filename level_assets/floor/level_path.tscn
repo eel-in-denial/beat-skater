@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://c1mdnw8k2mmrd" path="res://test/test_slopething.gd" id="1_3kvqx"]
 
 [sub_resource type="Curve2D" id="Curve2D_jdiw6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 1
 
 [node name="LevelPath" type="Path2D"]
 curve = SubResource("Curve2D_jdiw6")

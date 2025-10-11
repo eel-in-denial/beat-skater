@@ -7,7 +7,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_hyswf"]
 _data = {
-"points": PackedVector2Array(-398.30316, -31.088596, 398.30316, 31.088596, 0.9847036, 269.33438, -500.84732, 12.480194, 500.84732, -12.480194, 1513.4894, 151.83441, -267.2792, 152.10435, 267.2792, -152.10435, 2752.2466, 144.20453, -534.708, -13.170194, 534.708, 13.170194, 3594.1682, 309.0097, -2112.575, -97.56937, 2112.575, 97.56937, 5607.887, 1023.1655, -1030.0024, 504.81543, 1030.0024, -504.81543, 13366.366, 1112.4349, -760.33057, 517.2201, 760.33057, -517.2201, 14501, 190, -1191.621, -421.4749, 1191.621, 421.4749, 16654, 274, 0, 0, 0, 0, 25707, 1058)
+"points": PackedVector2Array(-398.30316, -31.088596, 398.30316, 31.088596, 0.9847036, 269.33438, -500.84732, 12.480194, 500.84732, -12.480194, 1513.4894, 151.83441, -267.2792, 152.10435, 267.2792, -152.10435, 2752.2466, 144.20453, -246.54314, -304.18817, 246.54314, 304.18817, 3594.1682, 309.0097, -2112.575, -97.56937, 2112.575, 97.56937, 5607.887, 1023.1655, -1030.0024, 504.81543, 1030.0024, -504.81543, 13366.366, 1112.4349, -760.33057, 517.2201, 760.33057, -517.2201, 14501, 190, -1191.621, -421.4749, 1191.621, 421.4749, 16654, 274, 0, 0, 0, 0, 25707, 1058)
 }
 point_count = 9
 
@@ -33,9 +33,8 @@ position = Vector2(10007, 1605)
 scale = Vector2(1.8552083, 1)
 texture = ExtResource("3_5mv4y")
 
-[node name="test_slope_player" type="Node2D" parent="." node_paths=PackedStringArray("path")]
+[node name="test_slope_player" type="Node2D" parent="."]
 script = ExtResource("1_cskr2")
-path = NodePath("../Path2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="test_slope_player"]
 texture = ExtResource("2_benpl")
@@ -43,9 +42,8 @@ offset = Vector2(640, -120)
 
 [node name="Camera2D" type="Camera2D" parent="test_slope_player"]
 
-[node name="Path2D" type="Path2D" parent="." node_paths=PackedStringArray("player")]
+[node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_hyswf")
 script = ExtResource("4_benpl")
-player = NodePath("../test_slope_player")
 
 [node name="Line2D" type="Line2D" parent="Path2D"]

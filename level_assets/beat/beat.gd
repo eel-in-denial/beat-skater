@@ -50,7 +50,7 @@ func hold_initialise(
 	hold_beat = $HoldBeat
 	hold_line = $HoldLine
 	hold_beat.position.x = -hold_position
-	hold_position = length_array[-1]
+	#hold_position = length_array[-1]
 	position.x += hold_position
 	for point in length_array:
 		hold_line.add_point(Vector2(point, 0))

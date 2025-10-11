@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://diverci4tu6bi"]
+
+[ext_resource type="Script" uid="uid://51gspxc0rlrp" path="res://level_editor/editable_node/editable_node.gd" id="1_4ogvy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nfp3w"]
+radius = 30.265491
+
+[node name="EditableNode" type="Area2D"]
+script = ExtResource("1_4ogvy")
+
+[node name="In" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nfp3w")
+
+[node name="Polygon2D2" type="Polygon2D" parent="In"]
+color = Color(1, 0, 1, 1)
+polygon = PackedVector2Array(0, -16, -16, 0, 0, 16, 16, 0)
+
+[node name="Position" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nfp3w")
+
+[node name="Polygon2D" type="Polygon2D" parent="Position"]
+color = Color(1, 0, 1, 1)
+polygon = PackedVector2Array(0, -16, -16, 0, 0, 16, 16, 0)
+
+[node name="Out" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nfp3w")
+
+[node name="Polygon2D2" type="Polygon2D" parent="Out"]
+color = Color(1, 0, 1, 1)
+polygon = PackedVector2Array(0, -16, -16, 0, 0, 16, 16, 0)
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
