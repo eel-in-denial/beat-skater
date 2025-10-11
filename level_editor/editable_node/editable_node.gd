@@ -1,35 +1,34 @@
 extends Area2D
 class_name EditableNode
 
-enum Type {In, Position, Out}
-signal update_path
-signal update_beat_track
+enum Index {In, Position, Out}
+signal update_path(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2)
 
-@onready var polygon := $Polygon2D
-var is_drag = false
+@onready var in_collision := $In
+@onready var out_collision := $Out
 
-var type: Type:
-	set(value):
-		type = value
-		if type == Type.Position:
-			polygon.color = Color(1.0, 1.0, 1.0)
-		elif type == Type.In or type == Type.Out:
-			polygon.color = Color(1.0, 0.0, 1.0)
+var is_drag := false
+var drag_index: int = 0
+
 var index: int = 0
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	var mouse_pos = get_global_mouse_position()
 	if is_drag:
-		global_position = get_global_mouse_position()
+		if drag_index == Index.Position:
+			global_position = mouse_pos
+		elif drag_index == Index.In:
+			in_collision.global_position = mouse_pos
+			out_collision.global_position = 2 * global_position - mouse_pos
+		elif drag_index == Index.Out:
+			out_collision.global_position = mouse_pos
+			in_collision.global_position = 2 * global_position - mouse_pos
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_action_pressed("left_click"):
 		is_drag = true
+		drag_index = shape_idx
 	elif event.is_action_released("left_click"):
 		is_drag = false
-		update_editor()
-
-func update_editor():
-	if type == Type.Position:
-		update_path.emit()
+		update_path.emit(index, global_position, in_collision.global_position, out_collision.global_position)

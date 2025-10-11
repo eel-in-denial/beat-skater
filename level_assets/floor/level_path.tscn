@@ -13,3 +13,7 @@ curve = SubResource("Curve2D_jdiw6")
 script = ExtResource("1_3kvqx")
 
 [node name="Line2D" type="Line2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0, 1, 0, 1)
+polygon = PackedVector2Array(0, -16, -16, 0, 0, 16, 16, 0)

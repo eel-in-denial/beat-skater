@@ -23,7 +23,6 @@ extends Node2D
 @onready var level := $Level
 @onready var path: Path2D = $Level/LevelPath
 
-var beat_time_positions := []
 var beats_array := []
 var curve_points_array := []
 
@@ -61,18 +60,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		place_curve_point()
 
 func place_curve_point():
-	add_edditable_node(EditableNode.Type.Position, curr_mouse_position, path.curve.point_count)
+	add_edditable_node(curr_mouse_position, path.curve.point_count)
 	path.curve.add_point(curr_mouse_position - path.global_position, init_in_vector, init_out_vector)
 
-func edit_curve_point():
-	pass
+func edit_curve_point(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2):
+	pos = pos - path.global_position
+	in_pos = in_pos - path.global_position
+	out_pos = out_pos - path.global_position
+	path.curve.set_point_position(idx, pos)
+	path.curve.set_point_in(idx, in_pos - pos)
+	path.curve.set_point_out(idx, out_pos - pos)
 
-func add_edditable_node(type: EditableNode.Type, position: Vector2, index: int):
+func add_edditable_node(position: Vector2, index: int):
 	var new_point: EditableNode = editable_node.instantiate()
 	level.add_child(new_point)
-	new_point.type = type
 	new_point.global_position = position
 	new_point.index = index
+	new_point.update_path.connect(edit_curve_point)
 
 func load_level():
 	pass

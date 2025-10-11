@@ -2,13 +2,21 @@
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
-[ext_resource type="Texture2D" uid="uid://o1rwtl25vhh4" path="res://icon.svg" id="3_shrsc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gylj0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1ywe"]
+bg_color = Color(0.13319641, 0.13319641, 0.13319635, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xo82"]
+bg_color = Color(0.13682574, 0.13682574, 0.13682568, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shrsc"]
+bg_color = Color(0.5992797, 0.51960224, 0.41523042, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [node name="LevelEditor" type="Node2D"]
 script = ExtResource("1_7e0dv")
@@ -17,10 +25,6 @@ script = ExtResource("1_7e0dv")
 position = Vector2(931, 401)
 
 [node name="LevelPath" parent="Level" instance=ExtResource("3_h1ywe")]
-
-[node name="Icon" type="Sprite2D" parent="Level"]
-position = Vector2(1022, 337)
-texture = ExtResource("3_shrsc")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -70,15 +74,22 @@ custom_minimum_size = Vector2(1000, 300)
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Control" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
-custom_minimum_size = Vector2(0, 200)
+[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6xo82")
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Control"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_6xo82")
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Panel/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_shrsc")
