@@ -42,12 +42,11 @@ func init_level():
 	print("level_loading...")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	prev_mouse_position = curr_mouse_position
 	curr_mouse_position = get_global_mouse_position()
 	if is_panning:
 		level.global_position += curr_mouse_position - prev_mouse_position
-		print(level.global_position)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pan"):

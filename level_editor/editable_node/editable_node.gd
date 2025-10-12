@@ -13,7 +13,7 @@ var drag_index: int = 0
 var index: int = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	var mouse_pos = get_global_mouse_position()
 	if is_drag:
 		if drag_index == Index.Position:

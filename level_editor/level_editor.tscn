@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=11 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
+[ext_resource type="Script" uid="uid://dfy12t2xdk1ug" path="res://level_editor/beat_editor.gd" id="3_shrsc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gylj0"]
 
@@ -10,6 +11,18 @@ bg_color = Color(0.13319641, 0.13319641, 0.13319635, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xo82"]
 bg_color = Color(0.13682574, 0.13682574, 0.13682568, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6i4ak"]
+bg_color = Color(0.5402044, 0.53329927, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bly7"]
+bg_color = Color(1, 0.29585004, 0.5242173, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+
+[sub_resource type="ImageTexture" id="ImageTexture_h1ywe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shrsc"]
 bg_color = Color(0.5992797, 0.51960224, 0.41523042, 1)
@@ -74,22 +87,67 @@ custom_minimum_size = Vector2(1000, 300)
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
+[node name="BeatEditorPanel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6xo82")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
+theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 64
+
+[node name="Beat1Button" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_6i4ak")
+text = "Beat 1"
+
+[node name="Beat2Button" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_5bly7")
+text = "Beat 2"
+icon = SubResource("ImageTexture_h1ywe")
+
+[node name="Beat_Editor" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_shrsc")
+script = ExtResource("3_shrsc")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+
+[node name="Control" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor/ScrollContainer"]
+custom_minimum_size = Vector2(2400, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="gui_input" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_gui_input"]
