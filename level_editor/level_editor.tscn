@@ -83,7 +83,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_h1ywe")
 layout_mode = 2
 
 [node name="LevelWindow" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
-custom_minimum_size = Vector2(1000, 300)
+custom_minimum_size = Vector2(1000, 200)
 layout_mode = 2
 mouse_filter = 1
 
@@ -135,19 +135,18 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_shrsc")
 script = ExtResource("3_shrsc")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor"]
+[node name="HScrollBar" type="HScrollBar" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -8.0
 grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 2
-vertical_scroll_mode = 0
+grow_vertical = 0
+max_value = 8.0
+page = 4.0
 
-[node name="Control" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor/ScrollContainer"]
-custom_minimum_size = Vector2(2400, 0)
-layout_mode = 2
-size_flags_vertical = 3
-
+[connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]
 [connection signal="gui_input" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_gui_input"]
+[connection signal="scrolling" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor/HScrollBar" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_h_scroll_bar_scrolling"]
