@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://6v1yyw35qvl6"]
+
+[ext_resource type="Script" uid="uid://dlm0c23x7j8h5" path="res://level_editor/beat_editor_beat/beat_editor_beat.gd" id="1_hmlm6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mv833"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Beat" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_hmlm6")
+
+[node name="Beat" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+rotation = 0.7853982
+pivot_offset = Vector2(10, 10)
+theme_override_styles/panel = SubResource("StyleBoxFlat_mv833")

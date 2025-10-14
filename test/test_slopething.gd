@@ -1,11 +1,17 @@
 extends Path2D
 
-@onready var line := $Line2D
+@onready var floor := $FloorGraphics
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	curve.bake_interval = 10
-	
-	#fuckin why this no work
+
 func generate_graphics():
-	line.points = curve.tessellate_even_length(4)
+	var path_points := curve.tessellate_even_length(4)
+	var polygon_points: PackedVector2Array = []
+	polygon_points = [
+		path_points[-1] + Vector2(0, 1000), 
+		Vector2(0, 1000)
+	]
+	polygon_points.append_array(path_points)
+	floor.polygon = polygon_points

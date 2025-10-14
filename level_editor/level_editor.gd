@@ -61,6 +61,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func place_curve_point():
 	add_edditable_node(curr_mouse_position, path.curve.point_count)
 	path.curve.add_point(curr_mouse_position - path.global_position, init_in_vector, init_out_vector)
+	path.generate_graphics()
 
 func edit_curve_point(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2):
 	pos = pos - path.global_position
@@ -69,6 +70,7 @@ func edit_curve_point(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2)
 	path.curve.set_point_position(idx, pos)
 	path.curve.set_point_in(idx, in_pos - pos)
 	path.curve.set_point_out(idx, out_pos - pos)
+	path.generate_graphics()
 
 func add_edditable_node(position: Vector2, index: int):
 	var new_point: EditableNode = editable_node.instantiate()
