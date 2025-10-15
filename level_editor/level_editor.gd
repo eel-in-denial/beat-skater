@@ -82,6 +82,9 @@ func add_edditable_node(position: Vector2, index: int):
 func load_level():
 	pass
 
+func bake():
+	pass
+
 func _on_bake_pressed() -> void:
 	var level_save = {
 		"title": title,

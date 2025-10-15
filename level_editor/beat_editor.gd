@@ -14,11 +14,11 @@ var left_margin := 50.0
 var right_margin := 50.0
 var bar_width := 360.0
 var beat_width := 0.0
-var bar_position: int = 0
+var bar_position: float = 0.0
 var beat_position := 0.0:
 	set(value):
 		beat_position = value
-		bar_position = floor(beat_position/beats_per_bar)
+		bar_position = beat_position/beats_per_bar
 var total_bars: int = 8
 		
 var beats_per_bar := 4
@@ -28,6 +28,10 @@ var beats: Array[EditorBeat] = []
 var curr_held_beat: EditorBeat
 
 @onready var scroll := $HScrollBar
+@export var beats_per_bar_text: LineEdit
+@export var snapping_text: LineEdit
+@export var total_bars_text: LineEdit
+@export var level_editor: Node2D
 
 var lane_y_positions: Array[float] = []
 var bar_x_positions: Array[float] = []
@@ -44,7 +48,9 @@ func _ready() -> void:
 	update_lanes()
 	update_bars()
 	update_scroll_page()
-
+	beats_per_bar_text.text = str(beats_per_bar)
+	snapping_text.text = str(snapping)
+	total_bars_text.text = str(total_bars)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var mouse_pos = get_local_mouse_position()
@@ -64,8 +70,8 @@ func update_bars():
 	beat_position = scroll.value
 	print(beat_position)
 	for i in range(total_bars + 1):
-		bar_x_positions[i] = left_margin + (i - (bar_position))*bar_width
-	print(lane_y_positions)
+		bar_x_positions[i] = left_margin + (i - bar_position)*bar_width
+	print(bar_position)
 
 func update_beat_heights():
 	for b in beats:
@@ -90,7 +96,7 @@ func _draw() -> void:
 		if y_pos > top_margin:
 			draw_line(Vector2(0, y_pos), Vector2(size.x, y_pos), Color.WHITE, 5)
 			top_lane = y_pos
-	for x_pos in bar_x_positions.slice(bar_position, bar_position + ceil(scroll.page)):
+	for x_pos in bar_x_positions.slice(floor(bar_position), bar_position + ceil(scroll.page)):
 		if x_pos >= left_margin and x_pos <= size.x - right_margin:
 			if x_pos == bar_x_positions[0]:
 				draw_line(Vector2(x_pos, 0), Vector2(x_pos, size.y), Color.GREEN_YELLOW, 8)
@@ -115,6 +121,7 @@ func _on_gui_input(event: InputEvent) -> void:
 		is_right_mouse_held = true
 	elif event.is_action_released("left_click"):
 		is_left_mouse_held = false
+		level_editor.bake()
 	elif event.is_action_released("right_click"):
 		is_right_mouse_held = false
 
@@ -151,7 +158,7 @@ func snap_lane(mouse_pos: Vector2):
 
 func snap_beat(mouse_pos: Vector2):
 	var beat: float = 0.0
-	beat = (mouse_pos.x - left_margin) / beat_width
+	beat = (mouse_pos.x - left_margin) / beat_width + beat_position
 	beat = snappedf(beat, snapping)
 	return beat
 
@@ -168,3 +175,28 @@ func _on_beat_1_button_toggled(toggled_on: bool) -> void:
 
 func _on_beat_2_button_toggled(toggled_on: bool) -> void:
 	edit_mode = Beat2
+
+func _on_beats_per_bar_text_changed(new_text: String) -> void:
+	if int(new_text) > 0:
+		beats_per_bar = int(new_text)
+		beat_width = bar_width / beats_per_bar
+		scroll.max_value = total_bars * beats_per_bar
+		update_beat_widths()
+	
+func _on_snapping_text_changed(new_text: String) -> void:
+	if int(new_text) > 0:
+		snapping = float(new_text)
+
+func _on_total_bars_text_changed(new_text: String) -> void:
+	if int(new_text) > 0:
+		var old_total_bars = total_bars
+		total_bars = int(new_text)
+		if total_bars - old_total_bars > 0:
+			for i in range(total_bars - old_total_bars):
+				bar_x_positions.append(0.0)
+		else:
+			for i in range(old_total_bars - total_bars):
+				bar_x_positions.pop_back()
+		print(total_bars, "  ",beats_per_bar)
+		scroll.max_value = total_bars * beats_per_bar
+		update_scroll_page()
