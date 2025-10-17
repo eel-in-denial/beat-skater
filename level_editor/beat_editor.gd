@@ -143,7 +143,7 @@ func create_beat():
 	new_beat.initialise(data)
 	new_beat.position = Vector2(left_margin + (beat - beat_position) * beat_width, lane_y_positions[height])
 	beats.append(new_beat)
-
+	print(beats[-1].beat_data)
 func snap_lane(mouse_pos: Vector2):
 	var height: int = 0
 	if mouse_pos.y > lane_y_positions[0]:

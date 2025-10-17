@@ -19,7 +19,11 @@ func initialise(
 	length_array := []
 ):
 	beat_data = data
-
+	beat_type = data["beat_type"]
+	time_pos = data["beat"] * Global.sec_per_beat 
+	height = data["height"]
+	press_type = data["press_type"]
+	
 	if data["beat_type"] == 1:
 		modulate = Color(0.38, 0.361, 1.0)
 	elif data["beat_type"] == 2:

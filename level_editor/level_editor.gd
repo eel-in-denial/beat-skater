@@ -67,6 +67,7 @@ func place_curve_point():
 	add_edditable_node(curr_mouse_position, path.curve.point_count)
 	path.curve.add_point(curr_mouse_position - path.global_position, init_in_vector, init_out_vector)
 	path.generate_graphics()
+	bake()
 
 func edit_curve_point(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2):
 	pos = pos - path.global_position
@@ -99,6 +100,7 @@ func bake():
 	var next_beat: float = beat_editor.beats[0].beat_data["beat"] * Global.sec_per_beat if not beat_editor.beats.is_empty() else Global.song_duration
 	var num_of_beats: int = beat_editor.beats.size()
 	var curr_hold_beat: Beat
+	print(beat_editor.beats)
 	while time < Global.song_duration:
 		var p_1: Vector2 = path.curve.sample_baked(distance)
 		var p_2: Vector2 = path.curve.sample_baked(distance + 0.1)
@@ -111,8 +113,7 @@ func bake():
 		baked_points.append({"time": time, "pos": p_1, "speed": speed, "tangent": tangent})
 		
 		if abs(time - next_beat) < time_interval and i < num_of_beats:
-			next_beat = beat_editor.beats[i].beat_data["beat"] * Global.sec_per_beat
-			if i < beats_array.size() or beats_array.is_empty():
+			if i >= beats_array.size():
 				var new_beat: Beat = beat.instantiate()
 				new_beat.initialise(p_1, beat_editor.beats[i].beat_data)
 				level.add_child(new_beat)
@@ -122,7 +123,8 @@ func bake():
 				print(i, '  ', beats_array.size())
 				beats_array[i].initialise(p_1, beat_editor.beats[i].beat_data)
 			i += 1
-				
+			if i < beat_editor.beats.size():
+				next_beat = beat_editor.beats[i].beat_data["beat"] * Global.sec_per_beat
 		time += time_interval
 
 func _on_bake_pressed() -> void:
