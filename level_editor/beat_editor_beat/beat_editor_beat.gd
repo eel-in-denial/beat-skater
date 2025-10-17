@@ -2,6 +2,12 @@ extends Control
 class_name EditorBeat
 
 @onready var panel := $Beat
+var beat_type :=  1
+var press_type := "tap"
+var height := 0
+var time_pos := 0.0
+var hold_time := 0.0
+var hold_position := 0.0
 
 var beat_data: Dictionary
 # Called when the node enters the scene tree for the first time.

@@ -37,8 +37,9 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
-[node name="LevelEditor" type="Node2D"]
+[node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("beat_editor")]
 script = ExtResource("1_7e0dv")
+beat_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor")
 
 [node name="Level" type="Node2D" parent="."]
 position = Vector2(931, 401)

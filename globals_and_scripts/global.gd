@@ -54,6 +54,14 @@ func new_level(new_song: Resource, new_bpm: int):
 	current_song = bg_music.stream
 	song_duration = bg_music.stream.get_length()
 
+func init_editor(new_song: Resource, new_bpm: int):
+	bg_music.stream = new_song
+	bpm = new_bpm
+	sec_per_beat = 60.0 / bpm
+	current_song = bg_music.stream
+	song_duration = bg_music.stream.get_length()
+	
+
 func reset():
 	bg_music.stop()
 	enabled = false

@@ -1,4 +1,5 @@
 extends Panel
+class_name BeatEditor
 
 enum {Beat1, Beat2}
 var edit_mode = Beat1
