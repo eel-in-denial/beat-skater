@@ -1,6 +1,7 @@
 extends Node2D
+class_name LevelEditor
 
-var beat = preload("res://level_assets/beat/beat.tscn")
+var beat_file = preload("res://level_assets/beat/beat.tscn")
 
 @export var level_json_path: String:
 	set(value):
@@ -15,7 +16,7 @@ var beat = preload("res://level_assets/beat/beat.tscn")
 @export var song: AudioStreamOggVorbis
 
 @export_group("Player Presets")
-@export var player_initial_speed := 0.0
+@export var player_initial_speed := 50.0
 @export var player_jump_height := 500
 @export var player_screen_position := Vector2(480.0, 0)
 @export var gravity := Vector2(0, 980)
@@ -28,8 +29,8 @@ var beat = preload("res://level_assets/beat/beat.tscn")
 
 
 var beats_array: Array[Beat] = []
-var baked_points := []
-var curve_points_array := []
+var baked_points_array := []
+var path_nodes_array: Array[EditableNode] = []
 
 var is_panning = false
 var curr_mouse_position := Vector2.ZERO
@@ -70,9 +71,6 @@ func place_curve_point():
 	bake()
 
 func edit_curve_point(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2):
-	pos = pos - path.global_position
-	in_pos = in_pos - path.global_position
-	out_pos = out_pos - path.global_position
 	path.curve.set_point_position(idx, pos)
 	path.curve.set_point_in(idx, in_pos - pos)
 	path.curve.set_point_out(idx, out_pos - pos)
@@ -85,12 +83,13 @@ func add_edditable_node(position: Vector2, index: int):
 	new_point.global_position = position
 	new_point.index = index
 	new_point.update_path.connect(edit_curve_point)
+	path_nodes_array.append(new_point)
 
 func load_level():
 	pass
 
 func bake():
-	baked_points = []
+	baked_points_array = []
 	var time = 0.0
 	var distance = 0.0
 	var time_interval := 0.01
@@ -110,15 +109,15 @@ func bake():
 		distance += speed * time_interval
 		distance = clamp(distance, 0.0, total_length)
 		
-		baked_points.append({"time": time, "pos": p_1, "speed": speed, "tangent": tangent})
+		baked_points_array.append({"time": time, "pos": p_1, "speed": speed, "tangent": tangent})
 		
 		if abs(time - next_beat) < time_interval and i < num_of_beats:
 			if i >= beats_array.size():
-				var new_beat: Beat = beat.instantiate()
+				var new_beat: Beat = beat_file.instantiate()
 				new_beat.initialise(p_1, beat_editor.beats[i].beat_data)
 				level.add_child(new_beat)
 				beats_array.append(new_beat)
-				print(beat_editor.beats[i].beat_data, "   ", p_1)
+				print("num_of_beats: ", num_of_beats, ",  beats_array size: ", beats_array.size(), ",  i:", i)
 			else:
 				print(i, '  ', beats_array.size())
 				beats_array[i].initialise(p_1, beat_editor.beats[i].beat_data)
@@ -127,13 +126,29 @@ func bake():
 				next_beat = beat_editor.beats[i].beat_data["beat"] * Global.sec_per_beat
 		time += time_interval
 
-func _on_bake_pressed() -> void:
+func _on_save_pressed() -> void:
+	var beats_data_array = []
+	var path_nodes_data_array = []
+	
+	for beat in beats_array:
+		beats_data_array.append(beat.beat_data)
+		
+	for node in path_nodes_array:
+		path_nodes_data_array.append({
+			"pos": node.position,
+			"in_pos": node.position + node.in_collision.position, 
+			"out_pos": node.position + node.out_collision.position
+		})
+	
 	var level_save = {
 		"title": title,
 		"artist": artist,
 		"bpm": bpm,
 		"player_initial_speed": player_initial_speed,
 		"song_path": level_json_path,
-		"beats": beats_array,
-		"curve_points": curve_points_array
+		"beats": beats_data_array,
+		"baked_points": baked_points_array,
+		"curve_points": path_nodes_data_array
 	}
+	print("level path: ", level_json_path)
+	Global.save_json_data(level_json_path, level_save)

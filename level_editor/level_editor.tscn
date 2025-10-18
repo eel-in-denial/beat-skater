@@ -1,11 +1,23 @@
-[gd_scene load_steps=13 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=15 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
+[ext_resource type="Script" uid="uid://wfojuoc2r3k6" path="res://level_editor/levels_nav.gd" id="3_6i4ak"]
 [ext_resource type="ButtonGroup" uid="uid://wq3eke3ucspi" path="res://level_editor/beat_editor_buttons.tres" id="3_6xo82"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
 [ext_resource type="Script" uid="uid://dfy12t2xdk1ug" path="res://level_editor/beat_editor.gd" id="3_shrsc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gylj0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mv833"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1874786, 0.72065717, 9.62615e-07, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1ywe"]
 bg_color = Color(0.13319641, 0.13319641, 0.13319635, 1)
@@ -69,15 +81,40 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gylj0")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIContainer/TopNav/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+
+[node name="Control" type="Control" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Save" type="Button" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_mv833")
+text = "Save"
+
+[node name="Control2" type="Control" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HSplitContainer" parent="CanvasLayer/UIContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 split_offset = 300
 
-[node name="SideNav" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer"]
+[node name="LevelsNav" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer" node_paths=PackedStringArray("level_editor")]
 layout_mode = 2
+script = ExtResource("3_6i4ak")
+level_editor = NodePath("../../../..")
 
-[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/SideNav"]
+[node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,18 +123,37 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_h1ywe")
 
-[node name="ItemList" type="ItemList" parent="CanvasLayer/UIContainer/HBoxContainer/SideNav/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 32
-item_count = 3
-item_0/text = "level 1"
-item_1/text = "level 2"
-item_2/text = "level 3"
+text = "Res://"
+clip_text = true
+
+[node name="ItemListRes" type="ItemList" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+auto_height = true
+
+[node name="Label2" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "User://"
+clip_text = true
+
+[node name="ItemListUser" type="ItemList" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+auto_height = true
 
 [node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/UIContainer/HBoxContainer"]
 layout_mode = 2
@@ -217,6 +273,8 @@ grow_vertical = 0
 max_value = 8.0
 page = 4.0
 
+[connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Save" to="." method="_on_save_pressed"]
+[connection signal="item_selected" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_selected"]
 [connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat1Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_1_button_toggled"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat2Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_2_button_toggled"]

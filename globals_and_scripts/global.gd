@@ -98,6 +98,8 @@ func load_json_data(path: String) -> Dictionary:
 	
 	if parsed_json is Dictionary:
 		return parsed_json
+	elif parsed_json is Array:
+		return {"array": parsed_json}
 	else:
 		print("Error parsing JSON: Invalid format or content in", path)
 		return {}

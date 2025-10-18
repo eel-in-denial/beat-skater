@@ -31,4 +31,4 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 		drag_index = shape_idx
 	elif event.is_action_released("left_click"):
 		is_drag = false
-		update_path.emit(index, global_position, in_collision.global_position, out_collision.global_position)
+		update_path.emit(index, position, position + in_collision.position, position + out_collision.position)

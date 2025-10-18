@@ -1,6 +1,7 @@
 extends Area2D
 class_name Beat
 
+var beat_data: Dictionary
 var beat_type :=  1
 var press_type := "tap"
 var height := 0
@@ -29,6 +30,7 @@ func initialise(
 	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4},
 	length_array := []
 ):
+	beat_data = data
 	beat_type = data["beat_type"]
 	time_pos = data["beat"] * Global.sec_per_beat 
 	height = data["height"]

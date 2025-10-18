@@ -142,8 +142,14 @@ func create_beat():
 	}
 	new_beat.initialise(data)
 	new_beat.position = Vector2(left_margin + (beat - beat_position) * beat_width, lane_y_positions[height])
-	beats.append(new_beat)
+	beats.insert(beats.bsearch_custom(new_beat, sort_by_beat), new_beat)
 	print(beats[-1].beat_data)
+
+func sort_by_beat(a: EditorBeat, b: EditorBeat):
+	if a.beat_data["beat"] < b.beat_data["beat"]:
+		return true
+	return false
+
 func snap_lane(mouse_pos: Vector2):
 	var height: int = 0
 	if mouse_pos.y > lane_y_positions[0]:

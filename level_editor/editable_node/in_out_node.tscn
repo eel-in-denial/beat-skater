@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4gi13eirx7as"]
-
-[ext_resource type="PackedScene" uid="uid://diverci4tu6bi" path="res://level_editor/editable_node/editable_node.tscn" id="1_cn0mo"]
-
-[node name="InOutNode" type="Node2D"]
-
-[node name="EditableNode" parent="." instance=ExtResource("1_cn0mo")]
-
-[node name="EditableNode2" parent="." instance=ExtResource("1_cn0mo")]
