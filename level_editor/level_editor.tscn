@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=20 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="Script" uid="uid://wfojuoc2r3k6" path="res://level_editor/levels_nav.gd" id="3_6i4ak"]
 [ext_resource type="ButtonGroup" uid="uid://wq3eke3ucspi" path="res://level_editor/beat_editor_buttons.tres" id="3_6xo82"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
 [ext_resource type="Script" uid="uid://dfy12t2xdk1ug" path="res://level_editor/beat_editor.gd" id="3_shrsc"]
+[ext_resource type="Script" uid="uid://caus5tchnhm0d" path="res://level_editor/edit_popup.gd" id="6_6i4ak"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gylj0"]
 
@@ -182,10 +183,11 @@ layout_mode = 2
 size_flags_vertical = 3
 split_offset = 300
 
-[node name="LevelsNav" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer" node_paths=PackedStringArray("level_editor")]
+[node name="LevelsNav" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer" node_paths=PackedStringArray("level_editor", "edit_popup")]
 layout_mode = 2
 script = ExtResource("3_6i4ak")
 level_editor = NodePath("../../../..")
+edit_popup = NodePath("../../../EditPopup")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav"]
 layout_mode = 1
@@ -357,7 +359,7 @@ grow_vertical = 0
 max_value = 8.0
 page = 4.0
 
-[node name="Panel" type="Panel" parent="CanvasLayer"]
+[node name="EditPopup" type="Panel" parent="CanvasLayer"]
 process_mode = 2
 custom_minimum_size = Vector2(800, 800)
 anchors_preset = 8
@@ -372,8 +374,17 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_yisju")
+script = ExtResource("6_6i4ak")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
+[node name="CheckButton" type="CheckButton" parent="CanvasLayer/EditPopup"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 17.0
+offset_right = 776.0
+offset_bottom = 41.0
+theme_override_font_sizes/font_size = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EditPopup"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.05
@@ -383,87 +394,89 @@ anchor_bottom = 0.95
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label4" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Label4" type="Label" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Title"
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Title" type="LineEdit" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Ipsum Lorem"
 
-[node name="Label5" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Label5" type="Label" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Artist"
 
-[node name="LineEdit2" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Artist" type="LineEdit" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Ipsum Lorem"
 
-[node name="Label6" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Label6" type="Label" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Beatmapper"
 
-[node name="LineEdit3" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Beatmapper" type="LineEdit" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Ipsum Lorem"
 
-[node name="Label7" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Label7" type="Label" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "BPM"
 
-[node name="LineEdit4" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="BPM" type="LineEdit" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Ipsum Lorem"
 
-[node name="Label8" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Label8" type="Label" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Player Initial Speed"
 
-[node name="LineEdit5" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Player Initial Speed" type="LineEdit" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Ipsum Lorem"
 
-[node name="Label9" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Label9" type="Label" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Song"
 
-[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Song" type="OptionButton" parent="CanvasLayer/EditPopup/VBoxContainer"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
 text_overrun_behavior = 5
 clip_text = true
+item_count = 1
+popup/item_0/id = 0
 
-[node name="Control2" type="Control" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="Control2" type="Control" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
 
-[node name="Cancel" type="Button" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer"]
+[node name="Cancel" type="Button" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_4whol")
 text = "Cancel"
 
-[node name="Control" type="Control" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Save" type="Button" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer"]
+[node name="Save" type="Button" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_7hgig")
@@ -471,7 +484,7 @@ text = "Save"
 
 [connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Save" to="." method="_on_save_pressed"]
 [connection signal="item_selected" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_selected"]
-[connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="." method="_on_new_level_pressed"]
+[connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_new_level_pressed"]
 [connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat1Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_1_button_toggled"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat2Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_2_button_toggled"]
@@ -481,3 +494,5 @@ text = "Save"
 [connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/TotalBars" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_total_bars_text_changed"]
 [connection signal="gui_input" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_gui_input"]
 [connection signal="scrolling" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor/HScrollBar" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_h_scroll_bar_scrolling"]
+[connection signal="pressed" from="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer/Cancel" to="CanvasLayer/EditPopup" method="_on_cancel_pressed"]
+[connection signal="pressed" from="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer/Save" to="CanvasLayer/EditPopup" method="_on_save_pressed"]

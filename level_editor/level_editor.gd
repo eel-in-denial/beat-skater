@@ -28,6 +28,7 @@ var beat_file = preload("res://level_assets/beat/beat.tscn")
 @onready var path: Path2D = $Level/LevelPath
 
 
+
 var beats_array: Array[Beat] = []
 var baked_points_array := []
 var path_nodes_array: Array[EditableNode] = []
@@ -159,6 +160,4 @@ func _on_save_pressed() -> void:
 	print("level path: ", level_json_path)
 	Global.save_json_data(level_json_path, level_save)
 
-
-func _on_new_level_pressed() -> void:
-	pass # Replace with function body.
+	
