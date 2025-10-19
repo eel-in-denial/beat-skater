@@ -18,4 +18,4 @@ func _process(delta: float) -> void:
 
 
 func _on_item_list_res_item_selected(index: int) -> void:
-	level_editor.level_json_path = res_level_data[index]["path"]
+	level_editor.level_json_path = res_level_data[index]["editor_path"]

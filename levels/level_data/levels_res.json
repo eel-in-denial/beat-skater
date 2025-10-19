@@ -3,6 +3,7 @@
 		"title": "Level 1",
 		"artist": "Ava the Raccoon",
 		"beat_mapper": "Ava the Raccoon",
-		"path": "res://levels/level_data/level_1.json"
+		"path": "res://levels/level_data/level_1.json",
+		"editor_path": "res://levels/level_editor_data/level_1_editor.json"
 	}
 ]

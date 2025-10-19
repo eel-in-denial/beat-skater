@@ -52,6 +52,12 @@ func _ready() -> void:
 	beats_per_bar_text.text = str(beats_per_bar)
 	snapping_text.text = str(snapping)
 	total_bars_text.text = str(total_bars)
+
+func load_new():
+	for b in beats:
+		b.queue_free()
+	beats = []
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var mouse_pos = get_local_mouse_position()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=19 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="Script" uid="uid://wfojuoc2r3k6" path="res://level_editor/levels_nav.gd" id="3_6i4ak"]
@@ -21,6 +21,11 @@ corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1ywe"]
 bg_color = Color(0.13319641, 0.13319641, 0.13319635, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8p1j5"]
+bg_color = Color(0, 0.7107778, 0.46967602, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xo82"]
 bg_color = Color(0.13682574, 0.13682574, 0.13682568, 1)
@@ -49,7 +54,36 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yisju"]
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4whol"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.31884843, 0.43205288, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7hgig"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0.7095873, 0.48371768, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
 [node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("beat_editor")]
+process_mode = 1
 script = ExtResource("1_7e0dv")
 beat_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor")
 
@@ -68,7 +102,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopNav" type="Control" parent="CanvasLayer/UIContainer"]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="CanvasLayer/UIContainer/TopNav"]
@@ -83,12 +117,54 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_gylj0")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIContainer/TopNav/Panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 32
+
+[node name="Label" type="Label" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 53
+text = "Level Editor"
+
+[node name="Label2" type="Label" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "BPM"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+text = "100"
+
+[node name="Label3" type="Label" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Init Speed"
+
+[node name="LineEdit2" type="LineEdit" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+text = "100"
+
+[node name="Label4" type="Label" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Song"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+text_overrun_behavior = 5
+clip_text = true
 
 [node name="Control" type="Control" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
@@ -97,12 +173,9 @@ size_flags_horizontal = 3
 [node name="Save" type="Button" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_mv833")
 text = "Save"
-
-[node name="Control2" type="Control" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
-layout_mode = 2
 
 [node name="HBoxContainer" type="HSplitContainer" parent="CanvasLayer/UIContainer"]
 layout_mode = 2
@@ -129,6 +202,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
+offset_right = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
@@ -154,6 +228,16 @@ clip_text = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 auto_height = true
+
+[node name="Control" type="Control" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NewLevel" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_8p1j5")
+text = "+"
 
 [node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/UIContainer/HBoxContainer"]
 layout_mode = 2
@@ -273,8 +357,121 @@ grow_vertical = 0
 max_value = 8.0
 page = 4.0
 
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+process_mode = 2
+custom_minimum_size = Vector2(800, 800)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yisju")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label4" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Title"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Ipsum Lorem"
+
+[node name="Label5" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Artist"
+
+[node name="LineEdit2" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Ipsum Lorem"
+
+[node name="Label6" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Beatmapper"
+
+[node name="LineEdit3" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Ipsum Lorem"
+
+[node name="Label7" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "BPM"
+
+[node name="LineEdit4" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Ipsum Lorem"
+
+[node name="Label8" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Player Initial Speed"
+
+[node name="LineEdit5" type="LineEdit" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Ipsum Lorem"
+
+[node name="Label9" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Song"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+text_overrun_behavior = 5
+clip_text = true
+
+[node name="Control2" type="Control" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Cancel" type="Button" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4whol")
+text = "Cancel"
+
+[node name="Control" type="Control" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Save" type="Button" parent="CanvasLayer/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_7hgig")
+text = "Save"
+
 [connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Save" to="." method="_on_save_pressed"]
 [connection signal="item_selected" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_selected"]
+[connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="." method="_on_new_level_pressed"]
 [connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat1Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_1_button_toggled"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat2Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_2_button_toggled"]

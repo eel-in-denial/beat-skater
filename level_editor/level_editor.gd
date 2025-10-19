@@ -85,9 +85,16 @@ func add_edditable_node(position: Vector2, index: int):
 	new_point.update_path.connect(edit_curve_point)
 	path_nodes_array.append(new_point)
 
-func load_level():
-	pass
-
+func load_new():
+	for b in beats_array:
+		b.queue_free()
+	beats_array = []
+	for node in path_nodes_array:
+		node.queue_free()
+	path_nodes_array = []
+	path.curve.clear_points()
+	beat_editor.load_new()
+	
 func bake():
 	baked_points_array = []
 	var time = 0.0
@@ -147,8 +154,11 @@ func _on_save_pressed() -> void:
 		"player_initial_speed": player_initial_speed,
 		"song_path": level_json_path,
 		"beats": beats_data_array,
-		"baked_points": baked_points_array,
 		"curve_points": path_nodes_data_array
 	}
 	print("level path: ", level_json_path)
 	Global.save_json_data(level_json_path, level_save)
+
+
+func _on_new_level_pressed() -> void:
+	pass # Replace with function body.
