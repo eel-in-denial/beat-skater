@@ -84,7 +84,7 @@ func _on_bgm_finished() -> void:
 	
 	
 # json
-func load_json_data(path: String) -> Dictionary:
+func load_json_data(path: String):
 	if not FileAccess.file_exists(path):
 		print("Error: JSON file not found at path:", path)
 		return {}
@@ -96,14 +96,12 @@ func load_json_data(path: String) -> Dictionary:
 	
 	var parsed_json = JSON.parse_string(content)
 	
-	if parsed_json is Dictionary:
+	if parsed_json is Dictionary or parsed_json is Array:
 		return parsed_json
-	elif parsed_json is Array:
-		return {"array": parsed_json}
 	else:
 		print("Error parsing JSON: Invalid format or content in", path)
 		return {}
-func save_json_data(path: String, data: Dictionary):
+func save_json_data(path: String, data):
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	var data_json_string = JSON.stringify(data, "\t")
 	file.store_string(data_json_string)

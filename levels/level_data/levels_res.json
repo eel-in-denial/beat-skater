@@ -1,9 +1,18 @@
 [
 	{
-		"title": "Level 1",
 		"artist": "Ava the Raccoon",
 		"beatmapper": "Ava the Raccoon",
+		"editor_path": "res://levels/level_editor_data/level_1_editor.json",
 		"path": "res://levels/level_data/level_1.json",
-		"editor_path": "res://levels/level_editor_data/level_1_editor.json"
+		"song_idx": "",
+		"title": "Level 1"
+	},
+	{
+		"artist": "Ava the Raccoon",
+		"beatmapper": "Ava the Raccoon",
+		"editor_path": "",
+		"path": "",
+		"song_idx": -1,
+		"title": "Level 1"
 	}
 ]

@@ -152,7 +152,7 @@ func _on_save_pressed() -> void:
 		"title": title,
 		"artist": artist,
 		"bpm": bpm,
-		"player_initial_speed": player_initial_speed,
+		"init_player_speed": player_initial_speed,
 		"song_path": level_json_path,
 		"beats": beats_data_array,
 		"curve_points": path_nodes_data_array
