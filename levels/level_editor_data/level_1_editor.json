@@ -1,7 +1,136 @@
 {
+	"beats": [
+		{
+			"beat": 4.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 2.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 7.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 8.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 9.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 2.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 12.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 1.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 15.0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 1.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 17.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 1.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 20.0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 1.0,
+			"press_type": "tap"
+		}
+	],
+	"beats_per_bar": 4,
 	"bpm": 100,
+	"curve_points": [
+		{
+			"in_pos": [
+				929.0,
+				99.0
+			],
+			"out_pos": [
+				1129.0,
+				99.0
+			],
+			"pos": [
+				1029.0,
+				99.0
+			]
+		},
+		{
+			"in_pos": [
+				1723.0,
+				151.0
+			],
+			"out_pos": [
+				1923.0,
+				151.0
+			],
+			"pos": [
+				1823.0,
+				151.0
+			]
+		},
+		{
+			"in_pos": [
+				2447.0,
+				117.0
+			],
+			"out_pos": [
+				2647.0,
+				117.0
+			],
+			"pos": [
+				2547.0,
+				117.0
+			]
+		},
+		{
+			"in_pos": [
+				3401.0,
+				219.0
+			],
+			"out_pos": [
+				3601.0,
+				219.0
+			],
+			"pos": [
+				3501.0,
+				219.0
+			]
+		},
+		{
+			"in_pos": [
+				5307.0,
+				1.0
+			],
+			"out_pos": [
+				5507.0,
+				1.0
+			],
+			"pos": [
+				5407.0,
+				1.0
+			]
+		}
+	],
 	"init_player_speed": 50.0,
-	"song_path": "",
-	"beats": [],
-	"curve_points": []
+	"total_bars": 8
 }

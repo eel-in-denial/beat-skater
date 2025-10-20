@@ -7,7 +7,7 @@ var beat_file = preload("res://level_assets/beat/beat.tscn")
 	
 @export var editor_json_path: String:
 	set(value):
-		level_json_path = value
+		editor_json_path = value
 		load_level.call_deferred()
 @export var beat_editor: BeatEditor
 
@@ -94,6 +94,7 @@ func add_beat(p_1: Vector2, data: Dictionary):
 	beats_array.append(new_beat)
 
 func load_level():
+	await get_tree().process_frame
 	for b in beats_array:
 		b.queue_free()
 	beats_array = []
@@ -101,16 +102,20 @@ func load_level():
 		node.queue_free()
 	path_nodes_array = []
 	path.curve.clear_points()
+	path.curve.add_point(Vector2.ZERO)
 	var level_data = Global.load_json_data(editor_json_path)
-	
+	print(editor_json_path)
 	bpm = level_data["bpm"]
 	init_player_speed = level_data["init_player_speed"]
-	beat_editor.load_new(level_data["beats"])
-	var i := 0
+	beat_editor.load_level(level_data["beats"])
+	var i := 1
 	for node in level_data["curve_points"]:
-		add_edditable_node(node["pos"], i)
-		edit_curve_point(i, node["pos"], node["in_pos"], node["out_pos"])
+		add_edditable_node(Vector2(node["pos"][0], node["pos"][1]), i)
+		path.curve.add_point(Vector2.ZERO, init_in_vector, init_out_vector)
+		edit_curve_point(i, Vector2(node["pos"][0], node["pos"][1]), Vector2(node["in_pos"][0], node["in_pos"][1]), Vector2(node["out_pos"][0], node["out_pos"][1]))
 		i += 1
+	beat_editor.beats_per_bar = level_data["beats_per_bar"]
+	beat_editor.total_bars = level_data["total_bars"]
 	bake()
 	
 func bake():
@@ -157,16 +162,18 @@ func save_editor():
 		
 	for node in path_nodes_array:
 		path_nodes_data_array.append({
-			"pos": node.position,
-			"in_pos": node.position + node.in_collision.position, 
-			"out_pos": node.position + node.out_collision.position
+			"pos": [node.position.x, node.position.y],
+			"in_pos": [node.position.x + node.in_collision.position.x, node.position.y + node.in_collision.position.y], 
+			"out_pos": [node.position.x + node.out_collision.position.x, node.position.y + node.out_collision.position.y]
 		})
 	
 	var editor_save = {
 		"bpm": bpm,
 		"init_player_speed": init_player_speed,
 		"beats": beats_data_array,
-		"curve_points": path_nodes_data_array
+		"curve_points": path_nodes_data_array,
+		"beats_per_bar": beat_editor.beats_per_bar,
+		"total_bars": beat_editor.total_bars
 	}
 	print("level path: ", editor_json_path)
 	Global.save_json_data(editor_json_path, editor_save)
