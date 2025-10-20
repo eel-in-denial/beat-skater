@@ -154,29 +154,16 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
 text = "100"
 
-[node name="Label4" type="Label" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 42
-text = "Song"
-
-[node name="OptionButton" type="OptionButton" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 32
-text_overrun_behavior = 5
-clip_text = true
-
 [node name="Control" type="Control" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Save" type="Button" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+[node name="Bake" type="Button" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_mv833")
-text = "Save"
+text = "Bake"
 
 [node name="HBoxContainer" type="HSplitContainer" parent="CanvasLayer/UIContainer"]
 layout_mode = 2
@@ -482,7 +469,7 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_7hgig")
 text = "Save"
 
-[connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Bake" to="." method="_on_bake_pressed"]
 [connection signal="item_selected" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_selected"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_new_level_pressed"]
 [connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]

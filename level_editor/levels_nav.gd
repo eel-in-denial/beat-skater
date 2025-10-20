@@ -16,6 +16,7 @@ func _ready() -> void:
 			
 
 func update_song_list(idx: int, data: Dictionary):
+	print(data)
 	if idx == -1:
 		var level_save = {
 			"bpm": data["body_info"]["bpm"],
@@ -31,8 +32,8 @@ func update_song_list(idx: int, data: Dictionary):
 			"beats": [],
 			"curve_points": []
 		}
-		Global.save_json_data("res://levels/level_data/" + data["header_info"]["title"], level_save)
-		Global.save_json_data("res://levels/level_editor_data/" + data["header_info"]["title"], editor_save)
+		Global.save_json_data("res://levels/level_data/" + data["header_info"]["title"] + ".json", level_save)
+		Global.save_json_data("res://levels/level_editor_data/" + data["header_info"]["title"] + ".json", editor_save)
 		res_level_data.append(data["header_info"])
 	else:
 		res_level_data[idx] = data["header_info"]
@@ -40,7 +41,8 @@ func update_song_list(idx: int, data: Dictionary):
 		
 
 func _on_item_list_res_item_selected(index: int) -> void:
-	level_editor.level_json_path = res_level_data[index]["editor_path"]
+	level_editor.level_json_path = res_level_data[index]["path"]
+	level_editor.editor_json_path = res_level_data[index]["editor_path"]
 
 
 func _on_new_level_pressed() -> void:

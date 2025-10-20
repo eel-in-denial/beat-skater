@@ -1,3 +1,7 @@
 {
-	
+	"bpm": 100,
+	"init_player_speed": 50.0,
+	"song_path": "",
+	"beats": [],
+	"curve_points": []
 }

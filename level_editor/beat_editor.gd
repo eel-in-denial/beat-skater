@@ -53,10 +53,12 @@ func _ready() -> void:
 	snapping_text.text = str(snapping)
 	total_bars_text.text = str(total_bars)
 
-func load_new():
+func load_level(beat_data: Array):
 	for b in beats:
 		b.queue_free()
 	beats = []
+	for data in beat_data:
+		beats.append(add_beat(data))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -123,19 +125,17 @@ func _draw() -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
 		is_left_mouse_held = true
-		create_beat()
+		place_beat()
 	elif event.is_action_pressed("right_click"):
 		is_right_mouse_held = true
 	elif event.is_action_released("left_click"):
 		is_left_mouse_held = false
 		level_editor.bake()
+		level_editor.save_editor()
 	elif event.is_action_released("right_click"):
 		is_right_mouse_held = false
 
-func create_beat():
-	var new_beat: EditorBeat = beat_scene.instantiate()
-	curr_held_beat = new_beat
-	add_child(new_beat)
+func place_beat():
 	var mouse_pos = get_local_mouse_position()
 	var height = snap_lane(mouse_pos)
 	var beat = snap_beat(mouse_pos)
@@ -146,10 +146,15 @@ func create_beat():
 		"beat": beat,
 		"duration": 0
 	}
+	curr_held_beat = add_beat(data)
+	beats.insert(beats.bsearch_custom(curr_held_beat, sort_by_beat), curr_held_beat)
+
+func add_beat(data: Dictionary) -> EditorBeat:
+	var new_beat: EditorBeat = beat_scene.instantiate()
+	add_child(new_beat)
 	new_beat.initialise(data)
-	new_beat.position = Vector2(left_margin + (beat - beat_position) * beat_width, lane_y_positions[height])
-	beats.insert(beats.bsearch_custom(new_beat, sort_by_beat), new_beat)
-	print(beats[-1].beat_data)
+	new_beat.position = Vector2(left_margin + (data["beat"] - beat_position) * beat_width, lane_y_positions[data["height"]])
+	return new_beat
 
 func sort_by_beat(a: EditorBeat, b: EditorBeat):
 	if a.beat_data["beat"] < b.beat_data["beat"]:
