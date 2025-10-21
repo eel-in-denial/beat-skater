@@ -35,9 +35,11 @@ var is_calibrated := false
 
 func _ready() -> void:
 	current_song = bg_music.stream
-	
+	var dir = DirAccess.open("user://levels")
+	if not dir:
+		pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Called every frame. 'delta' is the elapsed time since the = frame.
 func _process(delta: float) -> void:
 	if enabled:
 		song_position = (Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset

@@ -67,3 +67,6 @@ func _on_save_pressed() -> void:
 	get_values()
 	close()
 	save_song_data.emit(song_index, curr_song_data)
+
+func _on_delete_pressed() -> void:
+	pass # Replace with function body.

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cynfciislaxxt"]
 
 [ext_resource type="Script" uid="uid://cypnnx5qqcwn1" path="res://UI/calibration/callibration.gd" id="1_tu7ka"]
-[ext_resource type="AudioStream" uid="uid://c1xaun4yo3xns" path="res://songs/roulette round 2 slow.ogg" id="2_5qg7k"]
+[ext_resource type="AudioStream" uid="uid://c1xaun4yo3xns" path="res://levels/music/roulette round 2 slow.ogg" id="2_5qg7k"]
 
 [node name="Callibration" type="Node2D"]
 script = ExtResource("1_tu7ka")
