@@ -107,3 +107,14 @@ func save_json_data(path: String, data):
 	file.store_string(data_json_string)
 	file.close()
 	print("✅ Saved data to: ", ProjectSettings.globalize_path(path))
+
+func rename_file(old_path: String, new_path: String):
+	var dir = DirAccess.open("res://")
+	if dir:
+		var error = dir.rename(old_path, new_path)
+		if error == OK:
+			print("File renamed successfully!")
+		else:
+			print("Error renaming file: ", error)
+	else:
+		print("Old file does not exist.")

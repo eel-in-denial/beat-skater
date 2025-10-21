@@ -19,26 +19,31 @@ func update_song_list(idx: int, data: Dictionary):
 	print(data)
 	if idx == -1:
 		var level_save = {
-			"bpm": data["body_info"]["bpm"],
-			"init_player_speed": data["body_info"]["init_player_speed"],
-			"song_path": "",
-			"beats": [],
-			"curve_points": []
 		}
 		var editor_save = {
 			"bpm": data["body_info"]["bpm"],
 			"init_player_speed": data["body_info"]["init_player_speed"],
-			"song_path": "",
 			"beats": [],
-			"curve_points": []
+			"curve_points": [],
+			"beats_per_bar": 4,
+			"total_bars": 8
 		}
-		Global.save_json_data("res://levels/level_data/" + data["header_info"]["title"] + ".json", level_save)
-		Global.save_json_data("res://levels/level_editor_data/" + data["header_info"]["title"] + ".json", editor_save)
+		data["path"] = "res://levels/level_data/" + data["header_info"]["title"] + ".json"
+		data["editor_path"] = "res://levels/level_editor_data/" + data["header_info"]["title"] + "_editor.json"
+		Global.save_json_data(data["path"], level_save)
+		Global.save_json_data(data["editor_path"], editor_save)
 		res_level_data.append(data["header_info"])
+		items_list_res.add_item(data["title"])
+		items_list_res.select(items_list_res.size - 1)
+		_on_item_list_res_item_selected(items_list_res.size - 1)
 	else:
+		Global.rename_file(data["path"], "res://levels/level_data/" + data["header_info"]["title"] + ".json")
+		Global.rename_file(data["editor_path"],"res://levels/level_editor_data/" + data["header_info"]["title"] + "_editor.json")
+		data["path"] = "res://levels/level_data/" + data["header_info"]["title"] + ".json"
+		data["editor_path"] = "res://levels/level_editor_data/" + data["header_info"]["title"] + "_editor.json"
 		res_level_data[idx] = data["header_info"]
-	Global.save_json_data("res://levels/level_data/levels_res.json", res_level_data)
 		
+	Global.save_json_data("res://levels/level_data/levels_res.json", res_level_data)
 
 func _on_item_list_res_item_selected(index: int) -> void:
 	level_editor.level_json_path = res_level_data[index]["path"]

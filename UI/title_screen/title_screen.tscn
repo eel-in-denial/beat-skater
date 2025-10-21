@@ -41,5 +41,14 @@ theme_override_font_sizes/font_size = 80
 theme_override_styles/normal = SubResource("StyleBoxFlat_5eojx")
 text = "Exit"
 
+[node name="Label" type="Label" parent="."]
+offset_left = 645.0
+offset_top = 838.0
+offset_right = 1377.0
+offset_bottom = 1009.0
+theme_override_font_sizes/font_size = 40
+text = "In the middle of a huge refactor at the moment so its very broken, will be patched up asap"
+autowrap_mode = 2
+
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

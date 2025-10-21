@@ -137,7 +137,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "BPM"
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+[node name="BPM" type="LineEdit" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
@@ -148,7 +148,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "Init Speed"
 
-[node name="LineEdit2" type="LineEdit" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+[node name="InitSpeed" type="LineEdit" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
@@ -469,6 +469,8 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_7hgig")
 text = "Save"
 
+[connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/BPM" to="." method="_on_bpm_text_changed"]
+[connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/InitSpeed" to="." method="_on_init_speed_text_changed"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Bake" to="." method="_on_bake_pressed"]
 [connection signal="item_selected" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_selected"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_new_level_pressed"]

@@ -53,12 +53,16 @@ func _ready() -> void:
 	snapping_text.text = str(snapping)
 	total_bars_text.text = str(total_bars)
 
-func load_level(beat_data: Array):
+func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
 	for b in beats:
 		b.queue_free()
 	beats = []
 	for data in beat_data:
 		beats.append(add_beat(data))
+	beats_per_bar = b_per_bar
+	beats_per_bar_text.text = str(beats_per_bar)
+	total_bars = t_bars
+	total_bars_text.text = str(total_bars)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

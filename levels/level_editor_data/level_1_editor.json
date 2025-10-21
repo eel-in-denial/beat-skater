@@ -1,6 +1,13 @@
 {
 	"beats": [
 		{
+			"beat": 3.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 0,
+			"press_type": "tap"
+		},
+		{
 			"beat": 4.0,
 			"beat_type": 1.0,
 			"duration": 0.0,
@@ -16,9 +23,9 @@
 		},
 		{
 			"beat": 8.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
@@ -54,6 +61,13 @@
 			"beat_type": 2.0,
 			"duration": 0.0,
 			"height": 1.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 27.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 3.0,
 			"press_type": "tap"
 		}
 	],
@@ -132,5 +146,5 @@
 		}
 	],
 	"init_player_speed": 50.0,
-	"total_bars": 8
+	"total_bars": 16
 }

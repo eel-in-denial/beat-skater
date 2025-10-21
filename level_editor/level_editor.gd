@@ -23,11 +23,10 @@ var beat_file = preload("res://level_assets/beat/beat.tscn")
 @export var player_screen_position := Vector2(480.0, 0)
 @export var gravity := Vector2(0, 980)
 
-@export_group("Editor Details")
-@export var beat_snapping := 1.0
-
 @onready var level := $Level
 @onready var path: Path2D = $Level/LevelPath
+@onready var init_player_speed_text := $CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/InitSpeed
+@onready var bpm_text := $CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/BPM
 
 
 
@@ -45,7 +44,7 @@ var init_out_vector := Vector2(100, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Global.init_editor(load("res://songs/roulette round 2 slow.ogg"), 100)
+	Global.init_editor(load("res://songs/roulette round 2 slow.ogg"), bpm)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -106,8 +105,9 @@ func load_level():
 	var level_data = Global.load_json_data(editor_json_path)
 	print(editor_json_path)
 	bpm = level_data["bpm"]
+	Global.init_editor(load("res://songs/roulette round 2 slow.ogg"), bpm)
 	init_player_speed = level_data["init_player_speed"]
-	beat_editor.load_level(level_data["beats"])
+	beat_editor.load_level(level_data["beats"], level_data["beats_per_bar"] ,level_data["total_beats"])
 	var i := 1
 	for node in level_data["curve_points"]:
 		add_edditable_node(Vector2(node["pos"][0], node["pos"][1]), i)
@@ -182,3 +182,11 @@ func save_editor():
 
 func _on_bake_pressed() -> void:
 	pass # Replace with function body.
+
+
+func _on_bpm_text_changed(new_text: String) -> void:
+	bpm = int(new_text)
+	Global.init_editor(load("res://songs/roulette round 2 slow.ogg"), bpm)
+
+func _on_init_speed_text_changed(new_text: String) -> void:
+	init_player_speed = float(new_text)
