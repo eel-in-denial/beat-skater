@@ -3,7 +3,8 @@ extends Panel
 @onready var title := $VBoxContainer/Title
 @onready var artist := $VBoxContainer/Artist
 @onready var beatmapper := $VBoxContainer/Beatmapper
-@onready var bpm := $VBoxContainer/BPM
+@onready var bpm := $VBoxContainer/HBoxContainer2/BPM
+@onready var beats_per_bar := $VBoxContainer/HBoxContainer2/BeatsPerBar
 @onready var init_player_speed := $"VBoxContainer/Player Initial Speed"
 @onready var song := $VBoxContainer/Song
 @onready var community_toggle := $CheckButton
@@ -20,21 +21,25 @@ func _ready() -> void:
 	visible = false
 
 
-func pop_up(data := {
-	"header_info": {
-		"title": "",
-		"artist": "",
-		"beatmapper": "",
-		"path": "",
-		"editor_path": "",
-		"song_path": "",
-	},
-	"body_info": {
-		"bpm": 0,
-		"init_player_speed": 0.0
-	},
-	"community": false
-}, idx: int = -1):
+func pop_up(
+	data := {
+		"header": {
+			"title": "",
+			"artist": "",
+			"beatmapper": "",
+			"path": "",
+			"editor_path": "",
+			"song_path": ""
+		},
+		"body": {
+			"bpm": 0,
+			"beats_per_bar": 4,
+			"init_player_speed": 0.0,
+		},
+		"community": false
+	}, 
+	idx: int = -1
+):
 	visible = true
 	curr_song_data = data
 	level_index = idx
@@ -45,25 +50,27 @@ func close():
 	get_tree().paused = false
 
 func set_values():
-	title.text = curr_song_data["header_info"]["title"]
-	artist.text = curr_song_data["header_info"]["artist"]
-	beatmapper.text = curr_song_data["header_info"]["beatmapper"]
-	bpm.text = str(curr_song_data["body_info"]["bpm"])
-	init_player_speed.text = str(curr_song_data["body_info"]["init_player_speed"])
+	title.text = curr_song_data["header"]["title"]
+	artist.text = curr_song_data["header"]["artist"]
+	beatmapper.text = curr_song_data["header"]["beatmapper"]
+	bpm.text = str(curr_song_data["body"]["bpm"])
+	beats_per_bar.text = str(curr_song_data["body"]["beats_per_bar"])
+	init_player_speed.text = str(curr_song_data["body"]["init_player_speed"])
 	community_toggle.button_pressed = curr_song_data["community"]
 	music_path = "res://levels/music"
 	songs_array = song.dir_contents(music_path)
-	song.selected = songs_array.find(curr_song_data["header_info"]["song_path"])
+	song.selected = songs_array.find(curr_song_data["header"]["song_path"])
 	
 
 func get_values():
-	curr_song_data["header_info"]["title"] = title.text
-	curr_song_data["header_info"]["artist"] = artist.text
-	curr_song_data["header_info"]["beatmapper"] = beatmapper.text
-	curr_song_data["body_info"]["bpm"] = int(bpm.text)
-	curr_song_data["body_info"]["init_player_speed"] = float(init_player_speed.text)
-	curr_song_data["header_info"]["song_path"] = music_path + song.get_item_text(song.selected)
-	curr_song_data["community"] = community_toggle.button_pressed
+	curr_song_data["header"]["title"] = title.text
+	curr_song_data["header"]["artist"] = artist.text
+	curr_song_data["header"]["beatmapper"] = beatmapper.text
+	curr_song_data["body"]["bpm"] = int(bpm.text)
+	curr_song_data["body"]["beats_per_bar"] = int(beats_per_bar.text)
+	curr_song_data["body"]["init_player_speed"] = float(init_player_speed.text)
+	curr_song_data["header"]["song_path"] = music_path + song.get_item_text(song.selected)
+	curr_song_data["community_toggled"] = community_toggle.button_pressed
 
 func _on_cancel_pressed() -> void:
 	close()

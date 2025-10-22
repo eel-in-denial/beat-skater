@@ -115,10 +115,13 @@ func load_json_data(path: String):
 		return {}
 func save_json_data(path: String, data):
 	var file = FileAccess.open(path, FileAccess.WRITE)
-	var data_json_string = JSON.stringify(data, "\t")
-	file.store_string(data_json_string)
-	file.close()
-	print("✅ Saved data to: ", ProjectSettings.globalize_path(path))
+	if file:
+		var data_json_string = JSON.stringify(data, "\t")
+		file.store_string(data_json_string)
+		file.close()
+		print("✅ Saved data to: ", ProjectSettings.globalize_path(path))
+	else:
+		print(path + " does not exist")
 
 func rename_file(old_path: String, new_path: String):
 	var dir = DirAccess.open("res://")

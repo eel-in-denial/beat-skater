@@ -9,65 +9,58 @@
 		},
 		{
 			"beat": 6.0,
-			"beat_type": 1.0,
+			"beat_type": 2.0,
 			"duration": 0.0,
 			"height": 2.0,
 			"press_type": "tap"
 		},
 		{
-			"beat": 9.0,
+			"beat": 7.0,
 			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 2.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 8.0,
+			"beat_type": 1.0,
 			"duration": 0.0,
 			"height": 2.0,
 			"press_type": "tap"
 		}
 	],
 	"beats_per_bar": 4,
-	"bpm": 120,
+	"bpm": 97,
 	"curve_points": [
 		{
 			"in_pos": [
-				837.0,
+				1283.0,
 				127.0
 			],
 			"out_pos": [
-				1037.0,
+				1483.0,
 				127.0
 			],
 			"pos": [
-				937.0,
+				1383.0,
 				127.0
 			]
 		},
 		{
 			"in_pos": [
-				1569.0,
-				131.0
+				2415.0,
+				-23.0
 			],
 			"out_pos": [
-				1769.0,
-				131.0
+				2615.0,
+				-23.0
 			],
 			"pos": [
-				1669.0,
-				131.0
-			]
-		},
-		{
-			"in_pos": [
-				2077.0,
-				39.0
-			],
-			"out_pos": [
-				2277.0,
-				39.0
-			],
-			"pos": [
-				2177.0,
-				39.0
+				2515.0,
+				-23.0
 			]
 		}
 	],
 	"init_player_speed": 50.0,
-	"total_bars": 16
+	"total_bars": 8
 }
