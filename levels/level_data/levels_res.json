@@ -4,7 +4,15 @@
 		"beatmapper": "Ava the Raccoon",
 		"editor_path": "res://levels/level_editor_data/Test_editor.json",
 		"path": "res://levels/level_data/Test.json",
-		"song_path": "res://levels/musichip-hop-no-copyright-music-335133.mp3",
+		"song_path": "res://levels/music/hip-hop-no-copyright-music-335133.mp3",
 		"title": "Test"
+	},
+	{
+		"artist": "Ava the Raccoon",
+		"beatmapper": "Ava the Raccoon",
+		"editor_path": "res://levels/level_editor_data/Test 2_editor.json",
+		"path": "res://levels/level_data/Test 2.json",
+		"song_path": "res://levels/music/roulette round 2 slow.ogg",
+		"title": "Test 2"
 	}
 ]

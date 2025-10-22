@@ -5,7 +5,10 @@ extends Node
 signal song_end
 signal hit_accuracy(value: float)
 
-var bpm := 120
+var bpm := 120:
+	set(value):
+		bpm = value
+		sec_per_beat = 60.0/bpm
 var sec_per_beat := 60.0 / 100
 
 var time_begin := 0.0
@@ -23,7 +26,7 @@ var audio_offset := 0.0
 var visual_offset := 0.0
 var input_offset := 0.0
 
-var current_song: AudioStreamOggVorbis
+var current_song
 
 var enabled := false
 
@@ -69,7 +72,6 @@ func new_level(new_song: Resource, new_bpm: int):
 func init_editor(new_song: Resource, new_bpm: int):
 	bg_music.stream = new_song
 	bpm = new_bpm
-	sec_per_beat = 60.0 / bpm
 	current_song = bg_music.stream
 	song_duration = bg_music.stream.get_length()
 	

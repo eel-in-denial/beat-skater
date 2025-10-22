@@ -57,10 +57,11 @@ func set_values():
 	beats_per_bar.text = str(curr_song_data["body"]["beats_per_bar"])
 	init_player_speed.text = str(curr_song_data["body"]["init_player_speed"])
 	community_toggle.button_pressed = curr_song_data["community"]
-	music_path = "res://levels/music"
+	music_path = "res://levels/music/"
 	songs_array = song.dir_contents(music_path)
-	song.selected = songs_array.find(curr_song_data["header"]["song_path"])
-	
+	song.selected = songs_array.find(curr_song_data["header"]["song_path"].get_file())
+	print(song.selected, "  , " , curr_song_data["header"]["song_path"].get_file())
+	print(songs_array)
 
 func get_values():
 	curr_song_data["header"]["title"] = title.text

@@ -54,15 +54,26 @@ func _ready() -> void:
 	total_bars_text.text = str(total_bars)
 
 func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
+	beats_per_bar = b_per_bar
+	beats_per_bar_text.text = str(beats_per_bar)
+	total_bars = t_bars
+	total_bars_text.text = str(total_bars)
+	beat_width = bar_width / beats_per_bar
+	scroll.max_value = total_bars * beats_per_bar
+	bar_x_positions = []
 	for b in beats:
 		b.queue_free()
 	beats = []
 	for data in beat_data:
 		beats.append(add_beat(data))
-	beats_per_bar = b_per_bar
-	beats_per_bar_text.text = str(beats_per_bar)
-	total_bars = t_bars
-	total_bars_text.text = str(total_bars)
+	for i in range(total_bars + 1):
+		bar_x_positions.append(0.0)
+	update_beat_heights()
+	update_beat_widths()
+	update_scroll_page()
+	update_lanes()
+	update_bars()
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -98,6 +109,7 @@ func update_beat_widths():
 
 func update_single_beat(beat: EditorBeat):
 	beat.position = Vector2(left_margin + (beat.beat_data["beat"] - beat_position) * beat_width, lane_y_positions[beat.beat_data["height"]])
+	#beat.visible = false if beat.position.y < top_margin or beat.position.x < left_margin or beat.position.x > size.x - right_margin else true
 
 func update_scroll_page():
 	scroll.page = (size.x - left_margin - right_margin) / beat_width
@@ -204,6 +216,7 @@ func _on_beats_per_bar_text_changed(new_text: String) -> void:
 		beat_width = bar_width / beats_per_bar
 		scroll.max_value = total_bars * beats_per_bar
 		update_beat_widths()
+	level_editor.save_editor()
 	
 func _on_snapping_text_changed(new_text: String) -> void:
 	if int(new_text) > 0:
@@ -222,3 +235,4 @@ func _on_total_bars_text_changed(new_text: String) -> void:
 		print(total_bars, "  ",beats_per_bar)
 		scroll.max_value = total_bars * beats_per_bar
 		update_scroll_page()
+	level_editor.save_editor()

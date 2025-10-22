@@ -7,6 +7,7 @@ extends Control
 
 var res_level_data: Array
 var level_idx: int
+var current_level: Dictionary
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	res_level_data = Global.load_json_data("res://levels/level_data/levels_res.json")
@@ -42,15 +43,16 @@ func update_song_list(idx: int, data: Dictionary):
 		items_list_res.select(items_list_res.item_count - 1)
 		_on_item_list_res_item_clicked(items_list_res.item_count - 1, Vector2.ZERO, MOUSE_BUTTON_LEFT)
 	else:
-		Global.rename_file(header_data["path"], "res://levels/level_data/" + header_data["header_info"]["title"] + ".json")
-		Global.rename_file(header_data["editor_path"],"res://levels/level_editor_data/" + header_data["header_info"]["title"] + "_editor.json")
-		header_data["path"] = "res://levels/level_data/" + header_data["header_info"]["title"] + ".json"
-		header_data["editor_path"] = "res://levels/level_editor_data/" + header_data["header_info"]["title"] + "_editor.json"
-		res_level_data[idx] = header_data["header_info"]
+		Global.rename_file(header_data["path"], "res://levels/level_data/" + header_data["title"] + ".json")
+		Global.rename_file(header_data["editor_path"],"res://levels/level_editor_data/" + header_data["title"] + "_editor.json")
+		header_data["path"] = "res://levels/level_data/" + header_data["title"] + ".json"
+		header_data["editor_path"] = "res://levels/level_editor_data/" + header_data["title"] + "_editor.json"
+		res_level_data[idx] = header_data
 		var editor_save = Global.load_json_data(header_data["editor_path"])
 		editor_save["bpm"] = body_data["bpm"]
 		editor_save["init_player_speed"] = body_data["init_player_speed"]
 		editor_save["beats_per_bar"] = body_data["beats_per_bar"]
+		items_list_res.set_item_text(idx, header_data["title"])
 		Global.save_json_data(header_data["editor_path"], editor_save)
 		
 		
@@ -66,9 +68,11 @@ func _on_item_list_res_item_clicked(index: int, at_position: Vector2, mouse_butt
 		right_click_popup.popup(Rect2i(at_position.x, at_position.y, 164, 150))
 		level_idx = index
 	elif mouse_button_index == MOUSE_BUTTON_LEFT:
+		level_editor.save_editor()
 		if not res_level_data.is_empty():
 			level_editor.level_json_path = res_level_data[index]["path"]
 			level_editor.editor_json_path = res_level_data[index]["editor_path"]
+			current_level = res_level_data[index]
 
 
 func _on_popup_panel_popup_hide() -> void:
@@ -76,7 +80,17 @@ func _on_popup_panel_popup_hide() -> void:
 
 func _on_edit_pressed() -> void:
 	right_click_popup.hide()
-	edit_popup.pop_up(res_level_data[level_idx], level_idx)
+	var editor_data = Global.load_json_data(res_level_data[level_idx]["editor_path"])
+	var data = {
+		"header": res_level_data[level_idx],
+		"body": {
+			"bpm": editor_data["bpm"],
+			"beats_per_bar": editor_data["beats_per_bar"],
+			"init_player_speed": editor_data["init_player_speed"],
+		},
+		"community": false
+	}
+	edit_popup.pop_up(data, level_idx)
 	get_tree().paused = true
 
 func _on_delete_pressed() -> void:

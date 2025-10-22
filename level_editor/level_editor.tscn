@@ -1,6 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=24 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
+[ext_resource type="Script" uid="uid://cf20bgsrvj0si" path="res://level_editor/camera_2d.gd" id="2_73q88"]
 [ext_resource type="Script" uid="uid://wfojuoc2r3k6" path="res://level_editor/levels_nav.gd" id="3_6i4ak"]
 [ext_resource type="ButtonGroup" uid="uid://wq3eke3ucspi" path="res://level_editor/beat_editor_buttons.tres" id="3_6xo82"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
@@ -106,6 +107,10 @@ corner_radius_bottom_left = 16
 process_mode = 1
 script = ExtResource("1_7e0dv")
 beat_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+script = ExtResource("2_73q88")
 
 [node name="Level" type="Node2D" parent="."]
 position = Vector2(931, 401)
@@ -262,10 +267,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -66.0
-offset_top = -59.0
-offset_right = 66.0
-offset_bottom = 59.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 148.0
+offset_bottom = 134.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
