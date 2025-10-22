@@ -4,7 +4,7 @@
 		"beatmapper": "Ava the Raccoon",
 		"editor_path": "res://levels/level_editor_data/level_1_editor.json",
 		"path": "res://levels/level_data/level_1.json",
-		"song_idx": "",
+		"song_path": "",
 		"title": "Level 1"
 	},
 	{
@@ -12,7 +12,7 @@
 		"beatmapper": "Ava the Raccoon",
 		"editor_path": "res://levels/level_editor_data/Level 2_editor.json",
 		"path": "res://levels/level_data/Level 2.json",
-		"song_idx": -1,
+		"song_path": "",
 		"title": "Level 2"
 	}
 ]

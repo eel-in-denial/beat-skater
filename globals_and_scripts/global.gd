@@ -35,9 +35,19 @@ var is_calibrated := false
 
 func _ready() -> void:
 	current_song = bg_music.stream
-	var dir = DirAccess.open("user://levels")
-	if not dir:
-		pass
+	var persist_dir := DirAccess.open("user://")
+	if persist_dir:
+		if persist_dir.dir_exists("levels"):
+			# method that will load saves
+			pass
+		else:
+			persist_dir.make_dir("levels")
+			persist_dir.make_dir("levels/level_data")
+			persist_dir.make_dir("levels/level_editor_data")
+			persist_dir.make_dir("levels/music")
+			save_json_data("user://levels/levels_community.json", [])
+	else:
+		printerr("An error occurred trying to open persistent user:// directory. Error: ", DirAccess.get_open_error())
 
 # Called every frame. 'delta' is the elapsed time since the = frame.
 func _process(delta: float) -> void:
@@ -120,3 +130,14 @@ func rename_file(old_path: String, new_path: String):
 			print("Error renaming file: ", error)
 	else:
 		print("Old file does not exist.")
+
+func delete_file(path: String):
+	var dir = DirAccess.open(path.get_base_dir())
+	if dir:
+		var error = dir.remove(path.get_file())
+		if error == OK:
+			print("file deleted")
+		else:
+			print("error deleting file")
+	else:
+		print("not a valid directory")

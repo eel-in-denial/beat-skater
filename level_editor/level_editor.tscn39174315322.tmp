@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=20 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="Script" uid="uid://wfojuoc2r3k6" path="res://level_editor/levels_nav.gd" id="3_6i4ak"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
 [ext_resource type="Script" uid="uid://dfy12t2xdk1ug" path="res://level_editor/beat_editor.gd" id="3_shrsc"]
 [ext_resource type="Script" uid="uid://caus5tchnhm0d" path="res://level_editor/edit_popup.gd" id="6_6i4ak"]
-[ext_resource type="Script" uid="uid://c1x4advdvkaqo" path="res://level_editor/song_picker.gd" id="7_5bly7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gylj0"]
 
@@ -28,24 +27,6 @@ bg_color = Color(0.13319641, 0.13319641, 0.13319635, 1)
 bg_color = Color(0, 0.7107778, 0.46967602, 1)
 corner_radius_top_left = 32
 corner_radius_top_right = 32
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klrdm"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0.57103866, 0.520242, 1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omame"]
-content_margin_left = 16.0
-content_margin_top = 4.0
-content_margin_right = 16.0
-content_margin_bottom = 4.0
-bg_color = Color(0.39688924, 0.39688927, 0.3968891, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xo82"]
 bg_color = Color(0.13682574, 0.13682574, 0.13682568, 1)
@@ -249,46 +230,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxFlat_8p1j5")
 text = "+"
-
-[node name="PopupPanel" type="PopupPanel" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav"]
-process_mode = 2
-oversampling_override = 1.0
-size = Vector2i(164, 150)
-theme_override_styles/panel = SubResource("StyleBoxFlat_klrdm")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -66.0
-offset_top = -59.0
-offset_right = 66.0
-offset_bottom = 59.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 12
-
-[node name="Edit" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_omame")
-text = "Edit"
-
-[node name="Delete" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_omame")
-text = "Delete"
-
-[node name="RightClickPopup" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/LevelsNav"]
-visible = false
-custom_minimum_size = Vector2(160, 140)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_klrdm")
 
 [node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/UIContainer/HBoxContainer"]
 layout_mode = 2
@@ -507,7 +448,6 @@ text_overrun_behavior = 5
 clip_text = true
 item_count = 1
 popup/item_0/id = 0
-script = ExtResource("7_5bly7")
 
 [node name="Control2" type="Control" parent="CanvasLayer/EditPopup/VBoxContainer"]
 layout_mode = 2
@@ -517,15 +457,21 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_constants/separation = 16
 
+[node name="Delete" type="Button" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4whol")
+text = "Delete"
+
+[node name="Control" type="Control" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Cancel" type="Button" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_4whol")
 text = "Cancel"
-
-[node name="Control" type="Control" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="Save" type="Button" parent="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -536,11 +482,8 @@ text = "Save"
 [connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/BPM" to="." method="_on_bpm_text_changed"]
 [connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/InitSpeed" to="." method="_on_init_speed_text_changed"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Bake" to="." method="_on_bake_pressed"]
-[connection signal="item_clicked" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_clicked"]
+[connection signal="item_selected" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_selected"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_new_level_pressed"]
-[connection signal="popup_hide" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_popup_panel_popup_hide"]
-[connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel/VBoxContainer/Edit" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_edit_pressed"]
-[connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel/VBoxContainer/Delete" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_delete_pressed"]
 [connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat1Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_1_button_toggled"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat2Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_2_button_toggled"]
@@ -550,6 +493,6 @@ text = "Save"
 [connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/TotalBars" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_total_bars_text_changed"]
 [connection signal="gui_input" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_gui_input"]
 [connection signal="scrolling" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor/HScrollBar" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_h_scroll_bar_scrolling"]
-[connection signal="toggled" from="CanvasLayer/EditPopup/CheckButton" to="CanvasLayer/EditPopup" method="_on_check_button_toggled"]
+[connection signal="pressed" from="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer/Delete" to="CanvasLayer/EditPopup" method="_on_delete_pressed"]
 [connection signal="pressed" from="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer/Cancel" to="CanvasLayer/EditPopup" method="_on_cancel_pressed"]
 [connection signal="pressed" from="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer/Save" to="CanvasLayer/EditPopup" method="_on_save_pressed"]

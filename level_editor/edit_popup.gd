@@ -8,8 +8,10 @@ extends Panel
 @onready var song := $VBoxContainer/Song
 @onready var community_toggle := $CheckButton
 
-var song_index := -1
+var level_index := -1
 var curr_song_data: Dictionary
+var music_path: String
+var songs_array: Array
 
 signal save_song_data(idx: int, data: Dictionary)
 
@@ -25,7 +27,7 @@ func pop_up(data := {
 		"beatmapper": "",
 		"path": "",
 		"editor_path": "",
-		"song_idx": -1
+		"song_path": "",
 	},
 	"body_info": {
 		"bpm": 0,
@@ -35,7 +37,7 @@ func pop_up(data := {
 }, idx: int = -1):
 	visible = true
 	curr_song_data = data
-	song_index = idx
+	level_index = idx
 	set_values()
 	
 func close():
@@ -48,8 +50,11 @@ func set_values():
 	beatmapper.text = curr_song_data["header_info"]["beatmapper"]
 	bpm.text = str(curr_song_data["body_info"]["bpm"])
 	init_player_speed.text = str(curr_song_data["body_info"]["init_player_speed"])
-	song.selected = curr_song_data["header_info"]["song_idx"]
 	community_toggle.button_pressed = curr_song_data["community"]
+	music_path = "res://levels/music"
+	songs_array = song.dir_contents(music_path)
+	song.selected = songs_array.find(curr_song_data["header_info"]["song_path"])
+	
 
 func get_values():
 	curr_song_data["header_info"]["title"] = title.text
@@ -57,7 +62,7 @@ func get_values():
 	curr_song_data["header_info"]["beatmapper"] = beatmapper.text
 	curr_song_data["body_info"]["bpm"] = int(bpm.text)
 	curr_song_data["body_info"]["init_player_speed"] = float(init_player_speed.text)
-	curr_song_data["header_info"]["song_idx"] = song.selected
+	curr_song_data["header_info"]["song_path"] = music_path + song.get_item_text(song.selected)
 	curr_song_data["community"] = community_toggle.button_pressed
 
 func _on_cancel_pressed() -> void:
@@ -66,7 +71,14 @@ func _on_cancel_pressed() -> void:
 func _on_save_pressed() -> void:
 	get_values()
 	close()
-	save_song_data.emit(song_index, curr_song_data)
+	save_song_data.emit(level_index, curr_song_data)
 
-func _on_delete_pressed() -> void:
-	pass # Replace with function body.
+
+func _on_check_button_toggled(toggled_on: bool) -> void:
+	curr_song_data["community"] = toggled_on
+	if toggled_on:
+		music_path = "user://levels/music"
+		songs_array = song.dir_contents(music_path)
+	else:
+		music_path = "res://levels/music"
+		songs_array = song.dir_contents(music_path)

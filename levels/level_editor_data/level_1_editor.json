@@ -2,9 +2,9 @@
 	"beats": [
 		{
 			"beat": 3.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
@@ -12,6 +12,13 @@
 			"beat_type": 1.0,
 			"duration": 0.0,
 			"height": 2.0,
+			"press_type": "tap"
+		},
+		{
+			"beat": 5.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 3.0,
 			"press_type": "tap"
 		},
 		{

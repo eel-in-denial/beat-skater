@@ -14,7 +14,6 @@ var beat_file = preload("res://level_assets/beat/beat.tscn")
 @export_group("Song Details")
 @export var title := ""
 @export var artist := ""
-@export var bpm := 100
 @export var song: AudioStreamOggVorbis
 
 @export_group("Player Presets")
@@ -42,9 +41,6 @@ var editable_node = preload("res://level_editor/editable_node/editable_node.tscn
 var init_in_vector := Vector2(-100, 0)
 var init_out_vector := Vector2(100, 0)
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	Global.init_editor(load("res://songs/roulette round 2 slow.ogg"), bpm)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -104,10 +100,9 @@ func load_level():
 	path.curve.add_point(Vector2.ZERO)
 	var level_data = Global.load_json_data(editor_json_path)
 	print(editor_json_path)
-	bpm = level_data["bpm"]
-	Global.init_editor(load("res://songs/roulette round 2 slow.ogg"), bpm)
+	Global.init_editor(load("res://levels/music/roulette round 2 slow.ogg"), level_data["bpm"])
 	init_player_speed = level_data["init_player_speed"]
-	beat_editor.load_level(level_data["beats"], level_data["beats_per_bar"] ,level_data["total_beats"])
+	beat_editor.load_level(level_data["beats"], level_data["beats_per_bar"] ,level_data["total_bars"])
 	var i := 1
 	for node in level_data["curve_points"]:
 		add_edditable_node(Vector2(node["pos"][0], node["pos"][1]), i)
@@ -168,7 +163,7 @@ func save_editor():
 		})
 	
 	var editor_save = {
-		"bpm": bpm,
+		"bpm": Global.bpm,
 		"init_player_speed": init_player_speed,
 		"beats": beats_data_array,
 		"curve_points": path_nodes_data_array,
@@ -185,8 +180,7 @@ func _on_bake_pressed() -> void:
 
 
 func _on_bpm_text_changed(new_text: String) -> void:
-	bpm = int(new_text)
-	Global.init_editor(load("res://songs/roulette round 2 slow.ogg"), bpm)
+	Global.init_editor(load("res://levels/music/roulette round 2 slow.ogg"), int(new_text))
 
 func _on_init_speed_text_changed(new_text: String) -> void:
 	init_player_speed = float(new_text)
