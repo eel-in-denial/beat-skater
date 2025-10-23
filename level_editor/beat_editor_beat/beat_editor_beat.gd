@@ -1,6 +1,9 @@
 extends Control
 class_name EditorBeat
 
+signal delete(beat: EditorBeat)
+signal selected(beat: EditorBeat)
+
 @onready var panel := $Beat
 var beat_type :=  1
 var press_type := "tap"
@@ -31,6 +34,10 @@ func initialise(
 	#if press_type == "hold":
 		#hold_initialise(pos, data, length_array)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+
+func _on_beat_gui_input(event: InputEvent) -> void:
+	if event.is_action("right_click"):
+		delete.emit(self)
+		queue_free()
+	elif event.is_action_pressed("left_click"):
+		selected.emit(self)

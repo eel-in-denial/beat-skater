@@ -19,3 +19,6 @@ offset_bottom = 10.0
 rotation = 0.7853982
 pivot_offset = Vector2(10, 10)
 theme_override_styles/panel = SubResource("StyleBoxFlat_mv833")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="gui_input" from="Beat" to="." method="_on_beat_gui_input"]

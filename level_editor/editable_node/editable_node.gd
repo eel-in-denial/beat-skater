@@ -12,6 +12,11 @@ var drag_index: int = 0
 
 var index: int = 0
 
+func set_points(pos: Vector2, in_pos: Vector2, out_pos: Vector2):
+	position = pos
+	in_collision.position = in_pos
+	out_collision.position = out_pos
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var mouse_pos = get_global_mouse_position()

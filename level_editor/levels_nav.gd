@@ -96,7 +96,12 @@ func _on_edit_pressed() -> void:
 func _on_delete_pressed() -> void:
 	right_click_popup.hide()
 	Global.delete_file(res_level_data[level_idx]["path"])
+	print(res_level_data[level_idx]["editor_path"])
 	Global.delete_file(res_level_data[level_idx]["editor_path"])
 	res_level_data.pop_at(level_idx)
 	items_list_res.remove_item(level_idx)
 	Global.save_json_data("res://levels/level_data/levels_res.json", res_level_data)
+	if items_list_res.is_selected(level_idx):
+		items_list_res.select(max(level_idx-1, 0))
+		_on_item_list_res_item_clicked(max(level_idx-1, 0), Vector2.ZERO, MOUSE_BUTTON_LEFT)
+		

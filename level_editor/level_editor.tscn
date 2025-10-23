@@ -1,11 +1,13 @@
-[gd_scene load_steps=24 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=26 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="Script" uid="uid://cf20bgsrvj0si" path="res://level_editor/camera_2d.gd" id="2_73q88"]
 [ext_resource type="Script" uid="uid://wfojuoc2r3k6" path="res://level_editor/levels_nav.gd" id="3_6i4ak"]
 [ext_resource type="ButtonGroup" uid="uid://wq3eke3ucspi" path="res://level_editor/beat_editor_buttons.tres" id="3_6xo82"]
+[ext_resource type="Script" uid="uid://btlfmkuy7hikv" path="res://level_editor/level_editor_player.gd" id="3_8p1j5"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
 [ext_resource type="Script" uid="uid://dfy12t2xdk1ug" path="res://level_editor/beat_editor.gd" id="3_shrsc"]
+[ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://player/player.tscn" id="4_mv833"]
 [ext_resource type="Script" uid="uid://caus5tchnhm0d" path="res://level_editor/edit_popup.gd" id="6_6i4ak"]
 [ext_resource type="Script" uid="uid://c1x4advdvkaqo" path="res://level_editor/song_picker.gd" id="7_5bly7"]
 
@@ -112,10 +114,15 @@ beat_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Be
 position = Vector2(960, 540)
 script = ExtResource("2_73q88")
 
-[node name="Level" type="Node2D" parent="."]
+[node name="Level" type="Node2D" parent="." node_paths=PackedStringArray("play_toggle", "beat_editor")]
 position = Vector2(931, 401)
+script = ExtResource("3_8p1j5")
+play_toggle = NodePath("../CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Play")
+beat_editor = NodePath("../CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor")
 
 [node name="LevelPath" parent="Level" instance=ExtResource("3_h1ywe")]
+
+[node name="Player" parent="Level" instance=ExtResource("4_mv833")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -177,6 +184,14 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
 text = "100"
+
+[node name="Play" type="Button" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_mv833")
+toggle_mode = true
+text = "Play"
 
 [node name="Control" type="Control" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
@@ -554,6 +569,7 @@ text = "Save"
 
 [connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/BPM" to="." method="_on_bpm_text_changed"]
 [connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/InitSpeed" to="." method="_on_init_speed_text_changed"]
+[connection signal="toggled" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Play" to="Level" method="_on_play_toggled"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Bake" to="." method="_on_bake_pressed"]
 [connection signal="item_clicked" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_clicked"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_new_level_pressed"]

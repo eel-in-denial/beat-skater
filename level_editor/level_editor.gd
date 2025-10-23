@@ -73,10 +73,10 @@ func set_curve_points(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2)
 	path.curve.set_point_in(idx, in_pos - pos)
 	path.curve.set_point_out(idx, out_pos - pos)
 
-func add_edditable_node(position: Vector2, index: int):
+func add_edditable_node(position: Vector2, index: int, in_pos := init_in_vector, out_pos := init_out_vector):
 	var new_point: EditableNode = editable_node.instantiate()
 	level.add_child(new_point)
-	new_point.position = position
+	new_point.set_points(position, in_pos, out_pos)
 	new_point.index = index
 	new_point.update_path.connect(edit_curve_point)
 	path_nodes_array.append(new_point)
@@ -104,9 +104,13 @@ func load_level():
 	beat_editor.load_level(level_data["beats"], level_data["beats_per_bar"] ,level_data["total_bars"])
 	var i := 1
 	for node in level_data["curve_points"]:
-		add_edditable_node(Vector2(node["pos"][0], node["pos"][1]), i)
+		var pos := Vector2(node["pos"][0], node["pos"][1])
+		var in_pos := Vector2(node["in_pos"][0], node["in_pos"][1])
+		var out_pos := Vector2(node["out_pos"][0], node["out_pos"][1])
+		add_edditable_node(pos, i, in_pos, out_pos)
 		path.curve.add_point(Vector2.ZERO, init_in_vector, init_out_vector)
-		set_curve_points(i, Vector2(node["pos"][0], node["pos"][1]), Vector2(node["in_pos"][0], node["in_pos"][1]), Vector2(node["out_pos"][0], node["out_pos"][1]))
+		set_curve_points(i, pos, pos+in_pos, pos+out_pos)
+		
 		i += 1
 	beat_editor.beats_per_bar = level_data["beats_per_bar"]
 	beat_editor.total_bars = level_data["total_bars"]
@@ -160,8 +164,8 @@ func save_editor():
 	for node in path_nodes_array:
 		path_nodes_data_array.append({
 			"pos": [node.position.x, node.position.y],
-			"in_pos": [node.position.x + node.in_collision.position.x, node.position.y + node.in_collision.position.y], 
-			"out_pos": [node.position.x + node.out_collision.position.x, node.position.y + node.out_collision.position.y]
+			"in_pos": [node.in_collision.position.x, node.in_collision.position.y], 
+			"out_pos": [node.out_collision.position.x, node.out_collision.position.y]
 		})
 	
 	var editor_save = {

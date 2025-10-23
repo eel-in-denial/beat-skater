@@ -3,13 +3,12 @@ class_name BeatEditor
 
 enum {Beat1, Beat2}
 var edit_mode = Beat1
-var is_left_mouse_held := false
 var is_right_mouse_held := false
 var snapping := 1.0
 var num_lanes: int = 4
 var min_lane_height := 40.0
 var lane_height := 100.0
-var bottom_margin := 100.0
+var bottom_margin := 50.0
 var top_margin := 50.0
 var left_margin := 50.0
 var right_margin := 50.0
@@ -68,20 +67,22 @@ func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
 		beats.append(add_beat(data))
 	for i in range(total_bars + 1):
 		bar_x_positions.append(0.0)
-	update_beat_heights()
-	update_beat_widths()
 	update_scroll_page()
 	update_lanes()
 	update_bars()
+	update_beat_heights()
+	update_beat_widths()
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	print(curr_held_beat)
 	var mouse_pos = get_local_mouse_position()
-	if is_left_mouse_held:
+	if curr_held_beat:
 		curr_held_beat.beat_data["height"] = snap_lane(mouse_pos)
 		curr_held_beat.beat_data["beat"] = snap_beat(mouse_pos)
 		update_single_beat(curr_held_beat)
+				
 	queue_redraw()
 
 func update_lanes():
@@ -100,12 +101,12 @@ func update_bars():
 func update_beat_heights():
 	for b in beats:
 		b.position.y = lane_y_positions[b.beat_data["height"]]
-		b.visible = false if b.position.y < top_margin else true
+		b.visible = false if b.position.x < left_margin or b.position.x > size.x - right_margin or b.position.y < top_margin else true
 		
 func update_beat_widths():
 	for b in beats:
 		b.position.x = left_margin + (b.beat_data["beat"] - beat_position) * beat_width
-		b.visible = false if b.position.x < left_margin or b.position.x > size.x - right_margin else true
+		b.visible = false if b.position.x < left_margin or b.position.x > size.x - right_margin or b.position.y < top_margin else true
 
 func update_single_beat(beat: EditorBeat):
 	beat.position = Vector2(left_margin + (beat.beat_data["beat"] - beat_position) * beat_width, lane_y_positions[beat.beat_data["height"]])
@@ -140,37 +141,52 @@ func _draw() -> void:
 						draw_line(Vector2(x, lane_y_positions[0]), Vector2(x, top_lane), Color.LEMON_CHIFFON, 2)
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
-		is_left_mouse_held = true
 		place_beat()
 	elif event.is_action_pressed("right_click"):
 		is_right_mouse_held = true
+		print("askjdf")
 	elif event.is_action_released("left_click"):
-		is_left_mouse_held = false
 		level_editor.bake()
 		level_editor.save_editor()
+		curr_held_beat = null
 	elif event.is_action_released("right_click"):
 		is_right_mouse_held = false
+		curr_held_beat = null
 
 func place_beat():
 	var mouse_pos = get_local_mouse_position()
 	var height = snap_lane(mouse_pos)
 	var beat = snap_beat(mouse_pos)
-	var data = {
-		"beat_type": 1 if edit_mode == Beat1 else 2,
-		"press_type": "tap",
-		"height": height,
-		"beat": beat,
-		"duration": 0
-	}
-	curr_held_beat = add_beat(data)
-	beats.insert(beats.bsearch_custom(curr_held_beat, sort_by_beat), curr_held_beat)
+	for b in beats:
+		if b.height == height and b.beat_data["beat"] == beat:
+			curr_held_beat = b
+	if not curr_held_beat:
+		var data = {
+			"beat_type": 1 if edit_mode == Beat1 else 2,
+			"press_type": "tap",
+			"height": height,
+			"beat": beat,
+			"duration": 0
+		}
+		curr_held_beat = add_beat(data)
+		beats.insert(beats.bsearch_custom(curr_held_beat, sort_by_beat), curr_held_beat)
 
 func add_beat(data: Dictionary) -> EditorBeat:
 	var new_beat: EditorBeat = beat_scene.instantiate()
 	add_child(new_beat)
 	new_beat.initialise(data)
+	new_beat.delete.connect(delete_beat)
+	new_beat.selected.connect(selected_beat)
 	new_beat.position = Vector2(left_margin + (data["beat"] - beat_position) * beat_width, lane_y_positions[data["height"]])
 	return new_beat
+
+func selected_beat(b: EditorBeat):
+	curr_held_beat = b
+
+func delete_beat(beat: EditorBeat):
+	beats.erase(beat)
+	level_editor.bake()
+	level_editor.save_editor()
 
 func sort_by_beat(a: EditorBeat, b: EditorBeat):
 	if a.beat_data["beat"] < b.beat_data["beat"]:
