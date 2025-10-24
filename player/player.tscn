@@ -7,10 +7,12 @@
 script = ExtResource("1_rkbax")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -110)
 texture = ExtResource("2_qqgw4")
 offset = Vector2(640, -120)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(500, 0)
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0

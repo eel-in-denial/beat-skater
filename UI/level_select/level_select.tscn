@@ -76,15 +76,6 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 40
 text = "Next"
 
-[node name="Button" type="Button" parent="CanvasLayer/Control"]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 21.0
-offset_right = 174.0
-offset_bottom = 65.0
-text = "Level Create"
-
 [connection signal="pressed" from="CanvasLayer/Control/Control2/HBoxContainer/Prev" to="." method="_on_prev_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Control2/HBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Control2/HBoxContainer/Next" to="." method="_on_next_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/Button" to="." method="_on_button_pressed"]

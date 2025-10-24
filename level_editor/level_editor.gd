@@ -15,7 +15,7 @@ var beat_file = preload("res://level_assets/beat/beat.tscn")
 @export var init_player_speed := 50.0
 @export var player_jump_height := 500
 @export var player_screen_position := Vector2(480.0, 0)
-@export var gravity := Vector2(0, 980)
+@export var gravity := Vector2(0, 1200)
 
 @onready var level := $Level
 @onready var path: Path2D = $Level/LevelPath
@@ -99,7 +99,7 @@ func load_level():
 	path.curve.add_point(Vector2.ZERO)
 	var level_data = Global.load_json_data(editor_json_path)
 	print(editor_json_path)
-	Global.init_editor(load(levels_nav.current_level["song_path"]), level_data["bpm"])
+	Global.init_song(load(levels_nav.current_level["song_path"]), level_data["bpm"])
 	init_player_speed = level_data["init_player_speed"]
 	beat_editor.load_level(level_data["beats"], level_data["beats_per_bar"] ,level_data["total_bars"])
 	var i := 1
@@ -182,13 +182,40 @@ func save_editor():
 
 
 func _on_bake_pressed() -> void:
-	pass # Replace with function body.
+	var beats_data_array = []
+	for beat in beats_array:
+		var new_dict = beat.beat_data
+		new_dict["pos"] = [beat.position.x, beat.position.y]
+		beats_data_array.append(new_dict)
+	for point in baked_points_array:
+		point["pos"] = vector_to_array(point["pos"])
+		point["tangent"] = vector_to_array(point["tangent"])
+	var level_save = {
+		"bpm": Global.bpm,
+		"init_player_speed": init_player_speed,
+		"beats": beats_data_array,
+		"baked_points": baked_points_array
+	}
+	get_tree().paused = true
+	var panelthing = $CanvasLayer/Panel
+	panelthing.visible = true
+	await Global.save_json_data(level_json_path, level_save)
+	get_tree().paused = false
+	panelthing.visible = false
 
+func vector_to_array(vector: Vector2):
+	return [vector.x, vector.y]
 
 func _on_bpm_text_changed(new_text: String) -> void:
 	Global.bpm = int(new_text)
 	bake()
+	save_editor()
 
 func _on_init_speed_text_changed(new_text: String) -> void:
 	init_player_speed = float(new_text)
 	bake()
+	save_editor()
+
+
+func _on_exit_toggled(toggled_on: bool) -> void:
+	GameManager.change_scene("title_screen")

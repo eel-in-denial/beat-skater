@@ -14,7 +14,8 @@ var hit_time := 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Global.new_level(music, bpm)
+	Global.init_song(music, bpm)
+	Global.play(0)
 	countdown_timer = Global.sec_per_beat * 4
 	hit_time = Global.sec_per_beat * 8
 

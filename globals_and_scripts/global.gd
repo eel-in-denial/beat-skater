@@ -1,7 +1,9 @@
 extends Node
 
-@onready var bg_music := $BGM
+@onready var bg_music: AudioStreamPlayer = $BGM
 
+signal play_signal
+signal pause_signal
 signal song_end
 signal hit_accuracy(value: float)
 
@@ -28,7 +30,8 @@ var input_offset := 0.0
 
 var current_song
 
-var enabled := false
+var is_playing := false
+var start_time := 0.0
 
 enum hit {Perfect, Good, OK, Miss}
 
@@ -54,31 +57,34 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the = frame.
 func _process(delta: float) -> void:
-	if enabled:
-		song_position = (Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset
+	if is_playing:
+		song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
 		beat_position = song_position/sec_per_beat
 
-func new_level(new_song: Resource, new_bpm: int):
+func init_song(new_song: Resource, new_bpm: int):
+	bg_music.stream = new_song
+	bpm = new_bpm
+	current_song = bg_music.stream
+	song_duration = bg_music.stream.get_length()
+
+func play(beat_pos: float):
 	time_begin = Time.get_ticks_usec()
 	audio_offset = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
-	bg_music.stream = new_song
-	bpm = new_bpm
-	sec_per_beat = 60.0 / bpm
-	bg_music.play()
-	enabled = true
-	current_song = bg_music.stream
-	song_duration = bg_music.stream.get_length()
+	start_time = beat_pos*sec_per_beat
+	bg_music.play(start_time)
+	play_signal.emit()
+	is_playing = true
 
-func init_editor(new_song: Resource, new_bpm: int):
-	bg_music.stream = new_song
-	bpm = new_bpm
-	current_song = bg_music.stream
-	song_duration = bg_music.stream.get_length()
-	
+func play_with_countdown():
+	pass
 
-func reset():
+func play_background():
+	bg_music.play(start_time)
+
+func pause():
 	bg_music.stop()
-	enabled = false
+	is_playing = false
+	pause_signal.emit()
 
 func check_is_on_beat(time_pos := 0.0):
 	var diff: float = abs(song_position - time_pos)
@@ -94,6 +100,7 @@ func check_is_on_beat(time_pos := 0.0):
 func check_is_on_beat_percent():
 	return beat_position
 func _on_bgm_finished() -> void:
+	is_playing = false
 	song_end.emit()
 	
 	

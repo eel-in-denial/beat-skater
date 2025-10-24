@@ -3,6 +3,7 @@ class_name EditorBeat
 
 signal delete(beat: EditorBeat)
 signal selected(beat: EditorBeat)
+signal dropped
 
 @onready var panel := $Beat
 var beat_type :=  1
@@ -41,3 +42,5 @@ func _on_beat_gui_input(event: InputEvent) -> void:
 		queue_free()
 	elif event.is_action_pressed("left_click"):
 		selected.emit(self)
+	elif event.is_action_released("left_click"):
+		dropped.emit()

@@ -76,7 +76,6 @@ func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print(curr_held_beat)
 	var mouse_pos = get_local_mouse_position()
 	if curr_held_beat:
 		curr_held_beat.beat_data["height"] = snap_lane(mouse_pos)
@@ -153,6 +152,12 @@ func _on_gui_input(event: InputEvent) -> void:
 		is_right_mouse_held = false
 		curr_held_beat = null
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("editor_num_1"):
+		_on_beat_1_button_toggled(true)
+	elif event.is_action_pressed("editor_num_2"):
+		_on_beat_2_button_toggled(true)
+
 func place_beat():
 	var mouse_pos = get_local_mouse_position()
 	var height = snap_lane(mouse_pos)
@@ -177,6 +182,7 @@ func add_beat(data: Dictionary) -> EditorBeat:
 	new_beat.initialise(data)
 	new_beat.delete.connect(delete_beat)
 	new_beat.selected.connect(selected_beat)
+	new_beat.dropped.connect(drop_beat)
 	new_beat.position = Vector2(left_margin + (data["beat"] - beat_position) * beat_width, lane_y_positions[data["height"]])
 	return new_beat
 
@@ -184,7 +190,14 @@ func selected_beat(b: EditorBeat):
 	curr_held_beat = b
 
 func delete_beat(beat: EditorBeat):
+	level_editor.beats_array.pop_back().queue_free()
 	beats.erase(beat)
+	print(beats)
+	level_editor.bake()
+	level_editor.save_editor()
+
+func drop_beat():
+	curr_held_beat = null
 	level_editor.bake()
 	level_editor.save_editor()
 
@@ -235,7 +248,7 @@ func _on_beats_per_bar_text_changed(new_text: String) -> void:
 	level_editor.save_editor()
 	
 func _on_snapping_text_changed(new_text: String) -> void:
-	if int(new_text) > 0:
+	if float(new_text) > 0:
 		snapping = float(new_text)
 
 func _on_total_bars_text_changed(new_text: String) -> void:

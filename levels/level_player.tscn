@@ -1,27 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b32omb74nxg7c"]
+[gd_scene load_steps=4 format=3 uid="uid://b32omb74nxg7c"]
 
 [ext_resource type="Script" uid="uid://cnu6pqrxeqr5h" path="res://levels/level_player.gd" id="1_pihvh"]
-[ext_resource type="Texture2D" uid="uid://binuhy6esxq8p" path="res://level_assets/floor/Untitled_Artwork-2.png" id="3_abvnd"]
-[ext_resource type="Texture2D" uid="uid://ejqir7kmsfgi" path="res://level_assets/background/BackgroundDraft.png" id="3_fi75e"]
 [ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://player/player.tscn" id="4_jdiw6"]
-[ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="6_oae5j"]
 [ext_resource type="Script" uid="uid://bn7kvmt14uwob" path="res://levels/rhythm_logic.gd" id="7_g4c03"]
 
 [node name="LevelPlayer" type="Node2D"]
 script = ExtResource("1_pihvh")
-
-[node name="Background" type="Sprite2D" parent="."]
-texture_repeat = 2
-texture = ExtResource("3_fi75e")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 10000, 1080)
-
-[node name="Floor" type="Sprite2D" parent="."]
-texture = ExtResource("3_abvnd")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 1920, 1080)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -44,8 +28,9 @@ value = 50.0
 
 [node name="Player" parent="." instance=ExtResource("4_jdiw6")]
 
-[node name="LevelPath" parent="." instance=ExtResource("6_oae5j")]
-
 [node name="RhythmLogic" type="Node" parent="." node_paths=PackedStringArray("label")]
 script = ExtResource("7_g4c03")
-label = NodePath("")
+label = NodePath("../CanvasLayer/Label2")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.50928617, 0.50928617, 0.50928617, 1)

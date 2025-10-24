@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=28 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="Script" uid="uid://cf20bgsrvj0si" path="res://level_editor/camera_2d.gd" id="2_73q88"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://btlfmkuy7hikv" path="res://level_editor/level_editor_player.gd" id="3_8p1j5"]
 [ext_resource type="PackedScene" uid="uid://ihixssucxr78" path="res://level_assets/floor/level_path.tscn" id="3_h1ywe"]
 [ext_resource type="Script" uid="uid://dfy12t2xdk1ug" path="res://level_editor/beat_editor.gd" id="3_shrsc"]
-[ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://player/player.tscn" id="4_mv833"]
+[ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://player/player.tscn" id="5_8p1j5"]
 [ext_resource type="Script" uid="uid://caus5tchnhm0d" path="res://level_editor/edit_popup.gd" id="6_6i4ak"]
 [ext_resource type="Script" uid="uid://c1x4advdvkaqo" path="res://level_editor/song_picker.gd" id="7_5bly7"]
 
@@ -19,6 +19,17 @@ content_margin_top = 8.0
 content_margin_right = 24.0
 content_margin_bottom = 8.0
 bg_color = Color(0.1874786, 0.72065717, 9.62615e-07, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xa1rm"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.31797472, 0.44834983, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
@@ -105,6 +116,9 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jm8d3"]
+bg_color = Color(0.98405033, 0.00044126273, 0.9136218, 1)
+
 [node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("beat_editor")]
 process_mode = 1
 script = ExtResource("1_7e0dv")
@@ -114,15 +128,17 @@ beat_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/Be
 position = Vector2(960, 540)
 script = ExtResource("2_73q88")
 
-[node name="Level" type="Node2D" parent="." node_paths=PackedStringArray("play_toggle", "beat_editor")]
+[node name="Level" type="Node2D" parent="." node_paths=PackedStringArray("play_toggle", "beat_editor", "level_editor", "editor_camera")]
 position = Vector2(931, 401)
 script = ExtResource("3_8p1j5")
 play_toggle = NodePath("../CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Play")
 beat_editor = NodePath("../CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor")
+level_editor = NodePath("..")
+editor_camera = NodePath("../Camera2D")
 
 [node name="LevelPath" parent="Level" instance=ExtResource("3_h1ywe")]
 
-[node name="Player" parent="Level" instance=ExtResource("4_mv833")]
+[node name="Player" parent="Level" instance=ExtResource("5_8p1j5")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -192,6 +208,14 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_mv833")
 toggle_mode = true
 text = "Play"
+
+[node name="Exit" type="Button" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_xa1rm")
+toggle_mode = true
+text = "Exit"
 
 [node name="Control" type="Control" parent="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer"]
 layout_mode = 2
@@ -567,9 +591,18 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_7hgig")
 text = "Save"
 
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+visible = false
+offset_left = 43.0
+offset_top = 53.0
+offset_right = 1893.0
+offset_bottom = 1050.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jm8d3")
+
 [connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/BPM" to="." method="_on_bpm_text_changed"]
 [connection signal="text_changed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/InitSpeed" to="." method="_on_init_speed_text_changed"]
 [connection signal="toggled" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Play" to="Level" method="_on_play_toggled"]
+[connection signal="toggled" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Exit" to="." method="_on_exit_toggled"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Bake" to="." method="_on_bake_pressed"]
 [connection signal="item_clicked" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/ItemListRes" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_item_list_res_item_clicked"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/Panel/VBoxContainer/NewLevel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_new_level_pressed"]

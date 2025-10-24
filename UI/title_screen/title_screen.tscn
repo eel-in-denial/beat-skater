@@ -41,6 +41,16 @@ theme_override_font_sizes/font_size = 80
 theme_override_styles/normal = SubResource("StyleBoxFlat_5eojx")
 text = "Exit"
 
+[node name="LevelCreator" type="Button" parent="."]
+offset_left = 1511.0001
+offset_top = 736.0
+offset_right = 2157.0
+offset_bottom = 894.0
+rotation = -1.5786432
+theme_override_font_sizes/font_size = 80
+theme_override_styles/normal = SubResource("StyleBoxFlat_5eojx")
+text = "Level Creator"
+
 [node name="Label" type="Label" parent="."]
 offset_left = 645.0
 offset_top = 838.0
@@ -52,3 +62,4 @@ autowrap_mode = 2
 
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="LevelCreator" to="." method="_on_level_creator_pressed"]
