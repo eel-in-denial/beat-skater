@@ -8,8 +8,8 @@ var height := 0
 var time_pos := 0.0
 var hold_time := 0.0
 var hold_position := 0.0
-var hold_beat: CollisionShape2D
-var hold_line: Line2D
+@onready var hold_beat = $HoldBeat
+@onready var hold_line = $HoldLine
 var is_held = false
 var is_long_playing = false
 
@@ -35,7 +35,9 @@ func initialise(
 	time_pos = data["beat"] * Global.sec_per_beat 
 	height = data["height"]
 	press_type = data["press_type"]
-	
+	hold_beat.visible = false
+	hold_line.visible = false
+	hold_line.clear_points()
 	position = pos + Vector2(0, -100)
 	if beat_type == 1:
 		modulate = Color(1.0, 1.0, 1.0)
@@ -49,12 +51,9 @@ func hold_initialise(
 	length_array := []
 ):
 	hold_time = data["duration"] * Global.sec_per_beat
-	hold_beat = $HoldBeat
-	hold_line = $HoldLine
-	hold_beat.position.x = -hold_position
-	#hold_position = length_array[-1]
-	position.x += hold_position
-	for point in length_array:
-		hold_line.add_point(Vector2(point, 0))
-	
+
 	hold_beat.visible = true
+	hold_line.visible = true
+	if length_array:
+		hold_line.points = length_array
+		hold_beat.position = length_array[-1]

@@ -10,6 +10,7 @@ radius = 59.211487
 script = ExtResource("1_1vuhb")
 
 [node name="HoldLine" type="Line2D" parent="."]
+visible = false
 points = PackedVector2Array(0, 0)
 width = 40.0
 default_color = Color(0.25882354, 0.9137255, 1, 1)

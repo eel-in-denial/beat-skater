@@ -3,16 +3,16 @@
 		{
 			"beat": 4.0,
 			"beat_type": 1.0,
-			"duration": 0.0,
+			"duration": 2.0,
 			"height": 0.0,
-			"press_type": "tap"
+			"press_type": "hold"
 		},
 		{
 			"beat": 8.0,
 			"beat_type": 2.0,
-			"duration": 0.0,
+			"duration": 1.0,
 			"height": 0.0,
-			"press_type": "tap"
+			"press_type": "hold"
 		},
 		{
 			"beat": 12.0,
@@ -702,149 +702,149 @@
 		},
 		{
 			"beat": 113.5,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 113.75,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 114.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 114.25,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 115.5,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 115.75,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 117.5,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 117.75,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 118.0,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 118.25,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 119.5,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 120.0,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 121.5,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 121.75,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 122.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 122.25,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 123.5,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 124.0,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 124.5,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 125.0,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 125.5,
-			"beat_type": 2,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 2.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		}
 	],

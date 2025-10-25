@@ -3,6 +3,7 @@ class_name BeatEditor
 
 enum {Beat1, Beat2}
 var edit_mode = Beat1
+var is_left_mouse_held := false
 var is_right_mouse_held := false
 var snapping := 1.0
 var num_lanes: int = 4
@@ -26,6 +27,7 @@ var beats_per_bar := 4
 var beat_scene := preload("res://level_editor/beat_editor_beat/beat_editor_beat.tscn")
 var beats: Array[EditorBeat] = []
 var curr_held_beat: EditorBeat
+var curr_extended_beat: EditorBeat
 
 @onready var scroll := $HScrollBar
 @export var beats_per_bar_text: LineEdit
@@ -64,7 +66,9 @@ func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
 		b.queue_free()
 	beats = []
 	for data in beat_data:
-		beats.append(add_beat(data))
+		var b = add_beat(data)
+		beats.append(b)
+		b.update_line(beat_width)
 	for i in range(total_bars + 1):
 		bar_x_positions.append(0.0)
 	update_scroll_page()
@@ -77,25 +81,24 @@ func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var mouse_pos = get_local_mouse_position()
-	if curr_held_beat:
+	if is_left_mouse_held:
 		curr_held_beat.beat_data["height"] = snap_lane(mouse_pos)
 		curr_held_beat.beat_data["beat"] = snap_beat(mouse_pos)
 		update_single_beat(curr_held_beat)
-				
+	elif curr_extended_beat:
+		curr_extended_beat.beat_data["duration"] = snap_beat(mouse_pos) - curr_extended_beat.beat_data["beat"]
+		curr_extended_beat.update_line(beat_width)
 	queue_redraw()
 
 func update_lanes():
 	lane_height = max(min_lane_height, (size.y - bottom_margin)/num_lanes)
 	for i in range(num_lanes):
 		lane_y_positions[i] = size.y - (i*lane_height) - bottom_margin
-	print(lane_y_positions)
 
 func update_bars():
 	beat_position = scroll.value
-	print(beat_position)
 	for i in range(total_bars + 1):
 		bar_x_positions[i] = left_margin + (i - bar_position)*bar_width
-	print(bar_position)
 
 func update_beat_heights():
 	for b in beats:
@@ -113,7 +116,7 @@ func update_single_beat(beat: EditorBeat):
 
 func update_scroll_page():
 	scroll.page = (size.x - left_margin - right_margin) / beat_width
-	print((size.x - left_margin - right_margin) / bar_width)
+	
 
 func _draw() -> void:
 	var top_lane: float
@@ -140,17 +143,17 @@ func _draw() -> void:
 						draw_line(Vector2(x, lane_y_positions[0]), Vector2(x, top_lane), Color.LEMON_CHIFFON, 2)
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
+		is_left_mouse_held = true
 		place_beat()
 	elif event.is_action_pressed("right_click"):
 		is_right_mouse_held = true
 		print("askjdf")
 	elif event.is_action_released("left_click"):
+		is_left_mouse_held = false
 		level_editor.bake()
 		level_editor.save_editor()
-		curr_held_beat = null
 	elif event.is_action_released("right_click"):
 		is_right_mouse_held = false
-		curr_held_beat = null
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("editor_num_1"):
@@ -162,6 +165,7 @@ func place_beat():
 	var mouse_pos = get_local_mouse_position()
 	var height = snap_lane(mouse_pos)
 	var beat = snap_beat(mouse_pos)
+	curr_held_beat = null
 	for b in beats:
 		if b.height == height and b.beat_data["beat"] == beat:
 			curr_held_beat = b
@@ -183,21 +187,35 @@ func add_beat(data: Dictionary) -> EditorBeat:
 	new_beat.delete.connect(delete_beat)
 	new_beat.selected.connect(selected_beat)
 	new_beat.dropped.connect(drop_beat)
+	new_beat.extending_selected.connect(extended_selected)
+	new_beat.extending_unselected.connect(extended_unselected)
 	new_beat.position = Vector2(left_margin + (data["beat"] - beat_position) * beat_width, lane_y_positions[data["height"]])
 	return new_beat
 
+func extended_selected(b: EditorBeat):
+	curr_extended_beat = b
+	selected_beat(b)
+	print("skjdsf")
+
+func extended_unselected(b: EditorBeat):
+	curr_extended_beat = null
+	level_editor.bake()
+	level_editor.save_editor()
+
 func selected_beat(b: EditorBeat):
+	if curr_held_beat and curr_held_beat != curr_extended_beat:
+		if curr_held_beat.beat_data["press_type"] == "tap":
+			curr_held_beat.reset_to_tap()
+			
 	curr_held_beat = b
 
 func delete_beat(beat: EditorBeat):
 	level_editor.beats_array.pop_back().queue_free()
 	beats.erase(beat)
-	print(beats)
 	level_editor.bake()
 	level_editor.save_editor()
 
 func drop_beat():
-	curr_held_beat = null
 	level_editor.bake()
 	level_editor.save_editor()
 
@@ -261,7 +279,6 @@ func _on_total_bars_text_changed(new_text: String) -> void:
 		else:
 			for i in range(old_total_bars - total_bars):
 				bar_x_positions.pop_back()
-		print(total_bars, "  ",beats_per_bar)
 		scroll.max_value = total_bars * beats_per_bar
 		update_scroll_page()
 	level_editor.save_editor()

@@ -81,10 +81,10 @@ func add_edditable_node(position: Vector2, index: int, in_pos := init_in_vector,
 	new_point.update_path.connect(edit_curve_point)
 	path_nodes_array.append(new_point)
 
-func add_beat(p_1: Vector2, data: Dictionary):
+func add_beat(p_1: Vector2, data: Dictionary, length_array: Array):
 	var new_beat: Beat = beat_file.instantiate()
-	new_beat.initialise(p_1, data)
 	level.add_child(new_beat)
+	new_beat.initialise(p_1, data, length_array)
 	beats_array.append(new_beat)
 
 func load_level():
@@ -126,11 +126,9 @@ func bake():
 	var time_interval := 0.01
 	var total_length = path.curve.get_baked_length()
 	var speed = init_player_speed
-	var i := 0
 	var next_beat: float = beat_editor.beats[0].beat_data["beat"] * Global.sec_per_beat if not beat_editor.beats.is_empty() else Global.song_duration
 	var num_of_beats: int = beat_editor.beats.size()
-	var curr_hold_beat: Beat
-	print(beat_editor.beats)
+	var held_beats = []
 	while time < Global.song_duration:
 		var p_1: Vector2 = path.curve.sample_baked(distance)
 		var p_2: Vector2 = path.curve.sample_baked(distance + 0.1)
@@ -141,18 +139,29 @@ func bake():
 		distance = clamp(distance, 0.0, total_length)
 		
 		baked_points_array.append({"time": time, "pos": p_1, "speed": speed, "tangent": tangent})
-		
-		if abs(time - next_beat) < time_interval and i < num_of_beats:
-			if i >= beats_array.size():
-				add_beat(p_1, beat_editor.beats[i].beat_data)
-				print("num_of_beats: ", num_of_beats, ",  beats_array size: ", beats_array.size(), ",  i:", i)
-			else:
-				print(i, '  ', beats_array.size())
-				beats_array[i].initialise(p_1, beat_editor.beats[i].beat_data)
-			i += 1
-			if i < beat_editor.beats.size():
-				next_beat = beat_editor.beats[i].beat_data["beat"] * Global.sec_per_beat
 		time += time_interval
+
+	var index = 0
+	for b in beat_editor.beats:
+		var i: int = floor(b.beat_data["beat"]*Global.sec_per_beat/time_interval)
+		var alpha: float = fmod(b.beat_data["beat"]*Global.sec_per_beat, time_interval) / time_interval
+		var p_a = baked_points_array[i]
+		var p_b = baked_points_array[i + 1]
+		var pos = p_a["pos"].lerp(p_b["pos"], alpha)
+		var length_array = []
+		
+		if b.beat_data["press_type"] == "hold":
+			while baked_points_array[i]["time"] < (b.beat_data["beat"]+ b.beat_data["duration"]) * Global.sec_per_beat:
+				length_array.append(baked_points_array[i]["pos"] - pos)
+				i += 1
+			print("khbshbkdsf")
+		
+		if index >= beats_array.size():
+			add_beat(pos, b.beat_data, length_array)
+		else:
+			beats_array[index].initialise(pos, b.beat_data, length_array)
+		index += 1
+		
 
 func save_editor():
 	var beats_data_array = []
