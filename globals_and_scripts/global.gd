@@ -71,6 +71,7 @@ func play(beat_pos: float):
 	time_begin = Time.get_ticks_usec()
 	audio_offset = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	start_time = beat_pos*sec_per_beat
+	song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
 	bg_music.play(start_time)
 	play_signal.emit()
 	is_playing = true

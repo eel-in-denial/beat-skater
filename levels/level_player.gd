@@ -35,17 +35,30 @@ func load_level():
 		point["tangent"] = array_to_vector(point["tangent"])
 	player.set_baked_points(level_data["baked_points"])
 	floor.polygon = points_array
-	
+		
 	var beats_array = []
+	var time_interval := 0.01
 	for beat in level_data["beats"]:
-		beats_array.append(add_beat(Vector2(beat["pos"][0], beat["pos"][1]), beat))
+		var i: int = floor(beat["beat"]*Global.sec_per_beat/time_interval)
+		var alpha: float = fmod(beat["beat"]*Global.sec_per_beat, time_interval) / time_interval
+		var p_a = level_data["baked_points"][i]
+		var p_b = level_data["baked_points"][i + 1]
+		var pos = p_a["pos"].lerp(p_b["pos"], alpha)
+		var length_array = []
+		
+		if beat["press_type"] == "hold":
+			while level_data["baked_points"][i]["time"] < (beat["beat"]+ beat["duration"]) * Global.sec_per_beat:
+				length_array.append(level_data["baked_points"][i]["pos"] - pos)
+				i += 1
+			print("khbshbkdsf")
+		beats_array.append(add_beat(pos, beat, length_array))
 	rhythm_logic.beats_array = beats_array
 	Global.play(0)
 
-func add_beat(p_1: Vector2, data: Dictionary):
+func add_beat(p_1: Vector2, data: Dictionary, length_array: Array):
 	var new_beat: Beat = beat_file.instantiate()
-	new_beat.initialise(p_1, data)
 	add_child(new_beat)
+	new_beat.initialise(p_1, data, length_array)
 	return new_beat
 
 func transition_to_score():

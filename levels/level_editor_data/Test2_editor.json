@@ -37,30 +37,30 @@
 		},
 		{
 			"beat": 8.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 9.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 10.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		},
 		{
 			"beat": 11.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
 			"press_type": "tap"
 		}
 	],

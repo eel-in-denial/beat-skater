@@ -7,13 +7,24 @@
 script = ExtResource("1_rkbax")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -110)
 texture = ExtResource("2_qqgw4")
-offset = Vector2(640, -120)
+offset = Vector2(640, -230)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(500, 0)
+offset = Vector2(500, -200)
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Line2D" type="Line2D" parent="."]
+top_level = true
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+top_level = true
+polygon = PackedVector2Array(1, -44, -36, 6, 36, 51)
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+top_level = true
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(38, -2, -30, -23, -17, 43)

@@ -13,7 +13,7 @@ var last_beat_not_hit: bool = true
 
 func _process(delta: float) -> void:
 	if last_beat_not_hit:
-		if Global.song_position > next_beat.time_pos + Global.miss_time_window:
+		if Global.song_position > next_beat.time_pos + next_beat.hold_time + Global.miss_time_window:
 			check_hit_grade(next_beat.time_pos)
 			update_next_beat()
 
@@ -25,12 +25,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif ((event.is_action_pressed("beat_1") and next_beat.beat_type == 1) or (event.is_action_pressed("beat_2") and next_beat.beat_type == 2)) and next_beat.press_type == "hold":
 			next_beat.is_held = true
 			next_beat.is_long_playing = true
-			next_beat.hold_sprite.visible = true
+			next_beat.beat_sprite.visible = true
 			check_hit_grade(next_beat.time_pos)
 		elif ((event.is_action_released("beat_1") and next_beat.beat_type == 1) or (event.is_action_released("beat_2") and next_beat.beat_type == 2)) and next_beat.press_type == "hold":
 			next_beat.is_held = false
-			next_beat.hold_sprite.visible = false
-			check_hit_grade(next_beat.time_pos)
+			next_beat.beat_sprite.visible = false
+			check_hit_grade(next_beat.time_pos + next_beat.hold_time)
 			update_next_beat()
 	
 func check_hit_grade(beat_time_pos):

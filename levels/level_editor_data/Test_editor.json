@@ -8,6 +8,13 @@
 			"press_type": "hold"
 		},
 		{
+			"beat": 4.0,
+			"beat_type": 1.0,
+			"duration": 0.0,
+			"height": 0.0,
+			"press_type": "tap"
+		},
+		{
 			"beat": 8.0,
 			"beat_type": 2.0,
 			"duration": 1.0,
@@ -52,7 +59,7 @@
 		{
 			"beat": 18.75,
 			"beat_type": 1.0,
-			"duration": 0.0,
+			"duration": 0,
 			"height": 0.0,
 			"press_type": "tap"
 		},
@@ -304,9 +311,9 @@
 		{
 			"beat": 45.5,
 			"beat_type": 2.0,
-			"duration": 0.0,
+			"duration": 3.5,
 			"height": 0.0,
-			"press_type": "tap"
+			"press_type": "hold"
 		},
 		{
 			"beat": 51.5,
