@@ -4,6 +4,7 @@ extends Node
 
 signal play_signal
 signal pause_signal
+signal load_level
 signal song_end
 signal hit_accuracy(value: float)
 
@@ -27,6 +28,9 @@ var miss_time_window := 0.4
 var audio_offset := 0.0
 var visual_offset := 0.0
 var input_offset := 0.0
+var buffer_time := 0.0
+var is_buffering := false
+var next_buffer_beat := 0.0
 
 var current_song
 
@@ -58,28 +62,39 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the = frame.
 func _process(delta: float) -> void:
 	if is_playing:
-		song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
+		song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time - buffer_time
 		beat_position = song_position/sec_per_beat
-
-func init_song(new_song: Resource, new_bpm: int):
+	elif is_buffering:
+		var buffer_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
+		if buffer_position > next_buffer_beat:
+			next_buffer_beat += sec_per_beat
+		if buffer_position > buffer_time:
+			is_buffering = false
+			is_playing = true
+			bg_music.play(start_time)
+			play_signal.emit()
+func init_song(new_song: Resource):
 	bg_music.stream = new_song
-	bpm = new_bpm
 	current_song = bg_music.stream
 	song_duration = bg_music.stream.get_length()
 
-func play(beat_pos: float):
+func play(beat_pos: float, countdown_beats: int):
+	#buffer_time = countdown_beats * sec_per_beat
+	#next_buffer_beat = sec_per_beat
 	time_begin = Time.get_ticks_usec()
 	audio_offset = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	start_time = beat_pos*sec_per_beat
-	song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
 	bg_music.play(start_time)
-	play_signal.emit()
+	song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
+	load_level.emit()
+	#is_buffering = true
 	is_playing = true
 
 func play_with_countdown():
 	pass
 
-func play_background():
+func play_background(beat_pos: float):
+	start_time = beat_pos
 	bg_music.play(start_time)
 
 func pause():
@@ -134,7 +149,7 @@ func save_json_data(path: String, data):
 		print(path + " does not exist")
 
 func rename_file(old_path: String, new_path: String):
-	var dir = DirAccess.open("res://")
+	var dir := DirAccess.open("res://")
 	if dir:
 		var error = dir.rename(old_path, new_path)
 		if error == OK:

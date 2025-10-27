@@ -51,6 +51,14 @@ theme_override_font_sizes/font_size = 80
 theme_override_styles/normal = SubResource("StyleBoxFlat_5eojx")
 text = "Level Creator"
 
+[node name="Label" type="Label" parent="."]
+offset_left = 374.0
+offset_top = 906.0
+offset_right = 1564.0
+offset_bottom = 973.0
+theme_override_font_sizes/font_size = 48
+text = "J for blue beats, K for red beats, W or Space to jump"
+
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="LevelCreator" to="." method="_on_level_creator_pressed"]

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbv5rn1pgdbgr"]
+
+[ext_resource type="Script" uid="uid://u1orwyw4f5cv" path="res://UI/load_page/load_page.gd" id="1_min4m"]
+
+[node name="LoadPage" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_min4m")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0

@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 		
 
 func initialise(
-	pos: Vector2,
+	point_data: Dictionary,
 	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4},
 	l_a := []
 ):
@@ -39,13 +39,13 @@ func initialise(
 	hold_line.visible = false
 	length_array = l_a
 	hold_line.clear_points()
-	position = pos + Vector2(0, -100)
+	position = point_data["pos"] + point_data["tangent"].orthogonal() * (400 * height + 100)
 	if beat_type == 1:
 		modulate = Color(1.0, 1.0, 1.0)
 	elif beat_type == 2:
 		modulate = Color(1.0, 0.0, 0.0)
 	if press_type == "hold":
-		hold_initialise(pos, data, l_a)
+		hold_initialise(point_data["pos"], data, l_a)
 func hold_initialise(
 	pos: Vector2,
 	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4},

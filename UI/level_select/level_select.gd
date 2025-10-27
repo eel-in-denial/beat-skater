@@ -11,6 +11,7 @@ var selected_level_index = 0
 @onready var level_holder := $CanvasLayer/Control/Levels
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Global.pause()
 	level_info = Global.load_json_data("res://levels/level_data/levels_res.json")
 	create_level_cards()
 
@@ -69,4 +70,5 @@ func _on_next_pressed() -> void:
 
 
 func _on_play_pressed() -> void:
+	Global.init_song(load(level_info[selected_level_index]["song_path"]))
 	GameManager.change_scene("level_play", level_info[selected_level_index])

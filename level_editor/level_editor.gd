@@ -81,10 +81,10 @@ func add_edditable_node(position: Vector2, index: int, in_pos := init_in_vector,
 	new_point.update_path.connect(edit_curve_point)
 	path_nodes_array.append(new_point)
 
-func add_beat(p_1: Vector2, data: Dictionary, length_array: Array):
+func add_beat(point_data: Dictionary, data: Dictionary, length_array: Array):
 	var new_beat: Beat = beat_file.instantiate()
 	level.add_child(new_beat)
-	new_beat.initialise(p_1, data, length_array)
+	new_beat.initialise(point_data, data, length_array)
 	beats_array.append(new_beat)
 
 func load_level():
@@ -99,7 +99,8 @@ func load_level():
 	path.curve.add_point(Vector2.ZERO)
 	var level_data = Global.load_json_data(editor_json_path)
 	print(editor_json_path)
-	Global.init_song(load(levels_nav.current_level["song_path"]), level_data["bpm"])
+	Global.init_song(load(levels_nav.current_level["song_path"]))
+	Global.bpm = level_data["bpm"]
 	init_player_speed = level_data["init_player_speed"]
 	beat_editor.load_level(level_data["beats"], level_data["beats_per_bar"] ,level_data["total_bars"])
 	var i := 1
@@ -148,6 +149,7 @@ func bake():
 		var p_a = baked_points_array[i]
 		var p_b = baked_points_array[i + 1]
 		var pos = p_a["pos"].lerp(p_b["pos"], alpha)
+		var tangent = p_a["tangent"].lerp(p_b["tangent"], alpha).normalized()
 		var length_array = []
 		
 		if b.beat_data["press_type"] == "hold":
@@ -157,9 +159,9 @@ func bake():
 			print("khbshbkdsf")
 		
 		if index >= beats_array.size():
-			add_beat(pos, b.beat_data, length_array)
+			add_beat({"pos": pos, "tangent": tangent}, b.beat_data, length_array)
 		else:
-			beats_array[index].initialise(pos, b.beat_data, length_array)
+			beats_array[index].initialise({"pos": pos, "tangent": tangent}, b.beat_data, length_array)
 		index += 1
 		
 
@@ -216,9 +218,10 @@ func vector_to_array(vector: Vector2):
 	return [vector.x, vector.y]
 
 func _on_bpm_text_changed(new_text: String) -> void:
-	Global.bpm = int(new_text)
-	bake()
-	save_editor()
+	if int(new_text) > 0:
+		Global.bpm = int(new_text)
+		bake()
+		save_editor()
 
 func _on_init_speed_text_changed(new_text: String) -> void:
 	init_player_speed = float(new_text)

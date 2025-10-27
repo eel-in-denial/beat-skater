@@ -23,7 +23,7 @@ func _on_play_toggled(toggled_on: bool) -> void:
 		play_toggle.text = "Pause"
 		curr_play_state = PlayState.Play
 		player.set_baked_points(level_editor.baked_points_array)
-		Global.play(beat_editor.beat_position)
+		Global.play(beat_editor.beat_position, 0)
 		editor_camera.enabled = false
 	else:
 		play_toggle.text = "Play"

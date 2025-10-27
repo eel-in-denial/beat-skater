@@ -4,8 +4,9 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Global.init_song(music, bpm)
-	Global.play_background()
+	Global.init_song(music)
+	Global.bpm = bpm
+	Global.play_background(0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -3,29 +3,38 @@ extends Node2D
 
 @onready var sprite := $Sprite2D
 @onready var camera := $Camera2D
+@onready var label := $Label
+
 var baked_points := []
 var dt := 0.0
+var height := 0
+
+var is_jumping: bool
 var jump_points := []
+var jump_index: int = 0
 var max_jump_height := 400.0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Global.play_signal.connect(play)
+	Global.load_level.connect(play)
 	Global.pause_signal.connect(pause)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Global.is_playing:
+		var curr_index = floor(Global.song_position/dt)
+		label.text = str(Global.beat_position)
 		var curr_pos = position_at_time(Global.song_position)
-		if jump_points:
-			position = jump_points[0]
-			jump_points.pop_front()
+		if is_jumping:
+			if curr_index - jump_index < jump_points.size():
+				position = jump_points[curr_index - jump_index]
+			else:
+				is_jumping = false
 		else:
 			position = curr_pos
 		var tangent: Vector2 = tangent_at_time(Global.song_position)
 		sprite.rotation = tangent.angle()
 		if Input.is_action_just_pressed("jump"):
 			jump()
-		$Polygon2D.position = curr_pos
 		#if i + 2 >= baked_points.size():
 			#Global.pause()
 			#pause()
@@ -67,19 +76,18 @@ func jump():
 	var jump_position_0 = position_at_time(Global.song_position + Global.sec_per_beat/2)
 	var jump_position = position_at_time(Global.song_position + Global.sec_per_beat/2) + tangent_at_time(Global.song_position + Global.sec_per_beat/2).orthogonal() * max_jump_height
 	var land_position = position_at_time(Global.song_position + Global.sec_per_beat)
-	var i: int = floor(Global.song_position/dt)
+	jump_index = floor(Global.song_position/dt)
+	is_jumping = true
 	var i_1: int = floor((Global.song_position + Global.sec_per_beat/2)/dt)
 	var i_2: int = floor((Global.song_position + Global.sec_per_beat)/dt)
 	jump_points = []
-	for jump_i in range(i_2 - i):
-		var alpha: float = float(jump_i)/(i_2 - i)
+	for jump_i in range(i_2 - jump_index):
+		var alpha: float = float(jump_i)/(i_2 - jump_index)
 		var jump_pos = position.lerp(land_position, alpha)
 		var jump_alpha: float = -pow(alpha*2-1, 2)+1
 		var jump_height = jump_position_0.lerp(jump_position, jump_alpha) - jump_position_0
 		jump_pos += jump_height 
 		jump_points.append(jump_pos)
-	$Line2D.points = jump_points
-	$Polygon2D2.position = land_position
 #func _draw() -> void:
 	#draw_circle(jump_position, 5, Color.RED)
 	#draw_circle(land_position, 5, Color.RED)
