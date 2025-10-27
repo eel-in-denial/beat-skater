@@ -22,7 +22,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Global.is_playing:
 		var curr_index = floor(Global.song_position/dt)
-		label.text = str(Global.beat_position)
+		#label.text = str(Global.beat_position)
 		var curr_pos = position_at_time(Global.song_position)
 		if is_jumping:
 			if curr_index - jump_index < jump_points.size():

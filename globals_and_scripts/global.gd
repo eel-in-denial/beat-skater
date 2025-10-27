@@ -62,7 +62,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the = frame.
 func _process(delta: float) -> void:
 	if is_playing:
-		song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time - buffer_time
+		song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset - input_offset) + start_time - buffer_time
 		beat_position = song_position/sec_per_beat
 	elif is_buffering:
 		var buffer_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
@@ -85,7 +85,7 @@ func play(beat_pos: float, countdown_beats: int):
 	audio_offset = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	start_time = beat_pos*sec_per_beat
 	bg_music.play(start_time)
-	song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset + input_offset) + start_time
+	song_position = ((Time.get_ticks_usec() - time_begin) / 1000000.0 - audio_offset - input_offset) + start_time
 	load_level.emit()
 	#is_buffering = true
 	is_playing = true

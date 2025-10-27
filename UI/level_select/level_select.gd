@@ -44,6 +44,8 @@ func update_cards(init := false):
 			tween.parallel().tween_property(level_card, "position", Vector2(x, 0), 0.3)
 			tween.parallel().tween_property(level_card, "scale", Vector2(scale, scale), 0.3)
 			tween.parallel().tween_property(level_card, "modulate", Color(1, 1, 1, 1.0 if offset == 0 else 0.7), 0.3)
+	Global.init_song(load(level_info[selected_level_index]["song_path"]))
+	Global.play_background(20)
 
 
 func create_level_cards():
