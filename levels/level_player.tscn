@@ -6,6 +6,7 @@
 
 [node name="LevelPlayer" type="Node2D"]
 script = ExtResource("1_pihvh")
+hit_windows_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -28,9 +29,10 @@ value = 50.0
 
 [node name="Player" parent="." instance=ExtResource("4_jdiw6")]
 
-[node name="RhythmLogic" type="Node" parent="." node_paths=PackedStringArray("label")]
+[node name="RhythmLogic" type="Node" parent="." node_paths=PackedStringArray("label", "player")]
 script = ExtResource("7_g4c03")
 label = NodePath("../CanvasLayer/Label2")
+player = NodePath("../Player")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color(0.50928617, 0.50928617, 0.50928617, 1)

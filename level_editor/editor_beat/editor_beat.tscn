@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://6v1yyw35qvl6"]
+
+[ext_resource type="Script" uid="uid://dlm0c23x7j8h5" path="res://level_editor/editor_beat/editor_beat.gd" id="1_fjc7l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qfcjx"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mv833"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmlm6"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Beat" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fjc7l")
+
+[node name="line" type="Panel" parent="."]
+layout_mode = 0
+offset_top = -3.0
+offset_right = 20.0
+offset_bottom = 3.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qfcjx")
+
+[node name="Beat" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+rotation = 0.7853982
+pivot_offset = Vector2(10, 10)
+theme_override_styles/panel = SubResource("StyleBoxFlat_mv833")
+
+[node name="Draggable" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = -7.0
+offset_right = 32.0
+offset_bottom = 7.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hmlm6")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="gui_input" from="Beat" to="." method="_on_beat_gui_input"]
+[connection signal="gui_input" from="Draggable" to="." method="_on_draggable_gui_input"]

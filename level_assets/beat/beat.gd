@@ -28,7 +28,8 @@ func _process(delta: float) -> void:
 func initialise(
 	point_data: Dictionary,
 	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4},
-	l_a := []
+	l_a := [],
+	hit_windows := []
 ):
 	beat_data = data
 	beat_type = data["beat_type"]
@@ -46,6 +47,12 @@ func initialise(
 		modulate = Color(1.0, 0.0, 0.0)
 	if press_type == "hold":
 		hold_initialise(point_data["pos"], data, l_a)
+	if hit_windows:
+		var mid: float = hit_windows.size() / 2.0
+		$OK.points = hit_windows
+		$Good.points = hit_windows.slice(floor(mid - Global.good_time_window/0.01), floor(mid + Global.good_time_window/0.01))
+		$Perfect.points = hit_windows.slice(floor(mid - Global.perfect_time_window/0.01), floor(mid + Global.perfect_time_window/0.01))
+		
 func hold_initialise(
 	pos: Vector2,
 	data := {"beat_type": 1, "press_type": "tap", "height": 0, "beat": 9, "duration": 4},

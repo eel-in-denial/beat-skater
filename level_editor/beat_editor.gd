@@ -1,7 +1,7 @@
 extends Panel
 class_name BeatEditor
 
-enum {Beat1, Beat2}
+enum {Beat1, Beat2, Rails}
 var edit_mode = Beat1
 var is_left_mouse_held := false
 var is_right_mouse_held := false
@@ -24,10 +24,13 @@ var total_bars: int = 8
 		
 var beats_per_bar := 4
 
-var beat_scene := preload("res://level_editor/beat_editor_beat/beat_editor_beat.tscn")
+var beat_scene := preload("res://level_editor/editor_beat/editor_beat.tscn")
 var beats: Array[EditorBeat] = []
-var curr_held_beat: EditorBeat
-var curr_extended_beat: EditorBeat
+var objects: Array[EditorRail]
+var curr_held_beat
+var curr_extended_beat
+
+var rail_scene := preload("res://level_editor/editor_rail/editor_rail.tscn")
 
 @onready var scroll := $HScrollBar
 @export var beats_per_bar_text: LineEdit
@@ -54,7 +57,7 @@ func _ready() -> void:
 	snapping_text.text = str(snapping)
 	total_bars_text.text = str(total_bars)
 
-func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
+func load_level(beat_data: Array, object_data: Array, b_per_bar: int, t_bars: int):
 	beats_per_bar = b_per_bar
 	beats_per_bar_text.text = str(beats_per_bar)
 	total_bars = t_bars
@@ -65,10 +68,17 @@ func load_level(beat_data: Array, b_per_bar: int, t_bars: int):
 	for b in beats:
 		b.queue_free()
 	beats = []
+	for r in objects:
+		r.queue_free()
+	objects = []
 	for data in beat_data:
 		var b = add_beat(data)
 		beats.append(b)
 		b.update_line(beat_width)
+	for data in object_data:
+		var r = add_rail(data)
+		objects.append(r)
+		r.update_line(beat_width)
 	for i in range(total_bars + 1):
 		bar_x_positions.append(0.0)
 	update_scroll_page()
@@ -104,13 +114,19 @@ func update_beat_heights():
 	for b in beats:
 		b.position.y = lane_y_positions[b.beat_data["height"]]
 		b.visible = false if b.position.x < left_margin or b.position.x > size.x - right_margin or b.position.y < top_margin else true
+	for o in objects:
+		o.position.y = lane_y_positions[o.beat_data["height"]]
+		o.visible = false if o.position.x < left_margin or o.position.x > size.x - right_margin or o.position.y < top_margin else true
 		
 func update_beat_widths():
 	for b in beats:
 		b.position.x = left_margin + (b.beat_data["beat"] - beat_position) * beat_width
 		b.visible = false if b.position.x < left_margin or b.position.x > size.x - right_margin or b.position.y < top_margin else true
-
-func update_single_beat(beat: EditorBeat):
+	for o in objects:
+		o.position.x = left_margin + (o.beat_data["beat"] - beat_position) * beat_width
+		o.visible = false if o.position.x < left_margin or o.position.x > size.x - right_margin or o.position.y < top_margin else true
+	
+func update_single_beat(beat):
 	beat.position = Vector2(left_margin + (beat.beat_data["beat"] - beat_position) * beat_width, lane_y_positions[beat.beat_data["height"]])
 	#beat.visible = false if beat.position.y < top_margin or beat.position.x < left_margin or beat.position.x > size.x - right_margin else true
 
@@ -144,7 +160,15 @@ func _draw() -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
 		is_left_mouse_held = true
-		place_beat()
+		var mouse_pos = get_local_mouse_position()
+		var height = snap_lane(mouse_pos)
+		var beat = snap_beat(mouse_pos)
+		curr_held_beat = is_object_clicked(height, beat)
+		if not curr_held_beat:
+			if edit_mode == Rails:
+				place_rail(height, beat)
+			else:
+				place_beat(height, beat)
 	elif event.is_action_pressed("right_click"):
 		is_right_mouse_held = true
 		print("askjdf")
@@ -161,24 +185,47 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("editor_num_2"):
 		_on_beat_2_button_toggled(true)
 
-func place_beat():
-	var mouse_pos = get_local_mouse_position()
-	var height = snap_lane(mouse_pos)
-	var beat = snap_beat(mouse_pos)
-	curr_held_beat = null
+func is_object_clicked(height: int, beat: float):
 	for b in beats:
 		if b.height == height and b.beat_data["beat"] == beat:
-			curr_held_beat = b
-	if not curr_held_beat:
-		var data = {
-			"beat_type": 1 if edit_mode == Beat1 else 2,
-			"press_type": "tap",
-			"height": height,
-			"beat": beat,
-			"duration": 0
-		}
-		curr_held_beat = add_beat(data)
-		beats.insert(beats.bsearch_custom(curr_held_beat, sort_by_beat), curr_held_beat)
+			return b
+	for o in objects:
+		if o.height == height and o.beat_data["beat"] == beat:
+			return o
+	return null
+
+func place_rail(height: int, beat: float):
+	var data = {
+		"object_type": "rail",
+		"height": height,
+		"beat": beat,
+		"duration": 0
+	}
+	curr_held_beat = add_rail(data)
+	objects.append(curr_held_beat)
+
+func add_rail(data: Dictionary) -> EditorRail:
+	var new_rail: EditorRail = rail_scene.instantiate()
+	add_child(new_rail)
+	new_rail.initialise(data)
+	new_rail.delete.connect(delete_rail)
+	new_rail.selected.connect(selected_beat)
+	new_rail.dropped.connect(drop_rail)
+	new_rail.extending_selected.connect(extended_selected)
+	new_rail.extending_unselected.connect(extended_unselected)
+	new_rail.position = Vector2(left_margin + (data["beat"] - beat_position) * beat_width, lane_y_positions[data["height"]])
+	return new_rail
+
+func place_beat(height: int, beat: float):
+	var data = {
+		"beat_type": 1 if edit_mode == Beat1 else 2,
+		"press_type": "tap",
+		"height": height,
+		"beat": beat,
+		"duration": 0
+	}
+	curr_held_beat = add_beat(data)
+	beats.insert(beats.bsearch_custom(curr_held_beat, sort_by_beat), curr_held_beat)
 
 func add_beat(data: Dictionary) -> EditorBeat:
 	var new_beat: EditorBeat = beat_scene.instantiate()
@@ -192,19 +239,20 @@ func add_beat(data: Dictionary) -> EditorBeat:
 	new_beat.position = Vector2(left_margin + (data["beat"] - beat_position) * beat_width, lane_y_positions[data["height"]])
 	return new_beat
 
-func extended_selected(b: EditorBeat):
+func extended_selected(b):
 	curr_extended_beat = b
+	
 	selected_beat(b)
 	print("skjdsf")
 
-func extended_unselected(b: EditorBeat):
+func extended_unselected(b):
 	curr_extended_beat = null
 	level_editor.bake()
 	level_editor.save_editor()
 
-func selected_beat(b: EditorBeat):
+func selected_beat(b):
 	if curr_held_beat and curr_held_beat != curr_extended_beat:
-		if curr_held_beat.beat_data["press_type"] == "tap":
+		if curr_held_beat.beat_data["duration"] == 0:
 			curr_held_beat.reset_to_tap()
 			
 	curr_held_beat = b
@@ -215,7 +263,16 @@ func delete_beat(beat: EditorBeat):
 	level_editor.bake()
 	level_editor.save_editor()
 
+func delete_rail(rail: EditorRail):
+	objects.erase(rail)
+	level_editor.bake()
+	level_editor.save_editor()
+
 func drop_beat():
+	level_editor.bake()
+	level_editor.save_editor()
+
+func drop_rail():
 	level_editor.bake()
 	level_editor.save_editor()
 
@@ -256,6 +313,9 @@ func _on_beat_1_button_toggled(toggled_on: bool) -> void:
 
 func _on_beat_2_button_toggled(toggled_on: bool) -> void:
 	edit_mode = Beat2
+
+func _on_rails_toggled(toggled_on: bool) -> void:
+	edit_mode = Rails
 
 func _on_beats_per_bar_text_changed(new_text: String) -> void:
 	if int(new_text) > 0:

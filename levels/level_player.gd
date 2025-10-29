@@ -1,7 +1,7 @@
 extends Node2D
 
 var beat_file = preload("res://level_assets/beat/beat.tscn")
-
+@export var hit_windows_enabled: bool = false
 @onready var player := $Player
 @onready var rhythm_logic := $RhythmLogic
 @onready var floor := $Polygon2D
@@ -47,20 +47,28 @@ func load_level():
 		var pos = p_a["pos"].lerp(p_b["pos"], alpha)
 		var tangent = p_a["tangent"].lerp(p_b["tangent"], alpha).normalized()
 		var length_array = []
+		var hit_window = []
 		
 		if beat["press_type"] == "hold":
 			while level_data["baked_points"][i]["time"] < (beat["beat"]+ beat["duration"]) * Global.sec_per_beat:
 				length_array.append(level_data["baked_points"][i]["pos"] - pos)
 				i += 1
 			print("khbshbkdsf")
-		beats_array.append(add_beat({"pos": pos, "tangent": tangent}, beat, length_array))
+		if hit_windows_enabled:
+			hit_window = level_data["baked_points"].slice(
+				floor((beat["beat"]*Global.sec_per_beat - Global.ok_time_window)/time_interval), 
+				floor((beat["beat"]*Global.sec_per_beat + Global.ok_time_window)/time_interval)
+			)
+			for h_i in range(hit_window.size()):
+				hit_window[h_i] =  hit_window[h_i]["pos"] - pos
+		beats_array.append(add_beat({"pos": pos, "tangent": tangent}, beat, length_array, hit_window))
 	rhythm_logic.beats_array = beats_array
 	Global.play(0, 4)
 
-func add_beat(point_data: Dictionary, data: Dictionary, length_array: Array):
+func add_beat(point_data: Dictionary, data: Dictionary, length_array: Array, hit_window = []):
 	var new_beat: Beat = beat_file.instantiate()
 	add_child(new_beat)
-	new_beat.initialise(point_data, data, length_array)
+	new_beat.initialise(point_data, data, length_array, hit_window)
 	return new_beat
 
 func transition_to_score():

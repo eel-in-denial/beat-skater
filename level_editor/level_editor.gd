@@ -2,6 +2,7 @@ extends Node2D
 class_name LevelEditor
 
 var beat_file = preload("res://level_assets/beat/beat.tscn")
+var rail_file = preload("res://level_assets/rail/rail.tscn")
 
 @export var level_json_path: String
 	
@@ -27,13 +28,14 @@ var beat_file = preload("res://level_assets/beat/beat.tscn")
 var is_panning
 
 var beats_array: Array[Beat] = []
+var rails_array = []
 var baked_points_array := []
-var path_nodes_array: Array[EditableNode] = []
+var path_nodes_array: Array[CurveNode] = []
 
 var curr_mouse_position := Vector2.ZERO
 var prev_mouse_position := Vector2.ZERO
 
-var editable_node = preload("res://level_editor/editable_node/editable_node.tscn")
+var curve_node_scene = preload("res://level_editor/curve_node/curve_node.tscn")
 var init_in_vector := Vector2(-100, 0)
 var init_out_vector := Vector2(100, 0)
 
@@ -74,7 +76,7 @@ func set_curve_points(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2)
 	path.curve.set_point_out(idx, out_pos - pos)
 
 func add_edditable_node(position: Vector2, index: int, in_pos := init_in_vector, out_pos := init_out_vector):
-	var new_point: EditableNode = editable_node.instantiate()
+	var new_point: CurveNode = curve_node_scene.instantiate()
 	level.add_child(new_point)
 	new_point.set_points(position, in_pos, out_pos)
 	new_point.index = index
@@ -87,11 +89,20 @@ func add_beat(point_data: Dictionary, data: Dictionary, length_array: Array):
 	new_beat.initialise(point_data, data, length_array)
 	beats_array.append(new_beat)
 
+func add_rail(data: Dictionary, point_data: Array):
+	var new_rail = rail_file.instantiate()
+	level.add_child(new_rail)
+	new_rail.initialise(data, point_data)
+	rails_array.append(new_rail)
+
 func load_level():
 	await get_tree().process_frame
 	for b in beats_array:
 		b.queue_free()
 	beats_array = []
+	for r in rails_array:
+		r.queue_free()
+	rails_array = []
 	for node in path_nodes_array:
 		node.queue_free()
 	path_nodes_array = []
@@ -102,7 +113,7 @@ func load_level():
 	Global.init_song(load(levels_nav.current_level["song_path"]))
 	Global.bpm = level_data["bpm"]
 	init_player_speed = level_data["init_player_speed"]
-	beat_editor.load_level(level_data["beats"], level_data["beats_per_bar"] ,level_data["total_bars"])
+	beat_editor.load_level(level_data["beats"], level_data["objects"], level_data["beats_per_bar"] ,level_data["total_bars"])
 	var i := 1
 	for node in level_data["curve_points"]:
 		var pos := Vector2(node["pos"][0], node["pos"][1])
@@ -163,15 +174,39 @@ func bake():
 		else:
 			beats_array[index].initialise({"pos": pos, "tangent": tangent}, b.beat_data, length_array)
 		index += 1
-		
-
+	index = 0
+	for r in beat_editor.objects:
+		var i: int = floor(r.beat_data["beat"]*Global.sec_per_beat/time_interval)
+		var alpha: float = fmod(r.beat_data["beat"]*Global.sec_per_beat, time_interval) / time_interval
+		var p_a = baked_points_array[i]
+		var p_b = baked_points_array[i + 1]
+		var pos = p_a["pos"].lerp(p_b["pos"], alpha)
+		var tangent = p_a["tangent"].lerp(p_b["tangent"], alpha).normalized()
+		var points_array = []
+		if r.beat_data["duration"] > 0:
+			while baked_points_array[i]["time"] < (r.beat_data["beat"]+ r.beat_data["duration"]) * Global.sec_per_beat:
+				points_array.append(baked_points_array[i])
+				i += 1
+		else:
+			points_array.append(baked_points_array[i])
+		if index >= rails_array.size():
+			add_rail(r.beat_data, points_array)
+		else:
+			rails_array[index].initialise(r.beat_data, points_array)
+		index += 1
+	
 func save_editor():
 	var beats_data_array = []
+	var rails_data_array = []
 	var path_nodes_data_array = []
 	
 	for beat in beats_array:
 		beats_data_array.append(beat.beat_data)
+	
+	for rail in rails_array:
+		rails_data_array.append(rail.beat_data)
 		
+	
 	for node in path_nodes_array:
 		path_nodes_data_array.append({
 			"pos": [node.position.x, node.position.y],
@@ -183,6 +218,7 @@ func save_editor():
 		"bpm": Global.bpm,
 		"init_player_speed": init_player_speed,
 		"beats": beats_data_array,
+		"objects": rails_data_array,
 		"curve_points": path_nodes_data_array,
 		"beats_per_bar": beat_editor.beats_per_bar,
 		"total_bars": beat_editor.total_bars
@@ -198,6 +234,10 @@ func _on_bake_pressed() -> void:
 		var new_dict = beat.beat_data
 		new_dict["pos"] = [beat.position.x, beat.position.y]
 		beats_data_array.append(new_dict)
+	var rails_data_array = []
+	for rail in rails_array:
+		var new_dict = rail.beat_data
+		rails_data_array.append(new_dict)
 	for point in baked_points_array:
 		point["pos"] = vector_to_array(point["pos"])
 		point["tangent"] = vector_to_array(point["tangent"])
@@ -205,6 +245,7 @@ func _on_bake_pressed() -> void:
 		"bpm": Global.bpm,
 		"init_player_speed": init_player_speed,
 		"beats": beats_data_array,
+		"objects": rails_data_array,
 		"baked_points": baked_points_array
 	}
 	get_tree().paused = true

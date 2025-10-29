@@ -1,6 +1,13 @@
 {
 	"beats": [
 		{
+			"beat": 2.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
+			"press_type": "tap"
+		},
+		{
 			"beat": 4.0,
 			"beat_type": 1.0,
 			"duration": 2.0,
@@ -1819,5 +1826,14 @@
 		}
 	],
 	"init_player_speed": 1000.0,
+	"objects": [
+		{
+			"beat": 2.0,
+			"duration": 1.0,
+			"height": 0.0,
+			"object_type": "rail",
+			"press_type": "hold"
+		}
+	],
 	"total_bars": 38
 }

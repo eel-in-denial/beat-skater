@@ -1,5 +1,5 @@
 extends Node2D
-
+class_name Player
 
 @onready var sprite := $Sprite2D
 @onready var camera := $Camera2D
@@ -8,6 +8,7 @@ extends Node2D
 var baked_points := []
 var dt := 0.0
 var height := 0
+var base_height := 0
 
 var is_jumping: bool
 var jump_points := []
@@ -27,6 +28,10 @@ func _process(delta: float) -> void:
 		if is_jumping:
 			if curr_index - jump_index < jump_points.size():
 				position = jump_points[curr_index - jump_index]
+				if curr_index - jump_index > floor(Global.ok_time_window/0.01) and curr_index - jump_index < (Global.sec_per_beat - Global.ok_time_window)/0.01:
+					height = base_height + 1
+				else:
+					height = base_height
 			else:
 				is_jumping = false
 		else:

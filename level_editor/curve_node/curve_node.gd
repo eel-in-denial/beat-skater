@@ -1,5 +1,5 @@
 extends Area2D
-class_name EditableNode
+class_name CurveNode
 
 enum Index {In, Position, Out}
 signal update_path(idx: int, pos: Vector2, in_pos: Vector2, out_pos: Vector2)

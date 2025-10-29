@@ -20,10 +20,9 @@ var song_position := 0.0
 var beat_position := 0.0
 var song_duration := 0.0
 
-var perfect_time_window := 0.05
-var good_time_window := 0.12
-var ok_time_window := 0.2
-var miss_time_window := 0.4
+var perfect_time_window := 0.04
+var good_time_window := 0.09
+var ok_time_window := 0.15
 
 var audio_offset := 0.0
 var visual_offset := 0.0

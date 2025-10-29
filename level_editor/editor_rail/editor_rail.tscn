@@ -1,20 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://6v1yyw35qvl6"]
+[gd_scene load_steps=5 format=3 uid="uid://dg7ccgffd1xko"]
 
-[ext_resource type="Script" uid="uid://dlm0c23x7j8h5" path="res://level_editor/beat_editor_beat/beat_editor_beat.gd" id="1_hmlm6"]
+[ext_resource type="Script" uid="uid://bqo0tmqu7s0no" path="res://level_editor/editor_rail/editor_rail.gd" id="1_ks83i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qfcjx"]
-bg_color = Color(1, 1, 1, 1)
+bg_color = Color(1, 0.9019608, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mv833"]
-bg_color = Color(1, 1, 1, 1)
+bg_color = Color(1, 0.90000004, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmlm6"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="Beat" type="Control"]
+[node name="Rail" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_hmlm6")
+script = ExtResource("1_ks83i")
 
 [node name="line" type="Panel" parent="."]
 layout_mode = 0
