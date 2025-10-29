@@ -19,4 +19,4 @@ color = Color(0, 1, 0, 1)
 polygon = PackedVector2Array(0, -16, -16, 0, 0, 16, 16, 0)
 
 [node name="FloorGraphics" type="Polygon2D" parent="."]
-color = Color(0.6419343, 0.6419339, 0.641934, 1)
+color = Color(0.35199982, 0.16, 0.8, 1)

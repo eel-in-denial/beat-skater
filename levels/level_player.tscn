@@ -6,7 +6,6 @@
 
 [node name="LevelPlayer" type="Node2D"]
 script = ExtResource("1_pihvh")
-hit_windows_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -27,7 +26,8 @@ offset_right = 1313.0
 offset_bottom = 983.0
 value = 50.0
 
-[node name="Player" parent="." instance=ExtResource("4_jdiw6")]
+[node name="Player" parent="." node_paths=PackedStringArray("rhythm_logic") instance=ExtResource("4_jdiw6")]
+rhythm_logic = NodePath("../RhythmLogic")
 
 [node name="RhythmLogic" type="Node" parent="." node_paths=PackedStringArray("label", "player")]
 script = ExtResource("7_g4c03")

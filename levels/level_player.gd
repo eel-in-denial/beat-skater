@@ -1,6 +1,7 @@
 extends Node2D
 
 var beat_file = preload("res://level_assets/beat/beat.tscn")
+var rail_file = preload("res://level_assets/rail/rail.tscn")
 @export var hit_windows_enabled: bool = false
 @onready var player := $Player
 @onready var rhythm_logic := $RhythmLogic
@@ -62,7 +63,25 @@ func load_level():
 			for h_i in range(hit_window.size()):
 				hit_window[h_i] =  hit_window[h_i]["pos"] - pos
 		beats_array.append(add_beat({"pos": pos, "tangent": tangent}, beat, length_array, hit_window))
+	
+	var rails_array = []
+	for r in level_data["objects"]:
+		var i: int = floor(r["beat"]*Global.sec_per_beat/time_interval)
+		var alpha: float = fmod(r["beat"]*Global.sec_per_beat, time_interval) / time_interval
+		var p_a = level_data["baked_points"][i]
+		var p_b = level_data["baked_points"][i + 1]
+		var pos = p_a["pos"].lerp(p_b["pos"], alpha)
+		var tangent = p_a["tangent"].lerp(p_b["tangent"], alpha).normalized()
+		var p_array = []
+		if r["duration"] > 0:
+			while level_data["baked_points"][i]["time"] < (r["beat"]+ r["duration"]) * Global.sec_per_beat:
+				p_array.append(level_data["baked_points"][i])
+				i += 1
+		else:
+			points_array.append(level_data["baked_points"][i])
+		rails_array.append(add_rail(r, p_array))
 	rhythm_logic.beats_array = beats_array
+	rhythm_logic.rails_array = rails_array
 	Global.play(0, 4)
 
 func add_beat(point_data: Dictionary, data: Dictionary, length_array: Array, hit_window = []):
@@ -70,6 +89,12 @@ func add_beat(point_data: Dictionary, data: Dictionary, length_array: Array, hit
 	add_child(new_beat)
 	new_beat.initialise(point_data, data, length_array, hit_window)
 	return new_beat
+
+func add_rail(data: Dictionary, point_data: Array):
+	var new_rail = rail_file.instantiate()
+	add_child(new_rail)
+	new_rail.initialise(data, point_data)
+	return new_rail
 
 func transition_to_score():
 	GameManager.change_scene("level_select")

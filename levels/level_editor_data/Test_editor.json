@@ -1,13 +1,6 @@
 {
 	"beats": [
 		{
-			"beat": 2.0,
-			"beat_type": 1,
-			"duration": 0,
-			"height": 1,
-			"press_type": "tap"
-		},
-		{
 			"beat": 4.0,
 			"beat_type": 1.0,
 			"duration": 2.0,
@@ -85,13 +78,6 @@
 			"press_type": "tap"
 		},
 		{
-			"beat": 23.5,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
-			"press_type": "tap"
-		},
-		{
 			"beat": 24.0,
 			"beat_type": 1.0,
 			"duration": 0.0,
@@ -143,113 +129,113 @@
 		{
 			"beat": 29.5,
 			"beat_type": 1.0,
-			"duration": 2.5,
+			"duration": 1.5,
 			"height": 0.0,
 			"press_type": "hold"
 		},
 		{
 			"beat": 33.5,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 33.75,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 34.0,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 34.25,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 34.75,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 35.25,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 35.5,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 35.75,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 37.5,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 37.75,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 38.0,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 38.25,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 38.75,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 39.25,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
 			"beat": 39.5,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"press_type": "tap"
 		},
 		{
@@ -1828,9 +1814,9 @@
 	"init_player_speed": 1000.0,
 	"objects": [
 		{
-			"beat": 2.0,
-			"duration": 1.0,
-			"height": 0.0,
+			"beat": 32.0,
+			"duration": 8.0,
+			"height": 0,
 			"object_type": "rail",
 			"press_type": "hold"
 		}

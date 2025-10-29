@@ -108339,17 +108339,6 @@
 	],
 	"beats": [
 		{
-			"beat": 2.0,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 1.0,
-			"pos": [
-				1342.94055175781,
-				-413.029632568359
-			],
-			"press_type": "tap"
-		},
-		{
 			"beat": 4.0,
 			"beat_type": 1.0,
 			"duration": 2.0,
@@ -108471,17 +108460,6 @@
 			"press_type": "tap"
 		},
 		{
-			"beat": 23.5,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
-			"pos": [
-				17911.890625,
-				686.850158691406
-			],
-			"press_type": "tap"
-		},
-		{
 			"beat": 24.0,
 			"beat_type": 1.0,
 			"duration": 0.0,
@@ -108561,7 +108539,7 @@
 		{
 			"beat": 29.5,
 			"beat_type": 1.0,
-			"duration": 2.5,
+			"duration": 1.5,
 			"height": 0.0,
 			"pos": [
 				24053.66796875,
@@ -108571,166 +108549,166 @@
 		},
 		{
 			"beat": 33.5,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				28334.40234375,
-				835.053527832031
+				28363.439453125,
+				436.108917236328
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 33.75,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				28612.625,
-				854.490539550781
+				28639.576171875,
+				455.399505615234
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 34.0,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				28893.07421875,
-				873.186889648438
+				28918.998046875,
+				474.02783203125
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 34.25,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				29175.6171875,
-				891.396423339844
+				29201.056640625,
+				492.206115722656
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 34.75,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				29746.2109375,
-				927.085327148438
+				29770.931640625,
+				527.849853515625
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 35.25,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				30316.33984375,
-				950.382202148438
+				30309.8515625,
+				550.434814453125
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 35.5,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				30602.541015625,
-				940.468200683594
+				30583.017578125,
+				540.944946289063
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 35.75,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				30888.962890625,
-				924.1376953125
+				30863.845703125,
+				524.927062988281
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 37.5,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				32878.703125,
-				883.862182617188
+				32924.0234375,
+				486.438110351563
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 37.75,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				33163.3359375,
-				919.406799316406
+				33215.77734375,
+				522.859191894531
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 38.0,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				33450.83203125,
-				959.540466308594
+				33508.99609375,
+				563.791809082031
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 38.25,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				33741.125,
-				1002.91149902344
+				33801.4765625,
+				607.490234375
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 38.75,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				34333.87890625,
-				1097.48413085938
+				34398.7421875,
+				702.777954101563
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 39.25,
-			"beat_type": 2.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 2,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				34943.71484375,
-				1200.72314453125
+				35011.4140625,
+				806.494018554688
 			],
 			"press_type": "tap"
 		},
 		{
 			"beat": 39.5,
-			"beat_type": 1.0,
-			"duration": 0.0,
-			"height": 0.0,
+			"beat_type": 1,
+			"duration": 0,
+			"height": 1,
 			"pos": [
-				35255.36328125,
-				1255.32202148438
+				35323.90234375,
+				861.23779296875
 			],
 			"press_type": "tap"
 		},
@@ -109707,9 +109685,9 @@
 	"init_player_speed": 1000.0,
 	"objects": [
 		{
-			"beat": 2.0,
-			"duration": 1.0,
-			"height": 0.0,
+			"beat": 32.0,
+			"duration": 8.0,
+			"height": 0,
 			"object_type": "rail",
 			"press_type": "hold"
 		}

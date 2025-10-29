@@ -4,6 +4,7 @@ class_name Player
 @onready var sprite := $Sprite2D
 @onready var camera := $Camera2D
 @onready var label := $Label
+@export var rhythm_logic: Node
 
 var baked_points := []
 var dt := 0.0
@@ -14,6 +15,9 @@ var is_jumping: bool
 var jump_points := []
 var jump_index: int = 0
 var max_jump_height := 400.0
+
+var is_railgrinding
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Global.load_level.connect(play)
@@ -24,8 +28,9 @@ func _process(delta: float) -> void:
 	if Global.is_playing:
 		var curr_index = floor(Global.song_position/dt)
 		#label.text = str(Global.beat_position)
-		var curr_pos = position_at_time(Global.song_position)
-		if is_jumping:
+		if is_railgrinding:
+			position = position_at_time(Global.song_position) + tangent_at_time(Global.song_position).orthogonal() * height * 400
+		elif is_jumping:
 			if curr_index - jump_index < jump_points.size():
 				position = jump_points[curr_index - jump_index]
 				if curr_index - jump_index > floor(Global.ok_time_window/0.01) and curr_index - jump_index < (Global.sec_per_beat - Global.ok_time_window)/0.01:
@@ -35,11 +40,16 @@ func _process(delta: float) -> void:
 			else:
 				is_jumping = false
 		else:
-			position = curr_pos
+			position = position_at_time(Global.song_position)
 		var tangent: Vector2 = tangent_at_time(Global.song_position)
 		sprite.rotation = tangent.angle()
 		if Input.is_action_just_pressed("jump"):
-			jump()
+			if not is_jumping:
+				jump()
+			elif height == rhythm_logic.rail_height:
+				is_railgrinding = true
+		elif Input.is_action_just_released("jump"):
+			is_railgrinding = false
 		#if i + 2 >= baked_points.size():
 			#Global.pause()
 			#pause()

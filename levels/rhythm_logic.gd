@@ -10,6 +10,16 @@ var last_beat_grade
 var last_beat_not_hit: bool = true
 var next_beat_idx := 0
 var next_beat: Beat
+
+var rail_height := 0
+var rails_array := []:
+	set(value):
+		rails_array = value
+		next_rail = rails_array[0]
+var current_rail: Rail
+var next_rail: Rail
+var next_rail_idx := 0
+
 @export var player: Player
 
 func _process(delta: float) -> void:
@@ -17,10 +27,22 @@ func _process(delta: float) -> void:
 		if Global.song_position > beat.time_pos + beat.hold_time + Global.ok_time_window:
 			check_hit_grade(beat.time_pos)
 			beats_in_range.erase(beat)
-	if Global.song_position > next_beat.time_pos - Global.ok_time_window:
-		beats_in_range.append(next_beat)
-		next_beat_idx += 1
-		next_beat = beats_array[next_beat_idx] if next_beat_idx < beats_array.size() else null
+	if next_beat:
+		if Global.song_position > next_beat.time_pos - Global.ok_time_window:
+			beats_in_range.append(next_beat)
+			next_beat_idx += 1
+			next_beat = beats_array[next_beat_idx] if next_beat_idx < beats_array.size() else null
+	if next_rail:
+		if Global.song_position > next_rail.time_pos - Global.ok_time_window:
+			current_rail = next_rail
+			rail_height = current_rail.height + 1
+			next_rail_idx += 1
+			next_rail = rails_array[next_rail_idx] if next_rail_idx < rails_array.size() else null
+	if current_rail:
+		if Global.song_position > current_rail.time_pos + current_rail.hold_time + Global.ok_time_window:
+			current_rail = null
+			rail_height = 0
+			player.is_railgrinding = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	for beat in beats_in_range:
