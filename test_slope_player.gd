@@ -17,6 +17,7 @@ var jump_index: int = 0
 var max_jump_height := 400.0
 
 var is_railgrinding
+var is_falling
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,6 +26,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	print(height, "  ", is_jumping, "  ", is_railgrinding)
 	if Global.is_playing:
 		var curr_index = floor(Global.song_position/dt)
 		#label.text = str(Global.beat_position)
@@ -33,12 +35,13 @@ func _process(delta: float) -> void:
 		elif is_jumping:
 			if curr_index - jump_index < jump_points.size():
 				position = jump_points[curr_index - jump_index]
-				if curr_index - jump_index > floor(Global.ok_time_window/0.01) and curr_index - jump_index < (Global.sec_per_beat - Global.ok_time_window)/0.01:
+				if not is_falling and curr_index - jump_index > floor(Global.ok_time_window/0.01) and curr_index - jump_index < (Global.sec_per_beat - Global.ok_time_window)/0.01:
 					height = base_height + 1
 				else:
 					height = base_height
 			else:
 				is_jumping = false
+				is_falling = false
 		else:
 			position = position_at_time(Global.song_position)
 		var tangent: Vector2 = tangent_at_time(Global.song_position)
@@ -48,8 +51,8 @@ func _process(delta: float) -> void:
 				jump()
 			elif height == rhythm_logic.rail_height:
 				is_railgrinding = true
-		elif Input.is_action_just_released("jump"):
-			is_railgrinding = false
+		elif Input.is_action_just_released("jump") and is_railgrinding:
+			fall()
 		#if i + 2 >= baked_points.size():
 			#Global.pause()
 			#pause()
@@ -103,6 +106,25 @@ func jump():
 		var jump_height = jump_position_0.lerp(jump_position, jump_alpha) - jump_position_0
 		jump_pos += jump_height 
 		jump_points.append(jump_pos)
+
+func fall():
+	is_railgrinding = false
+	is_falling = true
+	height = 0
+	var fall_position = position_at_time(Global.song_position)
+	var land_position = position_at_time(Global.song_position + Global.sec_per_beat/2)
+	jump_index = floor(Global.song_position/dt)
+	is_jumping = true
+	jump_points = []
+	var i: int = floor((Global.song_position + Global.sec_per_beat/2)/dt)
+	for jump_i in range(i - jump_index):
+		var alpha: float = float(jump_i)/(i - jump_index)
+		var fall_pos = fall_position.lerp(land_position, alpha)
+		var fall_alpha: float = pow(alpha, 2)
+		var fall_height = position.lerp(fall_position, fall_alpha) - fall_position
+		fall_pos += fall_height 
+		jump_points.append(fall_pos)
+
 #func _draw() -> void:
 	#draw_circle(jump_position, 5, Color.RED)
 	#draw_circle(land_position, 5, Color.RED)

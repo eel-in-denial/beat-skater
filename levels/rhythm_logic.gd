@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 		if Global.song_position > current_rail.time_pos + current_rail.hold_time + Global.ok_time_window:
 			current_rail = null
 			rail_height = 0
-			player.is_railgrinding = false
+			player.fall()
 
 func _unhandled_input(event: InputEvent) -> void:
 	for beat in beats_in_range:

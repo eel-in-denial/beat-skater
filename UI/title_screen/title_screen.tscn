@@ -1,12 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bo86xcc5x5ia0"]
+[gd_scene load_steps=9 format=3 uid="uid://bo86xcc5x5ia0"]
 
 [ext_resource type="Script" uid="uid://tjlsogpccnxr" path="res://UI/title_screen/title_screen.gd" id="1_5whv5"]
 [ext_resource type="Texture2D" uid="uid://ejqir7kmsfgi" path="res://level_assets/background/BackgroundDraft.png" id="2_816ia"]
 [ext_resource type="AudioStream" uid="uid://c1xaun4yo3xns" path="res://levels/music/roulette round 2 slow.ogg" id="2_omrav"]
 [ext_resource type="Texture2D" uid="uid://binuhy6esxq8p" path="res://level_assets/floor/Untitled_Artwork-2.png" id="3_udsnl"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngrig"]
-bg_color = Color(0, 0.7269895, 0.13728893, 1)
+[ext_resource type="Texture2D" uid="uid://d4auwvo1qq18k" path="res://UI/title_screen/play_skateboard.png" id="5_o101y"]
+[ext_resource type="Texture2D" uid="uid://b4vrjyauanaul" path="res://UI/title_screen/settings_skateboard.png" id="6_71qku"]
+[ext_resource type="Texture2D" uid="uid://0df23ruvja4w" path="res://UI/title_screen/level_editor_skateboard.png" id="7_j8p11"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5eojx"]
 bg_color = Color(0.80920744, 0, 0.1750595, 1)
@@ -23,33 +23,14 @@ centered = false
 texture = ExtResource("3_udsnl")
 centered = false
 
-[node name="Play" type="Button" parent="."]
-offset_left = 641.0
-offset_top = 225.0
-offset_right = 1283.0
-offset_bottom = 392.0
-theme_override_font_sizes/font_size = 80
-theme_override_styles/normal = SubResource("StyleBoxFlat_ngrig")
-text = "Play"
-
 [node name="Exit" type="Button" parent="."]
-offset_left = 638.0
-offset_top = 477.0
-offset_right = 1284.0
-offset_bottom = 635.0
+offset_left = 23.0
+offset_top = 942.0
+offset_right = 121.0
+offset_bottom = 1052.0
 theme_override_font_sizes/font_size = 80
 theme_override_styles/normal = SubResource("StyleBoxFlat_5eojx")
-text = "Exit"
-
-[node name="LevelCreator" type="Button" parent="."]
-offset_left = 1511.0001
-offset_top = 736.0
-offset_right = 2157.0
-offset_bottom = 894.0
-rotation = -1.5786432
-theme_override_font_sizes/font_size = 80
-theme_override_styles/normal = SubResource("StyleBoxFlat_5eojx")
-text = "Level Creator"
+text = "X"
 
 [node name="Label" type="Label" parent="."]
 offset_left = 374.0
@@ -59,6 +40,31 @@ offset_bottom = 973.0
 theme_override_font_sizes/font_size = 48
 text = "J for blue beats, K for red beats, W or Space to jump"
 
-[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[node name="Play" type="TextureButton" parent="."]
+offset_left = 1308.0
+offset_top = 40.0
+offset_right = 2211.0
+offset_bottom = 331.0
+toggle_mode = true
+texture_normal = ExtResource("5_o101y")
+
+[node name="Settings" type="TextureButton" parent="."]
+offset_left = 1313.0
+offset_top = 368.0
+offset_right = 2213.0
+offset_bottom = 664.0
+toggle_mode = true
+texture_normal = ExtResource("6_71qku")
+
+[node name="LevelEditor" type="TextureButton" parent="."]
+offset_left = 1308.0
+offset_top = 702.0
+offset_right = 2209.0
+offset_bottom = 1000.0
+toggle_mode = true
+texture_normal = ExtResource("7_j8p11")
+
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="LevelCreator" to="." method="_on_level_creator_pressed"]
+[connection signal="toggled" from="Play" to="." method="_on_play_toggled"]
+[connection signal="toggled" from="Settings" to="." method="_on_settings_toggled"]
+[connection signal="toggled" from="LevelEditor" to="." method="_on_level_editor_toggled"]
