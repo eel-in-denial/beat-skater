@@ -3,6 +3,7 @@
 		"artist": "MFCC",
 		"beatmapper": "Ava the Raccoon",
 		"editor_path": "res://levels/level_editor_data/Test_editor.json",
+		"graphics_path": "res://levels/level_graphics_data/Test_graphics.json",
 		"path": "res://levels/level_data/Test.json",
 		"song_path": "res://levels/music/hip-hop-no-copyright-music-335133.mp3",
 		"title": "Test"
@@ -11,6 +12,7 @@
 		"artist": "dfgdfg",
 		"beatmapper": "dfgdfg",
 		"editor_path": "res://levels/level_editor_data/Test2_editor.json",
+		"graphics_path": "res://levels/level_graphics_data/Test2_graphics.json",
 		"path": "res://levels/level_data/Test2.json",
 		"song_path": "res://levels/music/roulette round 2 slow.ogg",
 		"title": "Test2"

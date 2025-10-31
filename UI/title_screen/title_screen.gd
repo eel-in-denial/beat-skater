@@ -30,7 +30,7 @@ func _input(event: InputEvent) -> void:
 		current_button_idx = current_button_idx + 1 if current_button_idx < 2 else 0
 	elif event.is_action_pressed("select"):
 		buttons[current_button_idx].button_pressed = true
-		print("akshdf")
+		get_viewport().set_input_as_handled()
 
 func change_button(prev_idx, next_idx):
 	var tween := get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

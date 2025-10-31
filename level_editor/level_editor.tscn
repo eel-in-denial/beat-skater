@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://brlj4cym1mwtn"]
+[gd_scene load_steps=30 format=3 uid="uid://brlj4cym1mwtn"]
 
 [ext_resource type="Script" uid="uid://6eu0x4lytbcp" path="res://level_editor/level_editor.gd" id="1_7e0dv"]
 [ext_resource type="Script" uid="uid://cf20bgsrvj0si" path="res://level_editor/camera_2d.gd" id="2_73q88"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://deopnh0suycc6" path="res://player/player.tscn" id="5_8p1j5"]
 [ext_resource type="Script" uid="uid://caus5tchnhm0d" path="res://level_editor/edit_popup.gd" id="6_6i4ak"]
 [ext_resource type="Script" uid="uid://c1x4advdvkaqo" path="res://level_editor/song_picker.gd" id="7_5bly7"]
+[ext_resource type="Script" uid="uid://cssi331g6cgqn" path="res://level_editor/art_editor.gd" id="9_yisju"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gylj0"]
 
@@ -88,6 +89,8 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kawxd"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yisju"]
 corner_radius_top_left = 32
 corner_radius_top_right = 32
@@ -119,10 +122,11 @@ corner_radius_bottom_left = 16
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jm8d3"]
 bg_color = Color(0.98405033, 0.00044126273, 0.9136218, 1)
 
-[node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("beat_editor")]
+[node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("beat_editor", "graphics_editor")]
 process_mode = 1
 script = ExtResource("1_7e0dv")
-beat_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor")
+beat_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor")
+graphics_editor = NodePath("CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(960, 540)
@@ -132,7 +136,7 @@ script = ExtResource("2_73q88")
 position = Vector2(931, 401)
 script = ExtResource("3_8p1j5")
 play_toggle = NodePath("../CanvasLayer/UIContainer/TopNav/Panel/HBoxContainer/Play")
-beat_editor = NodePath("../CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor")
+beat_editor = NodePath("../CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor")
 level_editor = NodePath("..")
 editor_camera = NodePath("../Camera2D")
 
@@ -342,11 +346,17 @@ custom_minimum_size = Vector2(1000, 200)
 layout_mode = 2
 mouse_filter = 1
 
-[node name="BeatEditorPanel" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer"]
+layout_mode = 2
+current_tab = 1
+
+[node name="BeatEditor" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6xo82")
+metadata/_tab_index = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -359,21 +369,21 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer"]
 layout_mode = 2
 horizontal_scroll_mode = 4
 vertical_scroll_mode = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 32
 
-[node name="Beat1Button" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Beat1Button" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
@@ -383,7 +393,7 @@ button_pressed = true
 button_group = ExtResource("3_6xo82")
 text = "Beat 1"
 
-[node name="Beat2Button" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Beat2Button" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
@@ -393,7 +403,7 @@ button_group = ExtResource("3_6xo82")
 text = "Beat 2"
 icon = SubResource("ImageTexture_h1ywe")
 
-[node name="Rails" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Rails" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
@@ -403,34 +413,34 @@ button_group = ExtResource("3_6xo82")
 text = "Rails"
 icon = SubResource("ImageTexture_h1ywe")
 
-[node name="Label" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Beats per Bar"
 
-[node name="BeatsPerBar" type="LineEdit" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="BeatsPerBar" type="LineEdit" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 
-[node name="Label2" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Snapping"
 
-[node name="Snapping" type="LineEdit" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Snapping" type="LineEdit" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 
-[node name="Label3" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="Label3" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Total Bars"
 
-[node name="TotalBars" type="LineEdit" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="TotalBars" type="LineEdit" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 
-[node name="Beat_Editor" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer" node_paths=PackedStringArray("beats_per_bar_text", "snapping_text", "total_bars_text", "level_editor")]
+[node name="Beat_Editor" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer" node_paths=PackedStringArray("beats_per_bar_text", "snapping_text", "total_bars_text", "level_editor")]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_shrsc")
@@ -438,9 +448,9 @@ script = ExtResource("3_shrsc")
 beats_per_bar_text = NodePath("../ScrollContainer/HBoxContainer/BeatsPerBar")
 snapping_text = NodePath("../ScrollContainer/HBoxContainer/Snapping")
 total_bars_text = NodePath("../ScrollContainer/HBoxContainer/TotalBars")
-level_editor = NodePath("../../../../../../../..")
+level_editor = NodePath("../../../../../../../../..")
 
-[node name="HScrollBar" type="HScrollBar" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor"]
+[node name="HScrollBar" type="HScrollBar" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -451,6 +461,70 @@ grow_horizontal = 2
 grow_vertical = 0
 max_value = 8.0
 page = 4.0
+
+[node name="GraphicsEditor" type="Panel" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer" node_paths=PackedStringArray("level_editor", "slope")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kawxd")
+script = ExtResource("9_yisju")
+level_editor = NodePath("../../../../../..")
+slope = NodePath("../../../../../../Level/LevelPath")
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 16.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Button" type="Button" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Auto-Generate"
+
+[node name="Label" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Slope Colour:"
+
+[node name="SlopeColourPicker" type="ColorPickerButton" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
+
+[node name="Label2" type="Label" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Background Colour: "
+
+[node name="BackgroundColourPicker" type="ColorPickerButton" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HFlowContainer" type="HFlowContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HSplitContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HSplitContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 
 [node name="EditPopup" type="Panel" parent="CanvasLayer"]
 process_mode = 2
@@ -610,15 +684,17 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jm8d3")
 [connection signal="popup_hide" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_popup_panel_popup_hide"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel/VBoxContainer/Edit" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_edit_pressed"]
 [connection signal="pressed" from="CanvasLayer/UIContainer/HBoxContainer/LevelsNav/PopupPanel/VBoxContainer/Delete" to="CanvasLayer/UIContainer/HBoxContainer/LevelsNav" method="_on_delete_pressed"]
-[connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]
-[connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat1Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_1_button_toggled"]
-[connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat2Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_2_button_toggled"]
-[connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Rails" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_rails_toggled"]
-[connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/BeatsPerBar" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beats_per_bar_text_changed"]
-[connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Snapping" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_snapping_text_changed"]
-[connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/TotalBars" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_total_bars_text_changed"]
-[connection signal="gui_input" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_gui_input"]
-[connection signal="scrolling" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor/HScrollBar" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/BeatEditorPanel/MarginContainer/VBoxContainer/Beat_Editor" method="_on_h_scroll_bar_scrolling"]
+[connection signal="dragged" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_v_split_container_dragged"]
+[connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat1Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_1_button_toggled"]
+[connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Beat2Button" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beat_2_button_toggled"]
+[connection signal="toggled" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Rails" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_rails_toggled"]
+[connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/BeatsPerBar" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_beats_per_bar_text_changed"]
+[connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/Snapping" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_snapping_text_changed"]
+[connection signal="text_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/TotalBars" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_total_bars_text_changed"]
+[connection signal="gui_input" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_gui_input"]
+[connection signal="scrolling" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor/HScrollBar" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/BeatEditor/MarginContainer/VBoxContainer/Beat_Editor" method="_on_h_scroll_bar_scrolling"]
+[connection signal="color_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HBoxContainer/SlopeColourPicker" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor" method="_on_slope_colour_picker_color_changed"]
+[connection signal="color_changed" from="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor/VBoxContainer/HBoxContainer/BackgroundColourPicker" to="CanvasLayer/UIContainer/HBoxContainer/VSplitContainer/TabContainer/GraphicsEditor" method="_on_background_colour_picker_color_changed"]
 [connection signal="toggled" from="CanvasLayer/EditPopup/CheckButton" to="CanvasLayer/EditPopup" method="_on_check_button_toggled"]
 [connection signal="pressed" from="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer/Cancel" to="CanvasLayer/EditPopup" method="_on_cancel_pressed"]
 [connection signal="pressed" from="CanvasLayer/EditPopup/VBoxContainer/HBoxContainer/Save" to="CanvasLayer/EditPopup" method="_on_save_pressed"]

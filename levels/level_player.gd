@@ -11,11 +11,15 @@ var rail_file = preload("res://level_assets/rail/rail.tscn")
 #var beats: Array[Beat] = []
 var header_data: Dictionary
 var level_data: Dictionary
+var graphics_data: Dictionary
+
+var baked_graphical_points = []
 
 # Called when the node enters the scene tree for the first time.
 func initialize_data(data: Dictionary):
 	header_data = data
 	level_data = Global.load_json_data(data["path"])
+	graphics_data = Global.load_json_data(data["graphics_path"])
 
 func _ready() -> void:
 	print("testing")
@@ -36,6 +40,8 @@ func load_level():
 		points_array.append(point["pos"])
 		point["tangent"] = array_to_vector(point["tangent"])
 	player.set_baked_points(level_data["baked_points"])
+	for i in range(0, level_data["baked_points"].size(), 10):
+		baked_graphical_points.append(level_data["baked_points"][i])
 	floor.polygon = points_array
 		
 	var beats_array = []
@@ -82,8 +88,29 @@ func load_level():
 		rails_array.append(add_rail(r, p_array))
 	rhythm_logic.beats_array = beats_array
 	rhythm_logic.rails_array = rails_array
+	load_graphics()
 	Global.play(0, 4)
 
+func load_graphics():
+	RenderingServer.set_default_clear_color(Color(graphics_data["bg_colour"]))
+	$Polygon2D.color = Color(graphics_data["slope_colour"])
+	var mountainlayer = $Parallax2D
+	var mountains = [load("res://background_assets/mountain_1.png"), load("res://background_assets/mountain_2.png"), load("res://background_assets/mountain_3.png")]
+	var distance = 0
+	var height = 0
+	var baked_idx = 0
+	for i in range(100):
+		var dice = randi_range(0, 2)
+		var instance = Sprite2D.new()
+		instance.texture = mountains[dice]
+		mountainlayer.add_child(instance)
+		instance.position = Vector2(distance, baked_graphical_points[baked_idx]["pos"].y - randf_range(0, 200))
+		var scale = randf_range(0.9, 1)
+		instance.scale = Vector2(scale, scale)
+		distance += randf_range(300, 600)
+		while baked_graphical_points[baked_idx]["pos"].x < distance:
+			baked_idx += 1
+		
 func add_beat(point_data: Dictionary, data: Dictionary, length_array: Array, hit_window = []):
 	var new_beat: Beat = beat_file.instantiate()
 	add_child(new_beat)

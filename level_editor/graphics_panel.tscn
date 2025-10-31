@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dye4v7o3er386"]
+
+[ext_resource type="Script" uid="uid://8dxpjhmtqtcx" path="res://level_editor/graphics_panel.gd" id="1_ich2n"]
+[ext_resource type="Texture2D" uid="uid://hk7lmwq6qvll" path="res://background_assets/house.png" id="2_ich2n"]
+
+[node name="GraphicsPanel" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(200, 200)
+script = ExtResource("1_ich2n")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ich2n")
+expand_mode = 3

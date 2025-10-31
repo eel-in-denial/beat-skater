@@ -25,6 +25,7 @@ func update_song_list(idx: int, data: Dictionary):
 	if idx == -1:
 		header_data["path"] = "res://levels/level_data/" + header_data["title"] + ".json"
 		header_data["editor_path"] = "res://levels/level_editor_data/" + header_data["title"] + "_editor.json"
+		header_data["graphics_path"] = "res://levels/level_graphics_data/" + header_data["title"] + "_graphics.json"
 		var level_save = {
 		}
 		var editor_save = {
@@ -36,8 +37,15 @@ func update_song_list(idx: int, data: Dictionary):
 			"total_bars": 8
 		}
 		
+		var graphics_save = {
+			"bg_colour": "75a0bd",
+			"slope_colour": "75a0bd",
+			"sprites": []
+		}
+		
 		Global.save_json_data(header_data["path"], level_save)
 		Global.save_json_data(header_data["editor_path"], editor_save)
+		Global.save_json_data(header_data["graphics_path"], graphics_save)
 		res_level_data.append(header_data)
 		items_list_res.add_item(header_data["title"])
 		items_list_res.select(items_list_res.item_count - 1)
@@ -45,6 +53,7 @@ func update_song_list(idx: int, data: Dictionary):
 	else:
 		Global.rename_file(header_data["path"], "res://levels/level_data/" + header_data["title"] + ".json")
 		Global.rename_file(header_data["editor_path"],"res://levels/level_editor_data/" + header_data["title"] + "_editor.json")
+		Global.rename_file(header_data["graphics_path"],"res://levels/level_graphics_data/" + header_data["title"] + "_graphics.json")
 		header_data["path"] = "res://levels/level_data/" + header_data["title"] + ".json"
 		header_data["editor_path"] = "res://levels/level_editor_data/" + header_data["title"] + "_editor.json"
 		res_level_data[idx] = header_data
@@ -72,6 +81,7 @@ func _on_item_list_res_item_clicked(index: int, at_position: Vector2, mouse_butt
 		if not res_level_data.is_empty():
 			level_editor.level_json_path = res_level_data[index]["path"]
 			level_editor.editor_json_path = res_level_data[index]["editor_path"]
+			level_editor.graphics_json_path = res_level_data[index]["graphics_path"]
 			current_level = res_level_data[index]
 
 

@@ -36,7 +36,7 @@ var rail_scene := preload("res://level_editor/editor_rail/editor_rail.tscn")
 @export var beats_per_bar_text: LineEdit
 @export var snapping_text: LineEdit
 @export var total_bars_text: LineEdit
-@export var level_editor: Node2D
+@export var level_editor: LevelEditor
 
 var lane_y_positions: Array[float] = []
 var bar_x_positions: Array[float] = []
@@ -264,6 +264,7 @@ func delete_beat(beat: EditorBeat):
 	level_editor.save_editor()
 
 func delete_rail(rail: EditorRail):
+	level_editor.rails_array.pop_back().queue_free()
 	objects.erase(rail)
 	level_editor.bake()
 	level_editor.save_editor()

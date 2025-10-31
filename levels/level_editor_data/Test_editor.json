@@ -1819,13 +1819,6 @@
 			"height": 0.0,
 			"object_type": "rail",
 			"press_type": "hold"
-		},
-		{
-			"beat": 2.0,
-			"duration": 8.0,
-			"height": 0,
-			"object_type": "rail",
-			"press_type": "hold"
 		}
 	],
 	"total_bars": 38

@@ -18,3 +18,6 @@ func generate_graphics():
 		floor.polygon = polygon_points
 	else:
 		floor.polygon = []
+
+func set_color(color: Color):
+	$FloorGraphics.color = color

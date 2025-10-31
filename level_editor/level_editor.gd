@@ -10,7 +10,9 @@ var rail_file = preload("res://level_assets/rail/rail.tscn")
 	set(value):
 		editor_json_path = value
 		load_level.call_deferred()
+var graphics_json_path: String
 @export var beat_editor: BeatEditor
+@export var graphics_editor: GraphicsEditor
 
 @export_group("Player Presets")
 @export var init_player_speed := 50.0
@@ -109,11 +111,13 @@ func load_level():
 	path.curve.clear_points()
 	path.curve.add_point(Vector2.ZERO)
 	var level_data = Global.load_json_data(editor_json_path)
+	var graphics_data = Global.load_json_data(graphics_json_path)
 	print(editor_json_path)
 	Global.init_song(load(levels_nav.current_level["song_path"]))
 	Global.bpm = level_data["bpm"]
 	init_player_speed = level_data["init_player_speed"]
 	beat_editor.load_level(level_data["beats"], level_data["objects"], level_data["beats_per_bar"] ,level_data["total_bars"])
+	graphics_editor.initialise(Color(graphics_data["slope_colour"]), Color(graphics_data["bg_colour"]))
 	var i := 1
 	for node in level_data["curve_points"]:
 		var pos := Vector2(node["pos"][0], node["pos"][1])
@@ -130,7 +134,17 @@ func load_level():
 	bpm_text.text = str(level_data["bpm"])
 	init_player_speed_text.text = str(level_data["init_player_speed"])
 	bake()
+
+func save_graphics():
+	var save_dict = {
+		"bg_colour": graphics_editor.bg_color_picker.color.to_html(),
+		"slope_colour": graphics_editor.slope_color_picker.color.to_html(),
+		"sprite": []
+	}
+	Global.save_json_data(graphics_json_path, save_dict)
 	
+
+
 func bake():
 	baked_points_array = []
 	var time = 0.0
