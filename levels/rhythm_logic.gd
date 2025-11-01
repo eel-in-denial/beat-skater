@@ -77,4 +77,5 @@ func check_hit_grade(beat_time_pos):
 			label.text = "ok"
 		Global.hit.Miss:
 			label.text = "miss"
+	player.spawn_grade(last_beat_grade)
 	return last_beat_grade

@@ -1,11 +1,15 @@
 extends Node2D
 class_name Player
 
+var perfect_sprite = preload("res://player/perfect.png")
+var good_sprite = preload("res://player/good.png")
+var ok_sprite = preload("res://player/ok.png")
+var miss_sprite = preload("res://player/miss.png")
+
 @onready var sprite := $Sprite2D
 @onready var camera := $Camera2D
 @onready var label := $Label
 @export var rhythm_logic: Node
-
 var baked_points := []
 var dt := 0.0
 var height := 0
@@ -26,7 +30,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print(height, "  ", is_jumping, "  ", is_railgrinding)
 	if Global.is_playing:
 		var curr_index = floor(Global.song_position/dt)
 		#label.text = str(Global.beat_position)
@@ -124,6 +127,17 @@ func fall():
 		var fall_height = position.lerp(fall_position, fall_alpha) - fall_position
 		fall_pos += fall_height 
 		jump_points.append(fall_pos)
+
+func spawn_grade(grade: Global.hit):
+	if grade == Global.hit.Perfect:
+		add_child(BeatGradeParticle.new(perfect_sprite, global_position + Vector2(150, -20)))
+	elif grade == Global.hit.Good:
+		add_child(BeatGradeParticle.new(good_sprite, global_position + Vector2(150, -20)))
+	elif grade == Global.hit.OK:
+		add_child(BeatGradeParticle.new(ok_sprite, global_position + Vector2(150, -20)))
+	else:
+		add_child(BeatGradeParticle.new(miss_sprite, global_position + Vector2(150, -20)))
+	
 
 #func _draw() -> void:
 	#draw_circle(jump_position, 5, Color.RED)

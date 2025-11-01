@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw0m7xqxwqu8w"]
+
+[ext_resource type="Script" uid="uid://bjdimaoytgaxn" path="res://player/beat_grade.gd" id="1_aulk3"]
+
+[node name="BeatGrade" type="Sprite2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_aulk3")
